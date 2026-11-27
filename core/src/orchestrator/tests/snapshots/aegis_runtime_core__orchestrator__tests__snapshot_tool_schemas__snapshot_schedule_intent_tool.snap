@@ -1,0 +1,67 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Schedule a future action. One-shot: trigger_type + context_text + (trigger_at or delay_seconds). Recurring: also interval_seconds + group_key (group_key alone is still one-shot). Windowed: add weekdays + window + timezone on ONE intent. Prefer manage_tasks for new work. context_text must be self-contained."
+name: schedule_intent
+parameters:
+  properties:
+    context_text:
+      description: Notify text or self-contained callback prompt. Callback has no conversation access.
+      type: string
+    delay_seconds:
+      description: Relative delay in seconds (10s–365d). Prefer trigger_at for clock times.
+      type: integer
+    event_key:
+      description: "Event key to match (required for event triggers, e.g. 'email:new:primary')"
+      type: string
+    execution_mode:
+      description: notify=send context_text (no LLM); llm_callback=full turn with tools (default)
+      enum:
+        - notify
+        - llm_callback
+      type: string
+    group_key:
+      description: "Recurring dedup key (alnum/_/-, max 100). Upserts an existing pending key."
+      type: string
+    interval_seconds:
+      description: "Recurring interval in seconds (min 30s, max 365d). Requires group_key. time triggers only."
+      type: integer
+    max_fires:
+      description: Stop after N fires. Omit for unlimited.
+      type: integer
+    pin:
+      description: Pin the notify message in Telegram after sending.
+      type: boolean
+    recur_timezone:
+      description: IANA timezone for the window/weekdays. Invalid names are rejected; default UTC.
+      type: string
+    recur_weekdays:
+      description: ISO weekdays 1=Mon..7=Sun for windowed recurrence. Requires interval_seconds.
+      items:
+        maximum: 7
+        minimum: 1
+        type: integer
+      type: array
+    recur_window_end:
+      description: "Local 'HH:MM' window end. Requires recur_window_start + interval_seconds."
+      type: string
+    recur_window_start:
+      description: "Local 'HH:MM' window start. Requires recur_window_end + interval_seconds."
+      type: string
+    timezone:
+      description: IANA name or UTC offset used when trigger_at has no offset.
+      type: string
+    trigger_at:
+      description: "Absolute time (ISO 8601, date+time, or time-only). Prefer over delay_seconds for clock times."
+      type: string
+    trigger_type:
+      description: "Trigger type: 'time' for delay-based, 'event' for system event-based"
+      enum:
+        - time
+        - event
+      type: string
+  required:
+    - trigger_type
+    - context_text
+  type: object

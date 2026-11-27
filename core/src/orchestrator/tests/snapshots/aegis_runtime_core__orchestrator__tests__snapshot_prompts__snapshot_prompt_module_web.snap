@@ -1,0 +1,15 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: prompt_module_web()
+---
+
+
+<web_grounding>
+`web_search` uses only the configured search service; failures must be reported without claiming web verification. Write clear, specific prompts — request verbatim text, summaries, or data points as needed.
+`x_search` is for **public X (Twitter) only** (posts, handles, threads). Prefer it when the owner asks about X/@handles/status links. It is READ-ONLY public data — it cannot post, reply, like, or read private mentions; those need Connect X (Phase B).
+- `verified_citations` URLs can be cited directly; other URLs verify via `web_reader` first
+- `web_reader` for full page content (handles JS via Jina Reader fallback)
+- `browser_fetch` renders the page in a real headless Chrome — use it when `web_reader` fails or the page needs JavaScript (maps, dashboards, SPAs); `mode:"screenshot"` when the owner needs to see a layout or chart.
+- If fetch fails, say so honestly. Never fill in from training data.
+- URL formatting: ALWAYS output raw URLs as plain text. NEVER use markdown [text](url) syntax — Telegram auto-links raw URLs.
+</web_grounding>

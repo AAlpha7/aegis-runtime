@@ -1,0 +1,9 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "List all configured MCP (Model Context Protocol) servers and their connection status, including available tools from each server."
+name: mcp_list_servers
+parameters:
+  properties: {}
+  type: object

@@ -1,0 +1,48 @@
+[package]
+name = "aegis-runtime-core-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[workspace]
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[dependencies.aegis-runtime-core]
+path = ".."
+
+# NOTE: On aarch64, cargo-fuzz fails with "relocation truncated to fit:
+# R_AARCH64_CALL26" because the ASAN-instrumented binary exceeds ARM64's
+# ±128MB branch range. cargo-fuzz forces -Ccodegen-units=1, overriding
+# any Cargo.toml setting. Workaround: use LLD linker or run on x86_64.
+#
+#   RUSTFLAGS="-Clink-arg=-fuse-ld=lld" cargo +nightly fuzz run <target>
+#
+# Alternatively, run fuzzing in x86_64 CI (GitHub Actions, etc.).
+
+[[bin]]
+name = "fuzz_verify_envelope"
+path = "fuzz_targets/fuzz_verify_envelope.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_exfiltration"
+path = "fuzz_targets/fuzz_exfiltration.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_sorted_json"
+path = "fuzz_targets/fuzz_sorted_json.rs"
+test = false
+doc = false
+bench = false

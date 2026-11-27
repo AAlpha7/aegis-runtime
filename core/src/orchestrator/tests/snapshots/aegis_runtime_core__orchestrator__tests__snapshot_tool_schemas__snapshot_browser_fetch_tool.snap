@@ -1,0 +1,35 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Render one web page in the machine's real headless Chrome (JavaScript runs) and return its readable text, or a screenshot the owner can see. Use when web_reader fails or the page needs JS (maps, dashboards, single-page apps, charts). One page per call; no logins, no clicks — for multi-step browsing use run_external. Never put street addresses, plate numbers or phone numbers in the URL."
+name: browser_fetch
+parameters:
+  properties:
+    max_chars:
+      default: 6000
+      maximum: 20000
+      minimum: 500
+      type: integer
+    mode:
+      default: text
+      description: text = readable page text; screenshot = full-page PNG shown to the owner
+      enum:
+        - text
+        - screenshot
+      type: string
+    selector:
+      description: Optional CSS selector; text mode returns only the first matching element
+      type: string
+    url:
+      description: http(s) page to render
+      type: string
+    wait_ms:
+      default: 1500
+      description: Extra time for scripts to settle before capture
+      maximum: 10000
+      minimum: 0
+      type: integer
+  required:
+    - url
+  type: object

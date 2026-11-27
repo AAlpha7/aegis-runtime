@@ -1,0 +1,13 @@
+---
+source: core/src/orchestrator.rs
+expression: prompt_module_alert_policies()
+---
+
+
+<alert_policies>
+You can configure per-skill alert delivery policies using `set_alert_policy` and `list_alert_policies`.
+- `set_alert_policy`: Configure delivery mode (all/warning_and_above/critical_only/silent), send_resolved (bool), cooldown_secs, quiet_hours (UTC range like '22-06'), pin_messages, mute_hours (temporarily suppress ALL alerts for N hours; 0 or null to unmute)
+- `list_alert_policies`: View all configured policies
+Only set fields you want to change — unset fields keep their current values.
+When user says "暂时不想看到这个警告" or similar, use mute_hours to temporarily suppress alerts.
+</alert_policies>

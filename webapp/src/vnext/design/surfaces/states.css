@@ -1,0 +1,73 @@
+/*
+ * Direction B — loading / empty / error states + skeleton utility.
+ * Calm, adaptive (consumes the --b-* tokens from theme.css). The app boot
+ * loading/error screen (.vnext-app.vnext-center) and Work's empty state were
+ * dark-only/legacy; bring them into B so every state matches.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §5 (states, B)
+ */
+
+/* ---- Boot / centered loading + error screen ---- */
+.vnext-app.vnext-center {
+  background: var(--b-bg);
+  color: var(--b-text);
+}
+.vnext-app.vnext-center .vnext-center-state {
+  border: 1px solid var(--b-hairline);
+  border-radius: 16px;
+  background: var(--b-surface-2);
+  box-shadow: var(--b-shadow-sm);
+}
+.vnext-app.vnext-center .vnext-center-state h1 { color: var(--b-text); letter-spacing: -0.02em; font-weight: 600; }
+.vnext-app.vnext-center .vnext-center-state > p:not(.vnext-kicker) { color: var(--b-text-2); }
+.vnext-app.vnext-center .vnext-center-state .vnext-kicker { color: var(--b-text-3); }
+.vnext-app.vnext-center .vnext-center-state-mark {
+  border: 1px solid color-mix(in srgb, var(--b-accent) 40%, transparent);
+  background: color-mix(in srgb, var(--b-accent) 14%, transparent);
+  color: var(--b-accent);
+}
+.vnext-app.vnext-center .vnext-center-state.tone-error {
+  border-color: color-mix(in srgb, var(--b-danger) 45%, transparent);
+}
+.vnext-app.vnext-center .vnext-center-state.tone-error .vnext-center-state-mark {
+  border-color: color-mix(in srgb, var(--b-danger) 45%, transparent);
+  background: color-mix(in srgb, var(--b-danger) 14%, transparent);
+  color: var(--b-danger);
+}
+
+/* ---- Work empty state -> calm ---- */
+.vnext-app-work .vnext-empty-work {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  box-shadow: none;
+  color: var(--b-text-2);
+}
+
+/* ---- Skeleton loader utility (calm shimmer; reduced-motion -> static).
+   Apply .b-skeleton to a placeholder block while data loads. ---- */
+.b-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--b-surface);
+}
+.b-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--b-text) 8%, transparent),
+    transparent
+  );
+  animation: b-skeleton-sweep 1.5s ease-in-out infinite;
+}
+@keyframes b-skeleton-sweep {
+  to { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-skeleton::after { animation: none; }
+  .b-skeleton { background: var(--b-surface-2); }
+}

@@ -1,0 +1,9 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: List all registered monitoring intents (alert filters) across skills.
+name: list_monitoring_intents
+parameters:
+  properties: {}
+  type: object

@@ -1,0 +1,86 @@
+{
+ "schema_version": 1,
+ "item": {
+  "authority": {
+   "allowed_now": [
+    "chat",
+    "explain",
+    "draft"
+   ],
+   "audit_refs": [],
+   "basis": "manual_review",
+   "expected_receipt": "跟进动作应先变成待办、草稿或记录，我才声称做完。",
+   "locked_data": [],
+   "owner_visible_reason": "Fixture reason.",
+   "requires_approval": false,
+   "requires_data_grant": true,
+   "requires_mfa": false,
+   "source_mandate_id": null,
+   "visible_data": [
+    "authority_basis",
+    "created_at",
+    "external_url_policy",
+    "next_safe_action",
+    "owner_visible_reason",
+    "privacy_level",
+    "receipt_expectation",
+    "route_reason",
+    "sensitivity",
+    "source",
+    "status",
+    "summary",
+    "title",
+    "updated_at",
+    "urgency"
+   ]
+  },
+  "blocked_by": null,
+  "contextual_actions": [
+   {
+    "expected_receipt": "跟进动作应先变成待办、草稿或记录，我才声称做完。",
+    "id": "knowledge.done",
+    "kind": "knowledge.done",
+    "label": "完成",
+    "label_code": "done",
+    "requires_confirmation": true,
+    "requires_data_gate": false,
+    "requires_mfa": false,
+    "route": "/webapp/console/knowledge/items/0/action"
+   },
+   {
+    "expected_receipt": "跟进动作应先变成待办、草稿或记录，我才声称做完。",
+    "id": "knowledge.snooze_tomorrow",
+    "kind": "knowledge.snooze_tomorrow",
+    "label": "明天再看",
+    "label_code": "review_tomorrow",
+    "requires_confirmation": true,
+    "requires_data_gate": false,
+    "requires_mfa": false,
+    "route": "/webapp/console/knowledge/items/0/action"
+   }
+  ],
+  "created_at": "2026-09-13T03:12:21.942536575+00:00",
+  "detail_route": null,
+  "due_at": null,
+  "external_url_policy": "none",
+  "id": "fixture:work-desktop",
+  "lane": "follow_up",
+  "next_safe_action": "跟进用户确认需要恢复哪些误完成任务，推迟，或让我结束这件事。",
+  "receipt_expectation": "跟进动作应先变成待办、草稿或记录，我才声称做完。",
+  "recommended_action": null,
+  "related_receipt_ids": [],
+  "related_work_item_ids": [],
+  "route_reason": "waiting-for knowledge entry surfaced for owner review",
+  "sensitivity": "S2",
+  "source": "knowledge",
+  "source_event_id": null,
+  "source_id": "fixture",
+  "source_kind": "tracking",
+  "state": "waiting",
+  "summary": "Fixture summary for the desktop control measurement.",
+  "title": "UI evidence fixture item",
+  "updated_at": "2026-09-13T03:12:21.942536575+00:00",
+  "urgency": "high",
+  "why_it_matters": "在等用户确认需要恢复哪些误完成任务。"
+ }
+}

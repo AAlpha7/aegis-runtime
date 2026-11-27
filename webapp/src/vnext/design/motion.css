@@ -1,0 +1,195 @@
+/*
+ * Aurora Glass — motion.
+ * Keyframe library + entrance utilities. Everything here MUST no-op under
+ * prefers-reduced-motion (kill-switch at the bottom).
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §2 (Motion)
+ */
+
+/* ---- Keyframes ---- */
+@keyframes ds-aurora-drift {
+  0% {
+    transform: translate3d(-3%, -2%, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, 2%, 0) rotate(8deg) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-2%, 3%, 0) rotate(-6deg) scale(1.04);
+  }
+}
+
+@keyframes ds-reveal-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none; /* not identity: keeps fixed descendants viewport-anchored */
+  }
+}
+
+@keyframes ds-sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+@keyframes ds-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--ds-blue-rgb), 0.34);
+    opacity: 0.94;
+  }
+  50% {
+    box-shadow: 0 0 22px 4px rgba(var(--ds-blue-rgb), 0.26);
+    opacity: 1;
+  }
+}
+
+@keyframes ds-thinking {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@keyframes ds-pulse-warn {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--ds-amber-rgb), 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(var(--ds-amber-rgb), 0.16);
+  }
+}
+
+@keyframes ds-spring-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ---- Entrance utilities ---- */
+/* Apply .ds-reveal + set --ds-reveal-delay (ms) for staggered fade-up. */
+.ds-reveal {
+  animation: ds-reveal-up var(--ds-dur-slow) var(--ds-ease-out) both;
+  animation-delay: var(--ds-reveal-delay, 0ms);
+}
+
+/* JS-gated variant: hidden until the useReveal hook adds .is-revealed. */
+.ds-reveal-jit {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+.ds-reveal-jit.is-revealed {
+  animation: ds-reveal-up var(--ds-dur-slow) var(--ds-ease-out) both;
+  animation-delay: var(--ds-reveal-delay, 0ms);
+}
+
+/* Sheen sweep — place a .ds-sheen child inside a clipped, position:relative box. */
+.ds-sheen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.ds-sheen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.14),
+    transparent
+  );
+  transform: translateX(-120%) skewX(-18deg);
+}
+
+/* Lift + sheen on hover/press for interactive glass cards. */
+.ds-interactive {
+  transition: transform var(--ds-dur-mid) var(--ds-ease-out),
+    box-shadow var(--ds-dur-mid) var(--ds-ease-out);
+}
+@media (hover: hover) {
+  .ds-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--ds-elevation-3), var(--glass-inner-highlight);
+  }
+  .ds-interactive:hover .ds-sheen::before {
+    animation: ds-sheen 900ms var(--ds-ease-out);
+  }
+}
+.ds-interactive:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Breathing accent glow for the assistant avatar. */
+.ds-breathe {
+  animation: ds-breathe 4.5s var(--ds-ease-inout) infinite;
+}
+.ds-thinking-shimmer {
+  background: linear-gradient(
+    100deg,
+    rgba(var(--ds-blue-rgb), 0.18) 0%,
+    rgba(var(--ds-violet-rgb), 0.32) 40%,
+    rgba(var(--ds-blue-rgb), 0.18) 80%
+  );
+  background-size: 200% 100%;
+  animation: ds-thinking 1.6s linear infinite;
+}
+
+.ds-pulse-warn {
+  animation: ds-pulse-warn 2.6s var(--ds-ease-inout) infinite;
+}
+
+.ds-spring-pop {
+  animation: ds-spring-pop var(--ds-dur-mid) var(--ds-ease-spring);
+}
+
+/* ---- Reduced-motion kill-switch ---- */
+@media (prefers-reduced-motion: reduce) {
+  .vnext-app *,
+  .vnext-app *::before,
+  .vnext-app *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    /* Zero the delay too: with `both` fill, a delayed entrance otherwise holds
+       its hidden/translated "from" state then snaps in — visible motion for a
+       reduced-motion user (e.g. the chat-home hero stagger up to 300ms). */
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
+  }
+  /* Root-element pseudos (e.g. the chat-home aurora) are NOT descendants of
+     .vnext-app, so the rule above misses them — cover them explicitly.
+     Keep transforms (they position/center the orb); only stop animation. */
+  .vnext-app::before,
+  .vnext-app::after {
+    animation: none !important;
+  }
+  .ds-reveal,
+  .ds-reveal-jit,
+  .ds-reveal-jit.is-revealed {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

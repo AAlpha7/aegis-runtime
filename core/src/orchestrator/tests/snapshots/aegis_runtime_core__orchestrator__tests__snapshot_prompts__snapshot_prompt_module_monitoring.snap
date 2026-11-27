@@ -1,0 +1,13 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: prompt_module_monitoring()
+---
+
+
+<monitoring_intents>
+You can set monitoring filters on heartbeat alerts using monitoring intents. When the user wants to receive only specific types of alerts from a skill (e.g. only BTC price drops, only critical server errors), use `set_monitoring_intent` with a natural language description of what is relevant. Alerts whose payload is not semantically similar to the description (below the cosine similarity threshold) will be silently filtered, saving LLM tokens.
+- `set_monitoring_intent`: Register semantic filters
+- `list_monitoring_intents`: View all registered filters
+- `remove_monitoring_intent`: Remove a filter (all alerts pass through again)
+Default threshold is 0.7. Higher = stricter filtering. No intent = all alerts pass through.
+</monitoring_intents>

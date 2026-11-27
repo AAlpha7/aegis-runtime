@@ -1,0 +1,124 @@
+/*
+ * VNextHeaderMenu — the shared header overflow/utility menu (SP2 chrome unification).
+ *
+ * L3 "obsidian + champagne" language, fully tokenized (--btn-* / --b-*, defined
+ * adaptively in design/theme.css). Global (renders in the app header, not scoped
+ * to a .vnext-app-* root), loaded last so it wins over legacy header CSS.
+ *
+ * Owner decision (2026-06-28): Status/Settings + utilities live behind ONE gear
+ * menu on the unified header instead of "secret" full views / a drifting trio.
+ * Spec: docs/superpowers/specs/2026-06-27-webapp-chrome-controls-audit.md (Cluster 2)
+ */
+.vnext-header-menu { position: relative; display: inline-flex; }
+
+/* SPECIFICITY: this menu renders INSIDE legacy header containers whose broad
+   descendant rules paint nested buttons/spans — notably
+   `.vnext-app-chat-home .vnext-chat-session button` (0,2,1; --b-surface fill +
+   --b-text-2 text + hairline border) and `.vnext-header-actions span` (0,1,1;
+   --aegis-muted text). To own its L3 affordance WHEREVER it renders, every
+   color/fill rule below DOUBLES its component class (≥ 0,3,0), beating those
+   legacy descendant rules without !important — the same pattern button.css uses. */
+
+/* Trigger — a 44px obsidian icon button matching the L3 secondary affordance. */
+.vnext-header-menu .vnext-header-menu-trigger.vnext-header-menu-trigger {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; min-height: 44px; padding: 0;
+  border: 0; border-radius: 13px; cursor: pointer;
+  color: var(--menu-trigger-text); background: var(--menu-trigger-surface);
+  box-shadow: 0 0 0 1px var(--menu-trigger-line), var(--btn-inner-highlight);
+  transition: box-shadow .16s, background .16s, color .16s;
+}
+.vnext-header-menu .vnext-header-menu-trigger svg { width: 18px; height: 18px; display: block; }
+.vnext-header-menu .vnext-header-menu-trigger.vnext-header-menu-trigger:hover {
+  color: var(--menu-trigger-active); background: var(--menu-trigger-surface);
+  box-shadow: 0 0 0 1px var(--menu-trigger-line), var(--btn-inner-highlight); }
+.vnext-header-menu .vnext-header-menu-trigger.vnext-header-menu-trigger[aria-expanded="true"] {
+  color: var(--menu-trigger-active); background: var(--menu-trigger-surface);
+  box-shadow: 0 0 0 1px var(--menu-trigger-active), var(--btn-inner-highlight); }
+.vnext-header-menu .vnext-header-menu-trigger.vnext-header-menu-trigger:focus-visible {
+  outline: 2px solid var(--btn-gold-ghost); outline-offset: 2px; }
+
+/* Panel — tokenized sheet (--menu-*, theme.css): obsidian + gold hairline in
+   the dark theme, a white sheet with ink text, hairline and a soft shadow in
+   the light theme (owner 2026-09-16: the one allowed shadow besides the bars).
+   FIXED positioning (coords from JS) escapes parent stacking contexts
+   (header backdrop-filter / sticky chrome) so later siblings never
+   paint over the open menu. Layer scale:
+     content < sticky chrome (50) < menus (60) < modals (80–90) */
+.vnext-header-menu.is-open { z-index: 60; position: relative; }
+/* The open panel is portaled into .vnext-app, which is a column flex on the
+   phone chat home. An in-flow portal keeps a line box and shortens that
+   column, so the composer jumps up. Fixed and zero-sized, it leaves the
+   composer where it was. The panel itself stays position:fixed to the viewport. */
+.vnext-header-menu.vnext-header-menu-portal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 60;
+}
+.vnext-header-menu.vnext-header-menu-portal .vnext-header-menu-panel {
+  pointer-events: auto;
+}
+.vnext-header-menu .vnext-header-menu-panel {
+  z-index: 60;
+  display: grid; gap: 3px; min-width: min(248px, calc(100vw - 32px));
+  max-height: min(70vh, 420px); overflow-y: auto;
+  padding: 6px; border-radius: var(--menu-radius, 16px);
+  background: var(--menu-surface);
+  box-shadow: var(--menu-shadow);
+}
+/* Legacy absolute anchors kept only if fixed coords missing (SSR / tests). */
+.vnext-header-menu .vnext-header-menu-panel:not(.vnext-header-menu-fixed) {
+  position: absolute; top: calc(100% + 10px);
+}
+.vnext-header-menu .vnext-header-menu-panel.vnext-header-menu-fixed {
+  position: fixed;
+}
+.vnext-header-menu .vnext-header-menu-end { right: 0; }
+.vnext-header-menu .vnext-header-menu-start { left: 0; }
+.vnext-header-menu .vnext-header-menu-panel.vnext-header-menu-up:not(.vnext-header-menu-fixed) {
+  top: auto;
+  bottom: calc(100% + 10px);
+}
+
+/* Items — full-width 44px rows; gold text + obsidian-wash on hover/focus.
+   Doubled class (0,3,0) beats `.vnext-app-chat-home .vnext-chat-session button`. */
+.vnext-header-menu .vnext-header-menu-item.vnext-header-menu-item {
+  display: flex; align-items: center; gap: 11px; width: 100%;
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: calc(var(--menu-radius, 16px) - 4px); cursor: pointer;
+  font: inherit; font-weight: 600; font-size: 14px; text-align: left;
+  color: var(--menu-text); background: transparent; box-shadow: none;
+  transition: background .14s, color .14s;
+}
+.vnext-header-menu .vnext-header-menu-item svg { width: 18px; height: 18px; flex: 0 0 auto; opacity: .9; }
+/* Label inherits the item's gold/garnet — `color: inherit` at ≥ 0,3,0 beats the
+   direct `.vnext-header-actions span` (0,1,1) color that would otherwise mute it. */
+.vnext-header-menu .vnext-header-menu-item .vnext-header-menu-item-label {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: inherit; font: inherit; }
+.vnext-header-menu .vnext-header-menu-item.vnext-header-menu-item:hover:not(:disabled),
+.vnext-header-menu .vnext-header-menu-item.vnext-header-menu-item:focus-visible:not(:disabled) {
+  background: var(--menu-hover); color: var(--menu-text); outline: none; }
+.vnext-header-menu .vnext-header-menu-item.vnext-header-menu-item:focus-visible:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--menu-line); }
+.vnext-header-menu .vnext-header-menu-item.vnext-header-menu-item:disabled { opacity: .4; cursor: default; }
+
+/* Session actions (clear chat, sign out) sit under a hairline, still inside the overlay. */
+.vnext-header-menu .vnext-header-menu-separator.vnext-header-menu-separator {
+  height: 1px;
+  margin: 5px 10px;
+  background: var(--menu-line);
+  border: 0;
+  pointer-events: none;
+}
+
+/* Destructive tone (clear chat, sign out) — red TEXT, never a filled pill. */
+.vnext-header-menu .vnext-header-menu-item-destructive.vnext-header-menu-item-destructive { color: var(--b-danger, var(--btn-garnet-text)); }
+.vnext-header-menu .vnext-header-menu-item-destructive.vnext-header-menu-item-destructive:hover:not(:disabled),
+.vnext-header-menu .vnext-header-menu-item-destructive.vnext-header-menu-item-destructive:focus-visible:not(:disabled) {
+  background: var(--menu-hover); color: var(--b-danger, var(--btn-garnet-text)); }

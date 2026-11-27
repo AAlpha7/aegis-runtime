@@ -1,0 +1,33 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Run one self-contained task in a fresh scratch directory and return a receipt. Omit executor to follow the selected chat subscription (Grok or Codex). Subscription CLIs must be installed and signed in on this host. For connected mailbox, calendar or drive reads, set connector to its exact app id or display name (for example Gmail); this routes to Codex and verifies access before execution. Connector mutations are disabled in v1; prepare proposed changes as text only. No cross-provider fallback by default. Never claim results absent from the receipt."
+name: run_external
+parameters:
+  properties:
+    connector:
+      description: "Required for connected account reads: exact app id or display name, for example Gmail or Google Calendar. Codex verifies enabled and accessible before running. No connector mutations in v1."
+      type: string
+    context:
+      description: Optional extra material appended to the prompt under a Context heading
+      type: string
+    executor:
+      default: auto
+      description: auto follows the selected subscription. Explicit grok/codex never falls back. A connector request always requires Codex.
+      enum:
+        - auto
+        - grok
+        - codex
+      type: string
+    task:
+      description: The full self-contained instruction for the external coding agent
+      type: string
+    timeout_secs:
+      description: Wall-clock timeout for this run (default from external_executor_timeout_secs)
+      maximum: 3600
+      minimum: 30
+      type: integer
+  required:
+    - task
+  type: object

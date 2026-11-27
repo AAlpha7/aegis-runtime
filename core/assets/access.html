@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="dark light">
+  <title>Aegis · Secure access</title>
+  <link rel="stylesheet" href="/access.css">
+</head>
+<body class="vnext-app vnext-center">
+  <header class="access-header">
+    <a href="/ui/" class="brand" aria-label="Aegis">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 27 8v8c0 6-6 10-11 13C11 26 5 22 5 16V8Z"/><path d="m11 17 5-9 5 9M13 14h6"/></svg>
+      <span>Aegis</span>
+    </a>
+    <button id="language" class="language" type="button" aria-label="切换为中文">中文</button>
+  </header>
+  <main class="access-main">
+    <section class="access-card" aria-labelledby="title">
+      <div class="access-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></div>
+      <p class="eyebrow" data-i18n="eyebrow">YOUR PRIVATE WORKSPACE</p>
+      <h1 id="title" data-i18n="title">Welcome back.</h1>
+      <p class="intro" data-i18n="intro">Use your device's face, fingerprint or screen lock to sign in with a passkey.</p>
+      <div id="passkey-actions">
+        <button id="login" class="primary" type="button"><span data-i18n="login">Sign in with a passkey</span><span aria-hidden="true">→</span></button>
+        <p class="quiet privacy" data-i18n="privacy">Your database key stays on your computer.</p>
+        <details id="pair-panel" class="pair-panel">
+          <summary data-i18n="pairTitle">First time on this device?</summary>
+          <div class="detail-body">
+            <p data-i18n="pairHelp">Open a pairing link from the computer running Aegis, or enter its one-time code below. It expires in 10 minutes.</p>
+            <label for="pairing" data-i18n="pairLabel">Pairing code</label>
+            <input id="pairing" type="password" autocomplete="off" spellcheck="false" autocapitalize="none" maxlength="64" aria-describedby="pair-note">
+            <p id="pair-note" class="quiet" data-i18n="pairNote">Keep this code private. It is not your database key.</p>
+            <button id="register" class="secondary" type="button" data-i18n="register">Create Passkey</button>
+          </div>
+        </details>
+      </div>
+      <p id="local-help" class="local-help" hidden data-i18n="localHelp">This installation uses local sign-in. Open the private sign-in link from the Aegis launcher on your computer. No Google account setup is needed.</p>
+      <p id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <a href="/ui/" class="console-link" data-i18n="console">Already signed in? Open your workspace</a>
+    </section>
+    <details class="recovery">
+      <summary data-i18n="recoveryTitle">Need help signing in?</summary>
+      <div class="detail-body">
+        <p data-i18n="recoveryHelp">Lost your passkey? Recover access on the computer running Aegis, then pair this device again. A second passkey can help you avoid losing access.</p>
+        <p class="quiet" data-i18n="revokeHelp">Signing out everywhere asks you to verify your passkey again. Your passkeys and data are kept.</p>
+        <button id="revoke" class="danger" type="button" data-i18n="revoke">Sign out all devices</button>
+      </div>
+    </details>
+    <footer data-i18n="footer">Your computer. Your workspace.</footer>
+  </main>
+  <noscript>Enable JavaScript to use device passkeys. / 请启用 JavaScript 以使用设备通行密钥。</noscript>
+  <script src="/access.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+---
+source: core/src/telegram_tests.rs
+expression: markdown_to_telegram_html(md)
+---
+<b>Report</b>
+<b>Status</b>: ✅ OK
+• Item <code>A</code> with <i>emphasis</i>
+• Item B
+<pre><code class="language-json">{&quot;key&quot;: &quot;value&quot;}</code></pre>
+<blockquote>
+Note: important</blockquote>

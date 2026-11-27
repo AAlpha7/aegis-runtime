@@ -1,0 +1,81 @@
+name: Claude Code
+
+# Triggered by "@claude" in an issue, PR comment or review from the repo owner.
+# Auth: CLAUDE_CODE_OAUTH_TOKEN (from `claude setup-token`) = Lance's Claude Max subscription.
+# Guard: Lance's rule — no repo writes Mon–Fri 09:00–18:00 Pacific. Runs in that window are skipped.
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned]
+  pull_request_review:
+    types: [submitted]
+
+concurrency:
+  group: claude-${{ github.event.issue.number || github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  claude:
+    if: |
+      github.actor == 'AAlpha7' && (
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude'))))
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: 2
+      CARGO_TARGET_DIR: ${{ github.workspace }}/target
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Work-hours guard (Mon–Fri 09:00–18:00 Pacific = no writes)
+        id: guard
+        run: |
+          dow=$(TZ=America/Los_Angeles date +%u)
+          hour=$(TZ=America/Los_Angeles date +%H)
+          if [ "$dow" -le 5 ] && [ "$hour" -ge 9 ] && [ "$hour" -lt 18 ]; then
+            echo "Inside Lance's weekday 9-6 PT no-write window; skipping."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout repository
+        if: steps.guard.outputs.ok == 'true'
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node 22
+        if: steps.guard.outputs.ok == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+
+      - name: Install build deps and pinned Rust toolchain
+        if: steps.guard.outputs.ok == 'true'
+        run: |
+          sudo apt-get update && sudo apt-get install -y build-essential pkg-config libssl-dev
+          rustup show active-toolchain
+
+      - name: Run Claude Code
+        if: steps.guard.outputs.ok == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Let Claude build and run the repo's own checks (cargo/make/python scripts/npm/node). Nothing else.
+          claude_args: |
+            --max-turns 40
+            --allowedTools "Bash(cargo:*),Bash(make:*),Bash(python3 scripts/:*),Bash(npm ci),Bash(npm run:*),Bash(npx playwright:*),Bash(node:*)"

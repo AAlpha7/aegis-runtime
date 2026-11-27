@@ -1,0 +1,27 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "View Aegis Runtime system logs from journalctl. Use this to debug issues, check recent activity, or investigate errors. Supports filtering by time range, priority level, and text search."
+name: view_logs
+parameters:
+  properties:
+    filter:
+      description: Case-insensitive text filter applied to log lines. Only lines containing this substring are returned.
+      type: string
+    lines:
+      description: "Number of log lines to retrieve (default 50, max 200)."
+      type: integer
+    priority:
+      description: "Log priority filter. 'error' = errors only, 'warning' = warnings+errors, 'info' = info+warnings+errors, 'all' = everything (default)."
+      enum:
+        - error
+        - warning
+        - info
+        - all
+      type: string
+    since:
+      description: "Only show logs since this time, e.g. '5 minutes ago', '1 hour ago', '2024-01-15 10:00:00'."
+      type: string
+  required: []
+  type: object

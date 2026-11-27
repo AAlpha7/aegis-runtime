@@ -1,0 +1,48 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Configure autonomous heartbeat mode. Enable/disable/configure the LLM's ability to take autonomous actions during heartbeat cycles within approved safety bounds."
+name: configure_autonomous
+parameters:
+  properties:
+    action:
+      description: Action to perform on autonomous heartbeat mode
+      enum:
+        - enable
+        - disable
+        - configure
+        - status
+      type: string
+    allowed_tools:
+      description: Allowlist of tools the LLM may call during autonomous mode
+      items:
+        type: string
+      type: array
+    daily_token_budget:
+      description: "Maximum tokens per day for autonomous actions (default: 50000)"
+      type: integer
+    denied_tools:
+      description: Denylist of tools to block even if in allowlist
+      items:
+        type: string
+      type: array
+    max_rounds:
+      description: Maximum LLM reasoning rounds per heartbeat cycle (1-10)
+      type: integer
+    max_tool_calls:
+      description: Maximum tool calls per heartbeat cycle (1-20)
+      type: integer
+    notification_mode:
+      description: When to notify user about autonomous actions
+      enum:
+        - Always
+        - OnAction
+        - Never
+      type: string
+    skill_name:
+      description: Skill name for per-skill config. Omit for global config.
+      type: string
+  required:
+    - action
+  type: object

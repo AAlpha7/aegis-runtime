@@ -1,0 +1,6 @@
+---
+source: core/src/orchestrator.rs
+expression: "serde_json::json!({\"kind\": kind, \"hint\": hint})"
+---
+hint: Request timed out — retry with simpler query or try again later
+kind: timeout

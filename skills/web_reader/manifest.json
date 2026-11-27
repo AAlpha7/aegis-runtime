@@ -1,0 +1,19 @@
+{
+  "skill_name": "web_reader",
+  "max_memory_mb": 4,
+  "allowed_domains": ["*"],
+  "allowed_fs_paths": [],
+  "cron_schedule": null,
+  "description": "Reads a web page via URL and returns clean text content. Automatically detects anti-bot walls, login gates, and JS-only pages — falls back to Jina Reader cloud rendering for dynamic/SPA pages. Returns structured error on fetch failure (never returns garbage).",
+  "payload_schema": {
+    "type": "object",
+    "properties": {
+      "url": {
+        "type": "string",
+        "description": "The full URL to fetch (e.g. https://example.com)"
+      }
+    },
+    "required": ["url"]
+  },
+  "is_read_only": true
+}

@@ -1,0 +1,29 @@
+---
+source: core/src/orchestrator.rs
+assertion_line: 11601
+expression: tool_to_json(&tool)
+---
+description: "Query the OpenRouter API account: check remaining credits/balance, view usage breakdown by model and day (tokens, cost, requests), get a combined summary, or query local cost analytics. Use when user asks about API costs, spending, token usage, account balance, or cost tracking."
+name: check_api_usage
+parameters:
+  properties:
+    action:
+      description: "balance = check remaining credits; activity = usage breakdown by model/day (last 30 days); summary = balance + today's activity combined; local = query local cost tracking by label/model; reconcile = compare local vs OpenRouter costs; update_pricing = refresh pricing cache; backfill = fill NULL cost_usd rows"
+      enum:
+        - balance
+        - activity
+        - summary
+        - local
+        - reconcile
+        - update_pricing
+        - backfill
+      type: string
+    date:
+      description: "Optional: filter activity by a single UTC date (YYYY-MM-DD). Only used with action='activity'."
+      type: string
+    days:
+      description: "Optional: number of days to query for action='local' (default 7)."
+      type: integer
+  required:
+    - action
+  type: object

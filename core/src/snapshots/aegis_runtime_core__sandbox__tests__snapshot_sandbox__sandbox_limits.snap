@@ -1,0 +1,9 @@
+---
+source: core/src/sandbox.rs
+expression: "serde_json::json!({\n    \"max_fetch_calls\": MAX_FETCH_CALLS, \"max_fetch_per_domain\":\n    MAX_FETCH_PER_DOMAIN, \"wasm_fuel_limit\": WASM_FUEL_LIMIT,\n    \"max_fetch_response_bytes\": MAX_FETCH_RESPONSE_BYTES,\n    \"max_read_file_bytes\": MAX_READ_FILE_BYTES,\n})"
+---
+max_fetch_calls: 50
+max_fetch_per_domain: 20
+max_fetch_response_bytes: 10485760
+max_read_file_bytes: 10485760
+wasm_fuel_limit: 500000000

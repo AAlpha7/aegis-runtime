@@ -1,0 +1,14 @@
+# Reviewed 2026-11-05: test fixtures only (fake local-login token, a nonexistent
+# setting key, a 16-char fake GOCSPX secret, base64 "Hello" entropy samples).
+# Format: <commit>:<file>:<rule>:<line>. Add entries only after review.
+6a1b99c0827709535aec8678b24a7811ce50e7d7:core/src/admin_tests/part2.rs:generic-api-key:223
+6a1b99c0827709535aec8678b24a7811ce50e7d7:core/tests/pseudo_tools_mock.rs:generic-api-key:679
+6a1b99c0827709535aec8678b24a7811ce50e7d7:core/tests/telegram_callback_mock.rs:generic-api-key:245
+6a1b99c0827709535aec8678b24a7811ce50e7d7:core/src/orchestrator/tests/mod.rs:generic-api-key:2778
+6a1b99c0827709535aec8678b24a7811ce50e7d7:core/src/orchestrator/tests/mod.rs:generic-api-key:2831
+# Same fixtures, as fingerprinted by `gitleaks dir` (working tree scans).
+core/src/admin_tests/part2.rs:generic-api-key:223
+core/tests/pseudo_tools_mock.rs:generic-api-key:679
+core/tests/telegram_callback_mock.rs:generic-api-key:245
+core/src/orchestrator/tests/mod.rs:generic-api-key:2816
+core/src/orchestrator/tests/mod.rs:generic-api-key:2869

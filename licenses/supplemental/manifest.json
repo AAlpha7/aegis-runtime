@@ -1,0 +1,607 @@
+{
+  "anndists@0.1.4": {
+    "files": [
+      {
+        "file": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "license": "Apache-2.0",
+    "note": "Apache-2.0 alternative declared in the locked crate manifest. Standard license text; no separate license/NOTICE file was included in these published crate archives. Manifest authors and exact crate source links accompany this text."
+  },
+  "aquamarine@0.6.0": {
+    "files": [
+      {
+        "file": "a964701e74715a2fb0ca68159250b8a072bb4592e1b3c9f6696e2cfdd75629c0.txt",
+        "sha256": "a964701e74715a2fb0ca68159250b8a072bb4592e1b3c9f6696e2cfdd75629c0",
+        "source": "https://raw.githubusercontent.com/mersinvald/aquamarine/42d1267c53da9039e48009005e958eb1dce7d58b/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "asn1-rs-impl@0.2.0": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/rusticata/asn1-rs/a20e5f7319c896737ad0f2557037817b91ad854f/LICENSE-APACHE"
+      },
+      {
+        "file": "a5c61b93b6ee1d104af9920cf020ff3c7efe818e31fe562c72261847a728f513.txt",
+        "sha256": "a5c61b93b6ee1d104af9920cf020ff3c7efe818e31fe562c72261847a728f513",
+        "source": "https://raw.githubusercontent.com/rusticata/asn1-rs/a20e5f7319c896737ad0f2557037817b91ad854f/LICENSE-MIT"
+      }
+    ],
+    "license": "MIT/Apache-2.0"
+  },
+  "async-openai-macros@0.1.1": {
+    "files": [
+      {
+        "file": "ee868fed90a90ad13be5299481f067166938227d77d5ca5cdb9fbeb8c6137d41.txt",
+        "sha256": "ee868fed90a90ad13be5299481f067166938227d77d5ca5cdb9fbeb8c6137d41",
+        "source": "https://raw.githubusercontent.com/64bit/async-openai/58a4d04ca0d3a2728086d7c3059de9a8a1bb95e3/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "async-openai@0.34.0": {
+    "files": [
+      {
+        "file": "ee868fed90a90ad13be5299481f067166938227d77d5ca5cdb9fbeb8c6137d41.txt",
+        "sha256": "ee868fed90a90ad13be5299481f067166938227d77d5ca5cdb9fbeb8c6137d41",
+        "source": "https://raw.githubusercontent.com/64bit/async-openai/833e906d5e9aac370c9a8ae9099421408d8603fb/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "base64urlsafedata@0.5.5": {
+    "files": [
+      {
+        "file": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85.txt",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85",
+        "source": "https://raw.githubusercontent.com/kanidm/webauthn-rs/d2c10d53ca5ef033d37ee6462e936e9eb72ad98c/LICENSE.md"
+      }
+    ],
+    "license": "MPL-2.0"
+  },
+  "blake2b_simd@1.0.4": {
+    "files": [
+      {
+        "file": "27e0387973d6b8507cb15f825f6f26e0278d4d5857082c1f56b49a7b39a90183.txt",
+        "sha256": "27e0387973d6b8507cb15f825f6f26e0278d4d5857082c1f56b49a7b39a90183",
+        "source": "https://raw.githubusercontent.com/oconnor663/blake2_simd/6a94ae2e18985c7c35bada8a4d438bfe9ab0d0c0/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "cranelift-assembler-x64-meta@0.135.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "cranelift-assembler-x64@0.135.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "cranelift-bitset@0.135.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "cranelift-isle@0.135.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/cranelift/isle/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "cranelift-srcgen@0.135.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "der_derive@0.4.1": {
+    "files": [
+      {
+        "file": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5.txt",
+        "sha256": "a9040321c3712d8fd0b09cf52b17445de04a23a10165049ae187cd39e5c86be5",
+        "source": "https://raw.githubusercontent.com/RustCrypto/formats/4214bd5c420215ce9063fa6e7c3049183f6c2eb7/der/LICENSE-APACHE"
+      },
+      {
+        "file": "904801faf3f1850328af8e1aa1047b9190cc22ed40df5c87f2d93d17f847ef67.txt",
+        "sha256": "904801faf3f1850328af8e1aa1047b9190cc22ed40df5c87f2d93d17f847ef67",
+        "source": "https://raw.githubusercontent.com/RustCrypto/formats/4214bd5c420215ce9063fa6e7c3049183f6c2eb7/der/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 OR MIT",
+    "note": "Parent der component at the published source revision."
+  },
+  "erasable@1.3.0": {
+    "files": [
+      {
+        "file": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9.txt",
+        "sha256": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+        "source": "https://raw.githubusercontent.com/CAD97/pointer-utils/0fe399f8f7e519959224069360f3900189086683/LICENSE/APACHE"
+      },
+      {
+        "file": "68360edd6e6db7a433dd72abcd0f81516c0dd438d9b9f7d687cb6ba0afc7242e.txt",
+        "sha256": "68360edd6e6db7a433dd72abcd0f81516c0dd438d9b9f7d687cb6ba0afc7242e",
+        "source": "https://raw.githubusercontent.com/CAD97/pointer-utils/0fe399f8f7e519959224069360f3900189086683/LICENSE/MIT"
+      }
+    ],
+    "license": "MIT OR Apache-2.0",
+    "note": "License directory at the published source revision."
+  },
+  "eventsource-stream@0.2.3": {
+    "files": [
+      {
+        "file": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "license": "Apache-2.0",
+    "note": "Apache-2.0 alternative declared in the locked crate manifest. Standard license text; no separate license/NOTICE file was included in these published crate archives. Manifest authors and exact crate source links accompany this text."
+  },
+  "fxprof-processed-profile@0.8.1": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/mstange/samply/1b8952b3607299fbdbc38d32cdeec2814bdb87b7/LICENSE-APACHE"
+      },
+      {
+        "file": "a59f933e4ae3a569f798c651e3214a3576ce82d25d3d731158def05669dab79f.txt",
+        "sha256": "a59f933e4ae3a569f798c651e3214a3576ce82d25d3d731158def05669dab79f",
+        "source": "https://raw.githubusercontent.com/mstange/samply/1b8952b3607299fbdbc38d32cdeec2814bdb87b7/LICENSE-MIT"
+      }
+    ],
+    "license": "MIT OR Apache-2.0"
+  },
+  "include_dir@0.7.4": {
+    "files": [
+      {
+        "file": "9369f62987b3a116111f2edfdc4cc72633e44ddc94d5d0c68659cf537b76a31f.txt",
+        "sha256": "9369f62987b3a116111f2edfdc4cc72633e44ddc94d5d0c68659cf537b76a31f",
+        "source": "https://raw.githubusercontent.com/Michael-F-Bryan/include_dir/d742c6fffce99ee89da91b934e7ce6fb2a82680c/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "include_dir_macros@0.7.4": {
+    "files": [
+      {
+        "file": "9369f62987b3a116111f2edfdc4cc72633e44ddc94d5d0c68659cf537b76a31f.txt",
+        "sha256": "9369f62987b3a116111f2edfdc4cc72633e44ddc94d5d0c68659cf537b76a31f",
+        "source": "https://raw.githubusercontent.com/Michael-F-Bryan/include_dir/d742c6fffce99ee89da91b934e7ce6fb2a82680c/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "ittapi-sys@0.4.0": {
+    "files": [
+      {
+        "file": "cf48cdd9ed87c2031b68fb1b9f4cfb55d00dcf815b21a30bf8304aa1e5e6f76a.txt",
+        "sha256": "cf48cdd9ed87c2031b68fb1b9f4cfb55d00dcf815b21a30bf8304aa1e5e6f76a",
+        "source": "https://raw.githubusercontent.com/intel/ittapi/a825eeacbcce13729ce1c9feb4c355b1c3be265a/LICENSES/BSD-3-Clause.txt"
+      }
+    ],
+    "license": "GPL-2.0-only OR BSD-3-Clause",
+    "note": "BSD-3-Clause option; upstream files retain SPDX copyright headers."
+  },
+  "ittapi@0.4.0": {
+    "files": [
+      {
+        "file": "cf48cdd9ed87c2031b68fb1b9f4cfb55d00dcf815b21a30bf8304aa1e5e6f76a.txt",
+        "sha256": "cf48cdd9ed87c2031b68fb1b9f4cfb55d00dcf815b21a30bf8304aa1e5e6f76a",
+        "source": "https://raw.githubusercontent.com/intel/ittapi/a825eeacbcce13729ce1c9feb4c355b1c3be265a/LICENSES/BSD-3-Clause.txt"
+      }
+    ],
+    "license": "GPL-2.0-only OR BSD-3-Clause",
+    "note": "BSD-3-Clause option; upstream files retain SPDX copyright headers."
+  },
+  "jni-sys-macros@0.4.1": {
+    "files": [
+      {
+        "file": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08.txt",
+        "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+        "source": "https://raw.githubusercontent.com/jni-rs/jni-sys/64d77b7a5f119d7b55b4e2c169a4668067ff59e6/LICENSE-APACHE"
+      },
+      {
+        "file": "1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1.txt",
+        "sha256": "1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1",
+        "source": "https://raw.githubusercontent.com/jni-rs/jni-sys/64d77b7a5f119d7b55b4e2c169a4668067ff59e6/LICENSE-MIT"
+      }
+    ],
+    "license": "MIT OR Apache-2.0"
+  },
+  "pulley-interpreter@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "pulley-macros@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "rc-box@1.3.0": {
+    "files": [
+      {
+        "file": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9.txt",
+        "sha256": "a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+        "source": "https://raw.githubusercontent.com/CAD97/pointer-utils/0fe399f8f7e519959224069360f3900189086683/LICENSE/APACHE"
+      },
+      {
+        "file": "68360edd6e6db7a433dd72abcd0f81516c0dd438d9b9f7d687cb6ba0afc7242e.txt",
+        "sha256": "68360edd6e6db7a433dd72abcd0f81516c0dd438d9b9f7d687cb6ba0afc7242e",
+        "source": "https://raw.githubusercontent.com/CAD97/pointer-utils/0fe399f8f7e519959224069360f3900189086683/LICENSE/MIT"
+      }
+    ],
+    "license": "MIT OR Apache-2.0",
+    "note": "License directory at the published source revision."
+  },
+  "reqwest-eventsource@0.6.0": {
+    "files": [
+      {
+        "file": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "license": "Apache-2.0",
+    "note": "Apache-2.0 alternative declared in the locked crate manifest. Standard license text; no separate license/NOTICE file was included in these published crate archives. Manifest authors and exact crate source links accompany this text."
+  },
+  "rmcp-macros@1.8.0": {
+    "files": [
+      {
+        "file": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a.txt",
+        "sha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+        "source": "https://raw.githubusercontent.com/modelcontextprotocol/rust-sdk/25220361d5540715294c501c289d79de4bec2bfc/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0"
+  },
+  "rmcp@1.8.0": {
+    "files": [
+      {
+        "file": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a.txt",
+        "sha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+        "source": "https://raw.githubusercontent.com/modelcontextprotocol/rust-sdk/25220361d5540715294c501c289d79de4bec2bfc/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0"
+  },
+  "sec1_decode@0.1.0": {
+    "files": [
+      {
+        "file": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "source": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+      }
+    ],
+    "license": "Apache-2.0",
+    "note": "Apache-2.0 alternative declared in the locked crate manifest. Standard license text; no separate license/NOTICE file was included in these published crate archives. Manifest authors and exact crate source links accompany this text."
+  },
+  "selectors@0.36.1": {
+    "files": [
+      {
+        "file": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04.txt",
+        "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04",
+        "source": "https://www.mozilla.org/media/MPL/2.0/index.txt"
+      }
+    ],
+    "license": "MPL-2.0",
+    "note": "MPL-2.0 declared by the locked crate manifest; standard license text. Exact unmodified published crate source is bundled in third-party-sources."
+  },
+  "tiktoken-rs@0.9.1": {
+    "files": [
+      {
+        "file": "f7c6ddf9d84fd7b8ad5917e4074d4c05e4c1dfb752a28a0058f06bd0f5e2edcc.txt",
+        "sha256": "f7c6ddf9d84fd7b8ad5917e4074d4c05e4c1dfb752a28a0058f06bd0f5e2edcc",
+        "source": "https://raw.githubusercontent.com/zurawiki/tiktoken-rs/705a02e4b2b0ac8cb77b2e0aeb0ed6fe449c4a45/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "valuable@0.1.1": {
+    "files": [
+      {
+        "file": "ed60d479b8fd1f64e9cbc3de449a16a53ac1b3d1b6aeb9bf9d190a8e93061b44.txt",
+        "sha256": "ed60d479b8fd1f64e9cbc3de449a16a53ac1b3d1b6aeb9bf9d190a8e93061b44",
+        "source": "https://raw.githubusercontent.com/tokio-rs/valuable/9efc29b6e58cef28f6566a47aa7e142a55fead77/LICENSE"
+      }
+    ],
+    "license": "MIT"
+  },
+  "wasip2@1.0.2+wasi-0.2.9": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasi-rs/06ce201370fcde0d1b0d47cac8ecb1b0b312c9f9/LICENSE-APACHE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasi-rs/06ce201370fcde0d1b0d47cac8ecb1b0b312c9f9/LICENSE-Apache-2.0_WITH_LLVM-exception"
+      },
+      {
+        "file": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasi-rs/06ce201370fcde0d1b0d47cac8ecb1b0b312c9f9/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+  },
+  "wasip3@0.4.0+wasi-0.3.0-rc-2026-01-06": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasi-rs/06ce201370fcde0d1b0d47cac8ecb1b0b312c9f9/LICENSE-APACHE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasi-rs/06ce201370fcde0d1b0d47cac8ecb1b0b312c9f9/LICENSE-Apache-2.0_WITH_LLVM-exception"
+      },
+      {
+        "file": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasi-rs/06ce201370fcde0d1b0d47cac8ecb1b0b312c9f9/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+  },
+  "wasm-encoder@0.244.0": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-APACHE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-Apache-2.0_WITH_LLVM-exception"
+      },
+      {
+        "file": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+  },
+  "wasmparser@0.244.0": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-APACHE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-Apache-2.0_WITH_LLVM-exception"
+      },
+      {
+        "file": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+  },
+  "wasmtime-internal-component-macro@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-internal-component-util@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-internal-core@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-internal-jit-debug@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-internal-jit-icache-coherence@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-internal-versioned-export-macros@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-internal-wit-bindgen@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wasmtime-wasi-io@48.0.1": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasmtime/7bac2c2775808aaec5d4aa5627a5e447b51102cf/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "wast@35.0.2": {
+    "files": [
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/61b23615e3784c6e1aad8904e3832bb55ce9356e/LICENSE"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception"
+  },
+  "webauthn-attestation-ca@0.5.5": {
+    "files": [
+      {
+        "file": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85.txt",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85",
+        "source": "https://raw.githubusercontent.com/kanidm/webauthn-rs/d2c10d53ca5ef033d37ee6462e936e9eb72ad98c/LICENSE.md"
+      }
+    ],
+    "license": "MPL-2.0"
+  },
+  "webauthn-rs-core@0.5.5": {
+    "files": [
+      {
+        "file": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85.txt",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85",
+        "source": "https://raw.githubusercontent.com/kanidm/webauthn-rs/d2c10d53ca5ef033d37ee6462e936e9eb72ad98c/LICENSE.md"
+      }
+    ],
+    "license": "MPL-2.0"
+  },
+  "webauthn-rs-proto@0.5.5": {
+    "files": [
+      {
+        "file": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85.txt",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85",
+        "source": "https://raw.githubusercontent.com/kanidm/webauthn-rs/d2c10d53ca5ef033d37ee6462e936e9eb72ad98c/LICENSE.md"
+      }
+    ],
+    "license": "MPL-2.0"
+  },
+  "webauthn-rs@0.5.5": {
+    "files": [
+      {
+        "file": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85.txt",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85",
+        "source": "https://raw.githubusercontent.com/kanidm/webauthn-rs/d2c10d53ca5ef033d37ee6462e936e9eb72ad98c/LICENSE.md"
+      }
+    ],
+    "license": "MPL-2.0"
+  },
+  "wit-component@0.244.0": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-APACHE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-Apache-2.0_WITH_LLVM-exception"
+      },
+      {
+        "file": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+  },
+  "wit-parser@0.244.0": {
+    "files": [
+      {
+        "file": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+        "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-APACHE"
+      },
+      {
+        "file": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5.txt",
+        "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-Apache-2.0_WITH_LLVM-exception"
+      },
+      {
+        "file": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+        "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+        "source": "https://raw.githubusercontent.com/bytecodealliance/wasm-tools/d4e317f22c3bace76cb3205003bcc34b4929037d/LICENSE-MIT"
+      }
+    ],
+    "license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT"
+  }
+}

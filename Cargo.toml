@@ -1,0 +1,123 @@
+[workspace]
+exclude = ["core/fuzz"]
+members = [
+    "core",
+    "executor",
+    "skills/aegis_runtime_wasm_core",
+    "skills/web_reader",
+    "skills/test_no_net",
+]
+# Bare `cargo build` / `cargo test` / `cargo clippy` at the workspace root act
+# on the host crates only. skills/* are wasm32-wasip1 crates
+# (skills/aegis_runtime_wasm_core has a compile_error! guard for non-wasm targets)
+# and are compiled by core/build.rs / `make skills-check`, never natively.
+default-members = ["core", "executor"]
+resolver = "2"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+elided_lifetimes_in_paths = "allow" # explicit vs elided lifetimes
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# Pedantic allows — cosmetic lints that add noise without catching bugs
+doc_markdown = "allow"             # 1300+ backtick requirements in docs
+missing_errors_doc = "allow"       # pervasive, low value
+missing_panics_doc = "allow"       # pervasive, low value
+module_name_repetitions = "allow"  # naming style preference
+must_use_candidate = "allow"       # too noisy for builder patterns
+return_self_not_must_use = "allow" # builder pattern noise
+unreadable_literal = "allow"       # number separator style
+redundant_closure_for_method_calls = "allow" # style preference
+items_after_statements = "allow"   # valid Rust pattern
+similar_names = "allow"            # false positives (addr/addr2)
+wildcard_imports = "allow"         # common in tests (use mock_helpers::*)
+needless_pass_by_value = "allow"   # axum handlers take owned types
+# Added with the rustc 1.98 toolchain bump (2026-09-04):
+duration_suboptimal_units = "allow" # Duration::from_secs(60 * 60) is fine; from_hours() only exists on new toolchains
+unused_async_trait_impl = "allow"   # rmcp/teloxide trait methods must be `async fn` regardless of awaits
+cast_possible_truncation = "allow" # pervasive in WASM FFI code
+cast_sign_loss = "allow"           # pervasive in WASM FFI code
+cast_precision_loss = "allow"      # f64→f32 in embeddings
+cast_lossless = "allow"            # u8 as u32, etc.
+cast_possible_wrap = "allow"       # u64 as i64 in DB/API boundary code
+struct_excessive_bools = "allow"   # settings structs
+struct_field_names = "allow"       # field naming style
+uninlined_format_args = "allow"    # 589 format!("{}", var) → format!("{var}") — cosmetic
+too_many_lines = "allow"           # orchestrator functions are inherently large
+single_match_else = "allow"        # match vs if-let is style preference
+match_same_arms = "allow"          # intentional for clarity in some cases
+match_wildcard_for_single_variants = "allow" # explicit _ arm for future variants
+manual_let_else = "allow"          # let-else is newer syntax, gradual adoption
+unnecessary_wraps = "allow"        # Result return for API consistency
+ignored_unit_patterns = "allow"    # matching () in tests
+option_if_let_else = "allow"       # match vs if-let-else is style preference
+if_not_else = "allow"              # !condition style preference
+map_unwrap_or = "allow"            # .map().unwrap_or() is readable
+trivially_copy_pass_by_ref = "allow"  # &bool in trait impls
+enum_glob_use = "allow"            # use Enum::* in match arms
+implicit_clone = "allow"           # .to_string() on &str
+default_trait_access = "allow"     # Type::default() vs Default::default()
+inefficient_to_string = "allow"    # .to_string() on Display types
+redundant_else = "allow"           # style preference for early returns
+unnested_or_patterns = "allow"     # A | B vs A | B pattern style
+write_with_newline = "allow"       # write!() vs writeln!()
+used_underscore_binding = "allow"  # _var used intentionally
+unused_async = "allow"             # async fn for trait consistency
+case_sensitive_file_extension_comparisons = "allow" # known extensions only
+float_cmp = "allow"                # test assertions on known values
+needless_raw_string_hashes = "allow"  # r#"..."# style preference
+semicolon_if_nothing_returned = "allow" # style preference
+iter_without_into_iter = "allow"   # custom iterators
+manual_string_new = "allow"        # String::new() vs "".to_string()
+no_effect_underscore_binding = "allow" # let _ = expr for side effects
+option_option = "allow"            # Option<Option<T>> in serde
+checked_conversions = "allow"      # explicit u64::try_from vs as
+single_char_pattern = "allow"      # "x" vs 'x' in str methods
+format_push_string = "allow"       # format!() append is clear in template code
+redundant_closure = "allow"        # |x| f(x) vs f — style preference
+unused_self = "allow"              # &self for API consistency in trait impls
+manual_is_variant_and = "allow"    # .map().unwrap_or(false) is readable
+range_plus_one = "allow"           # 0..n+1 vs 0..=n — style preference
+unchecked_time_subtraction = "allow"     # duration arithmetic in non-critical paths
+ip_constant = "allow"              # Ipv4Addr::new(127,0,0,1) in network tests
+bool_to_int_with_if = "allow"      # if b { 1 } else { 0 } — clear
+ignore_without_reason = "allow"    # #[ignore] in legacy tests
+map_err_ignore = "allow"           # .map_err(|_| ...) acceptable for error conversion
+needless_continue = "allow"        # explicit continue for readability
+fn_params_excessive_bools = "allow" # multi-bool params in settings APIs
+assigning_clones = "allow"         # x = y.clone() vs x.clone_from(&y)
+manual_assert = "allow"            # if !cond { panic!() } in tests
+ref_option = "allow"               # &Option<T> in function params
+large_futures = "allow"            # orchestrator futures are inherently large
+manual_map = "allow"               # explicit match vs .map()
+iter_over_hash_type = "allow"      # HashMap param generalization
+missing_fields_in_debug = "allow"  # partial Debug impls for large structs
+doc_link_with_quotes = "allow"     # doc link style
+cloned_instead_of_copied = "allow" # .cloned() on Copy types
+collection_is_never_read = "allow" # intermediate collections in builders
+format_collect = "allow"           # iterator format! collect pattern
+verbose_bit_mask = "allow"         # explicit bit operations
+explicit_iter_loop = "allow"       # for x in v.iter() vs for x in &v
+zero_sized_map_values = "allow"    # HashMap<K, ()> as set
+large_stack_arrays = "allow"       # lookup tables in parsers
+stable_sort_primitive = "allow"    # sort on primitives
+implicit_hasher = "allow"          # HashMap param generalization
+
+# ── Build-speed profiles (2026-09-04, see memory aegis-runtime-build-perf) ──
+# The core crate is ~380K lines in one unit; every setting below trades a
+# little runtime/debug fidelity for compile + link time on the 4-core host.
+[profile.dev]
+# Line tables are enough for panics/backtraces; full DWARF made the lib test
+# binary 1GB and link-dominated.
+debug = "line-tables-only"
+split-debuginfo = "unpacked"
+
+[profile.release]
+debug = false
+# Cargo's default `lto = false` still runs thin-local LTO on the final
+# crate; "off" skips it. Incremental release keeps the 20-minute core
+# recompile from happening on every one-line deploy.
+lto = "off"
+incremental = true

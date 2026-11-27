@@ -1,0 +1,10 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Get the current date and time in the user's configured timezone. Call this whenever you need to know or report the current time. NEVER guess the time — always call this tool."
+name: get_current_time
+parameters:
+  properties: {}
+  required: []
+  type: object

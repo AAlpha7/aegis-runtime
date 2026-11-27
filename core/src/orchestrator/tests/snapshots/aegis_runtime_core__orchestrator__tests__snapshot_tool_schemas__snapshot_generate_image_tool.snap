@@ -1,0 +1,25 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Generate an image from a text description and send it to the user. Use when the user asks to create, draw, generate, or design an image."
+name: generate_image
+parameters:
+  properties:
+    aspect_ratio:
+      description: "Image aspect ratio. Default: '1:1'. Use '16:9' for landscape, '9:16' for portrait."
+      enum:
+        - "1:1"
+        - "16:9"
+        - "9:16"
+        - "4:3"
+        - "3:4"
+        - "3:2"
+        - "2:3"
+      type: string
+    prompt:
+      description: "Detailed description of the image to generate. Be specific about style, composition, lighting, etc."
+      type: string
+  required:
+    - prompt
+  type: object

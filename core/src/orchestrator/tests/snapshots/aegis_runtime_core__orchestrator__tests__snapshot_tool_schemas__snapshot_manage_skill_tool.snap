@@ -1,0 +1,21 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Inspect a Wasm skill. Actions: 'health' shows execution success/error rates, latency, circuit-breaker state and recent error categories; 'affected_intents' lists recurring intents that reference this skill."
+name: manage_skill
+parameters:
+  properties:
+    action:
+      description: Action to perform on the skill
+      enum:
+        - health
+        - affected_intents
+      type: string
+    skill_name:
+      description: Name of the skill to manage
+      type: string
+  required:
+    - action
+    - skill_name
+  type: object

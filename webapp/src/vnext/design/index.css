@@ -1,0 +1,39 @@
+/*
+ * Aurora Glass design system — aggregate entry.
+ * Imported AFTER styles.css (see App.tsx) so the new token system is
+ * authoritative where names overlap. Order matters: tokens define the custom
+ * properties that materials and motion consume.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §3
+ */
+@import "./tokens.css";
+@import "./materials.css";
+@import "./motion.css";
+
+/* Direction B adaptive theme tokens (single source) — before the surfaces. */
+@import "./theme.css";
+
+/* Per-surface overrides (loaded last so they win the cascade). */
+@import "./surfaces/chat-home.css";
+@import "./surfaces/console.css";
+@import "./surfaces/states.css";
+@import "./surfaces/trust.css";
+@import "./surfaces/decisions.css";
+@import "./surfaces/rich-text.css";
+@import "./surfaces/chrome.css";
+@import "./surfaces/transitions.css";
+@import "./surfaces/feedback.css";
+
+/* Shared action-button surface (SP1) — global (renders in every view-root),
+   loaded last so the component's own material wins over legacy view button CSS
+   during the incremental migration. */
+@import "./surfaces/button.css";
+
+/* Shared selection controls (SP1.5) — segmented + chip; global, loaded last
+   so the components' material wins over legacy view control CSS during the
+   incremental migration. */
+@import "./surfaces/controls.css";
+
+/* Shared header overflow/utility menu (SP2) — global, loaded last so the
+   component's L3 material wins over legacy header CSS during the migration. */
+@import "./surfaces/menu.css";

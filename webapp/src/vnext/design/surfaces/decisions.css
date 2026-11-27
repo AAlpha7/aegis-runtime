@@ -1,0 +1,169 @@
+/*
+ * Information-presentation #2 — Decision card info design (Direction B).
+ * The paused/blocked decision panel (.vnext-blocked-panel) already renders the
+ * story (what Aegis was doing / why it stopped), scope, trust, and the choice
+ * list (label + consequence + applies-to · risk). This makes that information
+ * legible: a clear "what's being asked" narrative, choices as scannable cards
+ * with the consequence readable and destructive/unavailable options visually
+ * distinct, and the safe-details kept one tap away. Adaptive --b-*.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §info-ux #2
+ */
+
+/* The "what Aegis was doing / why it paused" narrative — one compact definition block. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-story {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--b-surface) 70%, transparent);
+}
+/* story children are <span><em>label</em><strong>value</strong> — flat rows, not nested cards */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-story > span {
+  display: grid;
+  gap: 1px;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-story > span > em {
+  font-style: normal;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--b-text-3);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-story > span > strong {
+  color: var(--b-text);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-scope {
+  margin: 0 0 8px;
+  padding-left: 10px;
+  border-left: 2px solid var(--b-hairline);
+  color: var(--b-text-2);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+/* Choices: action weight — primary filled, secondary outline, detail lightest. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice-list {
+  display: grid;
+  gap: 6px;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 44px;
+  text-align: left;
+  padding: 9px 12px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 12px;
+  background: var(--b-surface);
+  color: var(--b-text);
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.is-primary {
+  border-color: color-mix(in srgb, var(--b-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--b-accent) 16%, var(--b-surface));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--b-accent) 22%, transparent);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.is-secondary {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--b-accent) 28%, var(--b-hairline));
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.is-detail {
+  background: transparent;
+  border-color: var(--b-hairline);
+  box-shadow: none;
+}
+@media (hover: hover) {
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice:not(:disabled):not(.disabled):hover {
+    background: var(--b-surface-hover);
+    border-color: color-mix(in srgb, var(--b-accent) 40%, transparent);
+  }
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.is-primary:not(:disabled):not(.disabled):hover {
+    background: color-mix(in srgb, var(--b-accent) 22%, var(--b-surface));
+  }
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice-main > strong {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 8px;
+  color: var(--b-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.is-primary .vnext-decision-choice-main > strong {
+  font-weight: 800;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice-main > em {
+  display: block;
+  margin-top: 1px;
+  color: var(--b-text-2);
+  font-style: normal;
+  font-size: 12px;
+  line-height: 1.3;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice-meta {
+  color: var(--b-text-3);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Destructive choice -> red caution; unavailable -> clearly muted with reason. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.danger {
+  border-color: color-mix(in srgb, var(--b-danger) 45%, transparent);
+  background: color-mix(in srgb, var(--b-danger) 8%, transparent);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.danger .vnext-decision-choice-main > strong { color: var(--b-danger); }
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--b-surface);
+  border-style: dashed;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-choice-disabled {
+  display: block;
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Compact horizontal trust chips on the paused card. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-blocked-trust {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  margin-bottom: 8px;
+  overflow-x: auto;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-blocked-trust > span {
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--b-hairline);
+  background: transparent;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-blocked-trust strong {
+  font-size: 10px;
+}
+
+/* Safe details: a quiet, one-tap disclosure. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-decision-safe-details > summary {
+  cursor: pointer;
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-weight: 700;
+}

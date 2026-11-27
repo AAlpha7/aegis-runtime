@@ -1,0 +1,148 @@
+name: CI
+
+# Manual only; the project verifies locally. Kept so the
+# same job list can be run on demand. Local equivalent: `make check`,
+# `make skills-check`, `gitleaks git .` and `cargo audit` with the ignores below.
+# The heavier account-free release acceptance stays in verify.yml (manual).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Toolchain pin matches rust-toolchain.toml (wasmtime 48 needs rustc >= 1.98).
+# With `pedantic = warn` + `-D warnings`, a newer stable can turn clippy red on
+# unchanged code, so bump both together.
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_TARGET_DIR: target
+  CARGO_BUILD_JOBS: 2
+  # Smaller test artifacts; CI never needs a debugger.
+  CARGO_PROFILE_DEV_DEBUG: 0
+  CARGO_PROFILE_TEST_DEBUG: 0
+
+jobs:
+  lint:
+    name: Format & Clippy
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.98.1
+        with:
+          targets: wasm32-wasip1
+          components: clippy, rustfmt
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-lint-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-lint-
+      - run: cargo fmt --all -- --check
+      - run: make lint
+        env:
+          SKIP_SKILL_BUILD: 1
+
+  rust-tests:
+    name: Rust tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.98.1
+        with:
+          targets: wasm32-wasip1
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-test-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-test-
+      # SKIP_SKILL_BUILD=0: build the wasm skills so the integration tests
+      # that load compiled_skills/*.wasm run for real.
+      - run: make test SKIP_SKILL_BUILD=0
+
+  skills:
+    name: Wasm skills (wasm32-wasip1)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.98.1
+        with:
+          targets: wasm32-wasip1
+      - run: make skills-check
+
+  scripts:
+    name: Installer & packaging scripts
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # test_privacy_history.py inspects history.
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: make jev-setup-test installer-test release-packaging-test
+
+  webapp:
+    name: Web console
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: webapp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  secrets-scan:
+    name: Secret scan
+    runs-on: ubuntu-24.04
+    # gitleaks-action lists the PR's commits through the API.
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: a secret added in an old commit and deleted later is
+          # invisible to a shallow clone.
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: .gitleaks.toml
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      # cargo-audit only reads Cargo.lock, so stable is fine here.
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo install cargo-audit --locked
+      # No upstream fix; both arrive only via web-push -> jwt-simple. Web push
+      # signs VAPID JWTs with ES256 and never uses RSA. Remove each ignore once
+      # jwt-simple moves to fixed versions.
+      #   RUSTSEC-2023-0071  rsa (Marvin timing side channel, no fixed release)
+      #   RUSTSEC-2026-0387  crypto-bigint 0.5 timing (fixed in 0.7, needs elliptic-curve 0.14)
+      #   RUSTSEC-2026-0462  rmcp 1.x Streamable HTTP client buffering (fixed in 3.9, a breaking
+      #                      upgrade). Not reachable here: only the client/server stdio and
+      #                      child-process transports are enabled, not the Streamable HTTP client.
+      - run: cargo audit --ignore RUSTSEC-2023-0071 --ignore RUSTSEC-2026-0387 --ignore RUSTSEC-2026-0462

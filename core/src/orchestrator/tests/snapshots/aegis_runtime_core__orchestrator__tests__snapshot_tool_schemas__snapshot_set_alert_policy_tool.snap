@@ -1,0 +1,37 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Configure the alert delivery policy for a specific skill's heartbeat alerts. Controls which severity levels are pushed, whether RESOLVED notifications are sent, per-skill cooldown duration, quiet hours, pin behavior, and temporary muting. Only explicitly provided fields are changed; others keep their current values."
+name: set_alert_policy
+parameters:
+  properties:
+    cooldown_secs:
+      description: "Cooldown between repeated alerts in seconds. 0 = global default (4h). Default: 0"
+      type: integer
+    delivery:
+      description: "Which severity levels to push. Default: warning_and_above"
+      enum:
+        - all
+        - warning_and_above
+        - critical_only
+        - silent
+      type: string
+    mute_hours:
+      description: Temporarily mute ALL alerts for this skill for N hours (max 720 = 30 days). Alerts resume automatically after the mute expires. Pass 0 or null to unmute immediately.
+      type: number
+    pin_messages:
+      description: "Whether to pin alert messages in Telegram. Default: true"
+      type: boolean
+    quiet_hours:
+      description: "UTC quiet hours range like '22-06' (10pm-6am). During quiet hours only Critical alerts pass. Empty string or null to disable. Default: disabled"
+      type: string
+    send_resolved:
+      description: "Whether to send RESOLVED notifications when alert clears. Default: true"
+      type: boolean
+    skill_name:
+      description: Name of the skill to configure alert policy for
+      type: string
+  required:
+    - skill_name
+  type: object

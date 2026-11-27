@@ -1,0 +1,12 @@
+.vnext-jev-card { border: 1px solid var(--line, #64748b55); border-radius: 16px; padding: 20px; margin-top: 24px; display: grid; gap: 12px; }
+.vnext-jev-card header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.vnext-jev-card h3, .vnext-jev-card p { margin: 0; }
+.vnext-jev-card header p { font-size: .85rem; opacity: .7; margin-top: 4px; }
+.vnext-jev-state { font-size: .8rem; border: 1px solid var(--line, #64748b55); border-radius: 999px; padding: 4px 10px; flex-shrink: 0; }
+.vnext-jev-toggle, .vnext-jev-consent { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.vnext-jev-toggle input, .vnext-jev-consent input { margin-top: 5px; flex-shrink: 0; }
+.vnext-jev-key { display: grid; gap: 8px; font-size: .9rem; }
+.vnext-jev-key input { width: 100%; min-width: 0; box-sizing: border-box; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line, #64748b55); background: transparent; color: inherit; font: inherit; }
+.vnext-jev-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.vnext-jev-card :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media (max-width: 420px) { .vnext-jev-card { padding: 14px; } .vnext-jev-card header { flex-wrap: wrap; } }

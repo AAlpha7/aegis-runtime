@@ -1,0 +1,102 @@
+/*
+ * VNextSegmented + VNextChip — the shared SELECTION-control surfaces (SP1.5).
+ *
+ * Siblings of VNextButton (button.css): same L3 "obsidian + champagne" language,
+ * same --btn-* material tokens, plus a small --seg-* / --chip-* namespace (defined
+ * adaptively in design/theme.css) for the track / unselected-surface colors that
+ * action buttons don't have. NO hardcoded affordance hex here.
+ *
+ * Like .vnext-btn, these classes are intentionally GLOBAL (the components render
+ * inside every view-root) and are excluded from the vnext-design-scope guard.
+ *
+ * SPECIFICITY: legacy styles.css / work CSS paint `<button>` inside
+ * various containers at descendant specificity. To stay authoritative wherever
+ * the component renders, every affordance rule compounds its own class
+ * (`.vnext-seg-item.vnext-seg-item`, `.vnext-chip.vnext-chip`) to ≥ (0,2,0),
+ * beating legacy descendant rules without !important.
+ *
+ * Spec: docs/superpowers/specs/2026-06-27-button-design-system-design.md (SP1.5)
+ */
+
+/* ---------- VNextSegmented ---------- */
+.vnext-segmented-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+.vnext-segmented-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--aegis-ink);
+  line-height: 1.3;
+}
+
+.vnext-seg {
+  display: inline-flex; align-items: stretch; gap: 3px;
+  padding: 3px; border-radius: 14px;
+  background: var(--seg-track); box-shadow: inset 0 0 0 1px var(--seg-track-line);
+  max-width: 100%;
+}
+.vnext-seg.vnext-seg-full { display: flex; width: 100%; }
+.vnext-seg.vnext-seg-full .vnext-seg-item { flex: 1 1 0; }
+
+.vnext-seg-item.vnext-seg-item {
+  font: inherit; font-weight: 600; letter-spacing: .01em;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; cursor: pointer; white-space: nowrap; position: relative;
+  background: transparent; color: var(--seg-text);
+  box-shadow: none; border-radius: 11px;
+  transition: background .16s, color .16s, box-shadow .16s, filter .16s;
+}
+.vnext-seg-sm .vnext-seg-item.vnext-seg-item { min-height: 40px; height: 40px; padding: 0 13px; font-size: 12.5px; }
+.vnext-seg-md .vnext-seg-item.vnext-seg-item { min-height: 44px; height: 44px; padding: 0 16px; font-size: 13.5px; }
+.vnext-seg-item.vnext-seg-item .vnext-seg-label {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: inherit; font: inherit; letter-spacing: inherit; text-transform: none;
+}
+.vnext-seg-item.vnext-seg-item:hover:not(:disabled):not(.is-selected) {
+  background: var(--seg-hover); color: var(--seg-text-strong);
+}
+/* selected — gold-edge obsidian, gold text (matches primary button) */
+.vnext-seg-item.vnext-seg-item.is-selected {
+  color: var(--btn-gold-text); background: var(--btn-obsidian);
+  box-shadow: 0 0 0 1px var(--btn-gold-line), var(--btn-inner-highlight),
+    0 6px 16px -10px rgba(0,0,0,0.6);
+}
+.vnext-seg-item.vnext-seg-item:disabled { opacity: .4; cursor: default; }
+.vnext-seg-item.vnext-seg-item:focus-visible {
+  outline: 2px solid var(--btn-gold-ghost); outline-offset: 2px; z-index: 1;
+}
+
+/* ---------- VNextChip ---------- */
+.vnext-chip.vnext-chip {
+  font: inherit; font-weight: 600; letter-spacing: .01em;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 0; cursor: pointer; white-space: nowrap; position: relative;
+  border-radius: 999px; color: var(--chip-text);
+  background: var(--chip-surface);
+  box-shadow: 0 0 0 1px var(--chip-line);
+  transition: background .16s, color .16s, box-shadow .16s, filter .16s;
+}
+.vnext-chip.vnext-chip-sm { min-height: 40px; height: 40px; padding: 0 14px; font-size: 12.5px; }
+.vnext-chip.vnext-chip-md { min-height: 44px; height: 44px; padding: 0 18px; font-size: 13px; }
+.vnext-chip.vnext-chip .vnext-chip-label {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: inherit; font: inherit; letter-spacing: inherit; text-transform: none;
+}
+.vnext-chip.vnext-chip .vnext-chip-ico { display: inline-flex; color: inherit; }
+.vnext-chip.vnext-chip .vnext-chip-ico svg { width: 15px; height: 15px; display: block; flex: 0 0 auto; }
+.vnext-chip.vnext-chip:hover:not(:disabled):not(.is-selected) {
+  background: var(--chip-surface-hover); color: var(--chip-text-strong);
+}
+/* selected — gold-edge obsidian, gold text */
+.vnext-chip.vnext-chip.is-selected {
+  color: var(--btn-gold-text); background: var(--btn-obsidian);
+  box-shadow: 0 0 0 1px var(--btn-gold-line), var(--btn-inner-highlight),
+    0 6px 16px -10px rgba(0,0,0,0.6);
+}
+.vnext-chip.vnext-chip:disabled { opacity: .4; cursor: default; }
+.vnext-chip.vnext-chip:focus-visible {
+  outline: 2px solid var(--btn-gold-ghost); outline-offset: 2px; z-index: 1;
+}

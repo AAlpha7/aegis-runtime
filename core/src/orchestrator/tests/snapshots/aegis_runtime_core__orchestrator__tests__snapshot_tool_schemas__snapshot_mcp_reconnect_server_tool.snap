@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: Reconnect to a specific MCP server. Use when a server appears disconnected or is returning errors.
+name: mcp_reconnect_server
+parameters:
+  properties:
+    server:
+      description: Name/key of the MCP server to reconnect
+      type: string
+  required:
+    - server
+  type: object

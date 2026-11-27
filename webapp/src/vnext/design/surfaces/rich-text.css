@@ -1,0 +1,307 @@
+/*
+ * Rich-text content layer — adaptive light/dark (Direction B).
+ *
+ * The assistant renders markdown into `.vnext-rich-*` (callouts, strong/em,
+ * headings, lists, checklists, blockquotes, inline code, code blocks, tables,
+ * images, drafts). The base styles in styles.css are HARDCODED for dark mode
+ * (#fff8e8 strong, rgba(235,241,255,…) callout title, #dbeafe/#bfdbfe text,
+ * near-white-transparent card fills, dark rgba(2,8,18,…) code/table bg). In
+ * LIGHT mode that is light-on-light (the "IMPORTANT" title vanished) and the
+ * dark blocks read as 突兀. This file remaps the whole layer onto the adaptive
+ * --b-* tokens so it is legible (WCAG AA) and calm in both themes.
+ *
+ * Scope: only the B view roots (legacy surfaces stay untouched, which is correct
+ * for that surface). Loaded last in index.css so it wins the cascade.
+ *
+ * Owner report 2026-05-31: "看不清字，比如 IMPORTANT … 配色突兀".
+ */
+
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text {
+  color: var(--b-text);
+}
+
+/* ---- Inline emphasis ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text strong {
+  color: var(--b-text);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text em {
+  color: var(--b-text-2);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text h3,
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text h4 {
+  color: var(--b-text);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text h5 {
+  color: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text a {
+  color: var(--b-accent);
+}
+/* A long URL is one unbreakable run. .vnext-rich-text sets overflow-wrap on
+   the block, and .vnext-rich-text > * sets word-break: normal. An inline <a>
+   only inherits that. iOS paints the anchor past the message card unless the
+   wrap is declared on the anchor itself. */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text a,
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-chat-answer-card a {
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+/* ---- Lists: quiet adaptive cards, accent markers (were gold-on-white-transparent) ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text li {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text li::before {
+  background: var(--b-accent);
+  box-shadow: none;
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text ol li::before {
+  background: color-mix(in srgb, var(--b-accent) 16%, transparent);
+  color: var(--b-accent);
+}
+/* Callout list items are intentionally plain (no card chrome / bullet) — the
+   generic .vnext-rich-text li rule above would re-box them and re-add a marker,
+   so restore the reset here (loaded after, equal-or-higher specificity). */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout li {
+  border: 0;
+  background: transparent;
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout li::before {
+  display: none;
+}
+
+/* ---- Checklists ---- */
+.vnext-app-chat-home .vnext-rich-text .vnext-reference-list li {
+  border: 0;
+  background: transparent;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.vnext-app-chat-home .vnext-rich-text .vnext-reference-list li::before {
+  background: transparent;
+  top: 4px;
+}
+.vnext-search-sources summary { cursor: pointer; color: var(--b-text-2); }
+.vnext-search-source-list { padding-left: 1.4rem; margin-bottom: 0; }
+.vnext-search-source-list li { margin-block: .75rem; }
+.vnext-search-source-list a { color: var(--b-accent); overflow-wrap: anywhere; }
+.vnext-search-source-list p { margin-block: .25rem; color: var(--b-text-2); font-size: .9em; }
+.vnext-search-service { color: var(--b-text-3); font-size: .85em; margin-block: .5rem; }
+.vnext-app-chat-home .vnext-search-diagnostics > summary { color: var(--b-text-3); font-size: .85em; justify-content: space-between; }
+.vnext-app-chat-home .vnext-search-diagnostics > summary::before { display: none; }
+
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-check {
+  border: 1px solid color-mix(in srgb, var(--b-accent) 34%, transparent);
+  background: var(--b-surface-2);
+  color: var(--b-accent);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-check-item.is-checked {
+  border-color: color-mix(in srgb, var(--b-ok) 35%, transparent);
+  background: color-mix(in srgb, var(--b-ok) 10%, transparent);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-check-item.is-checked .vnext-rich-check {
+  border-color: color-mix(in srgb, var(--b-ok) 50%, transparent);
+  background: color-mix(in srgb, var(--b-ok) 18%, transparent);
+  color: var(--b-ok);
+}
+
+/* ---- Blockquote: accent left-rule, readable body ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text blockquote {
+  border-left: 3px solid color-mix(in srgb, var(--b-accent) 60%, transparent);
+  background: color-mix(in srgb, var(--b-accent) 8%, transparent);
+  color: var(--b-text);
+}
+
+/* ---- Code: calm adaptive surface (was a dark block on the light page) ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text code {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface-2);
+  color: var(--b-text);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-code {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface-2);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-code figcaption {
+  border-bottom: 1px solid var(--b-hairline);
+  color: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-code pre {
+  color: var(--b-text);
+  overflow: auto;
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-code pre > code {
+  display: block;
+  padding: 12px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* The compact reply disclosure needs the same adaptive ink as its answer. */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-answer-more.vnext-disclosure > .vnext-disclosure-summary {
+  color: var(--b-text);
+}
+
+/* ---- Tables ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-table-scroll {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-table-scroll th {
+  color: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-table-scroll th,
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-table-scroll td {
+  border-bottom: 1px solid var(--b-hairline);
+  color: var(--b-text);
+}
+
+/* ---- Images ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-image {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-image img {
+  background: var(--b-surface-2);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-image figcaption {
+  color: var(--b-text-2);
+}
+
+/* ---- Callout: calm card; IMPORTANT = accent-tinted + a readable title (the bug) ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout.important {
+  border-color: color-mix(in srgb, var(--b-accent) 38%, transparent);
+  border-left: 2px solid var(--b-accent);
+  background: color-mix(in srgb, var(--b-accent) 8%, transparent);
+  box-shadow: none;
+}
+/* THE FIX: the "IMPORTANT" title was rgba(235,241,255,.94) — invisible on light. */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout strong {
+  color: var(--b-text);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout.important.is-dismissed {
+  border-color: var(--b-hairline);
+  border-left-color: var(--b-hairline);
+  background: var(--b-surface);
+}
+/* Dismiss/Restore chip → calm adaptive secondary. */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout button {
+  border: 1px solid color-mix(in srgb, var(--b-accent) 38%, transparent);
+  background: color-mix(in srgb, var(--b-accent) 12%, transparent);
+  color: var(--b-accent);
+}
+@media (hover: hover) {
+  :is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout button:hover,
+  :is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-callout button:focus-visible {
+    border-color: color-mix(in srgb, var(--b-accent) 55%, transparent);
+    background: color-mix(in srgb, var(--b-accent) 20%, transparent);
+    color: var(--b-accent);
+  }
+}
+
+/* ---- Draft block → calm ok-tinted ---- */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-rich-text-draft {
+  border: 1px solid color-mix(in srgb, var(--b-ok) 30%, transparent);
+  background: color-mix(in srgb, var(--b-ok) 8%, transparent);
+}
+
+/* ============================================================================
+ * Assistant-answer chrome (answer cards / source panels / evidence rows)
+ * ----------------------------------------------------------------------------
+ * The --aegis-gold/blue text + accents now adapt via theme.css, but these
+ * containers also carry raw-hex / white-transparent / dark backgrounds that no
+ * token remap can reach (rgba(255,255,255,.04) fills vanish on light;
+ * rgba(5,14,28,…) reads as a dark block; #b6ddff/pale-gold text is low-contrast
+ * on light). Remap them onto adaptive surfaces so they have definition + AA in
+ * both themes. Same B-root scope.
+ * ==========================================================================*/
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) :is(.vnext-answer-card, .vnext-answer-card.is-collapsible) {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+}
+/* Inside a chat answer stack, inner answer-cards are intentionally FLATTENED
+   (border:0; background:transparent) for a compact, single-card look — they
+   inherit the readable .vnext-chat-answer-card surface. The override above is
+   equal-specificity and loads later, so it would re-box every inner section;
+   restore the flattening here with higher specificity. Standalone answer-cards
+   (e.g. the InlineAssistantPanel in Work) keep the adaptive surface above. */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-chat-answer-card > .vnext-answer-stack > .vnext-answer-card {
+  border: 0;
+  background: transparent;
+}
+/* ...but keep the divider between stacked sections so multi-section answers
+   stay scannable (the base rule's rgba(255,255,255,.09) was itself invisible on
+   light — restore it adaptively, at higher specificity so it isn't flattened). */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-chat-answer-card > .vnext-answer-stack > .vnext-answer-card + .vnext-answer-card {
+  border-top: 1px solid var(--b-hairline);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-answer-card summary::after {
+  color: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-answer-more {
+  border-top: 1px solid var(--b-hairline);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-answer-more summary {
+  color: var(--b-text-2);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-answer-more summary::before {
+  background: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-evidence-row {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-panel {
+  border-color: var(--b-hairline);
+  background: var(--b-surface);
+}
+/* The collapsed source-panel summary label used #b6ddff (pale blue). */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-panel-collapsed > summary span {
+  color: var(--b-text-3);
+}
+
+/* Source-evidence row + detail TEXT: the row background is now light (above),
+   but these children kept near-white / pale-blue hardcoded text in styles.css
+   (rgba(238,247,255,.94) strong, rgba(181,215,255,…) em/marker, rgba(225,238,255,.84)
+   detail) — invisible on the light row. Remap to readable tokens. (Codex P2.) */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-evidence-row strong {
+  color: var(--b-text);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-evidence-row em {
+  color: var(--b-text-2);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-evidence-row summary::after {
+  color: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-source-evidence-detail {
+  color: var(--b-text-2);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-evidence-ref {
+  border-color: var(--b-hairline);
+  background: var(--b-surface);
+  color: var(--b-text);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-evidence-missing {
+  color: var(--b-text-3);
+}
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-evidence-full-len,
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-evidence-gaps,
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-estimate-note {
+  color: var(--b-text-3);
+}
+
+/* Answer-card tone LABELS → readable text; the colored header dot still carries
+   the tone. tone-caution used #ffb4b4 (pale pink, invisible on light); the green
+   labels were borderline. The semantic dot (header::before) is left untouched. */
+:is(.vnext-app-chat-home, .vnext-app-work, .vnext-app-status, .vnext-app-settings) :is(
+  .vnext-answer-card.tone-answer, .vnext-answer-card.tone-action, .vnext-answer-card.tone-evidence,
+  .vnext-answer-card.tone-caution, .vnext-answer-card.tone-done
+) :is(header span, summary span) {
+  color: var(--b-text);
+}

@@ -1,0 +1,10 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: List all active (pending) deferred intents for the current user.
+name: list_intents
+parameters:
+  properties: {}
+  required: []
+  type: object

@@ -1,0 +1,20 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Get or change the runtime log level without restarting. Use 'get' to check current level, 'set' to change it. Accepts RUST_LOG syntax for fine-grained module filtering. Requires user approval before changing."
+name: set_log_level
+parameters:
+  properties:
+    action:
+      description: "Action: 'get' returns current level, 'set' changes it."
+      enum:
+        - get
+        - set
+      type: string
+    level:
+      description: "Log filter directive (RUST_LOG syntax). Simple: 'debug', 'warn'. Module-specific: 'info,aegis_runtime_core::orchestrator=debug'. Required for 'set' action."
+      type: string
+  required:
+    - action
+  type: object

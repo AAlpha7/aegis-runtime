@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport-fit=cover so the status bar and home indicator are in the
+         layout viewport. Do not set interactive-widget=resizes-content: on
+         iPhone that inset stays after the keyboard closes and shortens the
+         layout viewport by the top safe area, leaving a blank band under the
+         tab bar. The composer follows visualViewport instead. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <!-- connect-src must include wss://api.x.ai: meta CSP is enforced IN ADDITION to
+         the HTTP header. connect-src 'self' alone makes WebKit throw
+         SecurityError: The operation is insecure. on the Realtime WebSocket. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://telegram.org; worker-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' https: data: blob:; media-src 'self' blob:; connect-src 'self' wss://api.x.ai; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self' https://web.telegram.org https://*.telegram.org" />
+    <title>Aegis Runtime</title>
+    <meta name="theme-color" content="#f3f4f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1017" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- default: dark status glyphs on a light bar, so the time stays readable. -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Aegis" />
+    <meta name="application-name" content="Aegis" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="manifest" href="/ui/manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/ui/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/ui/apple-touch-icon.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>

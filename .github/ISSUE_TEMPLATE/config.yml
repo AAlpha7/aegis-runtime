@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/AAlpha7/aegis-runtime/security/advisories/new
+    about: Private GitHub security advisory, the only monitored channel (see SECURITY.md). Never a public issue.
+  - name: Questions, setup help and open-ended ideas
+    url: https://github.com/AAlpha7/aegis-runtime/discussions
+    about: GitHub Discussions, for anything that is not a reproducible bug or a concrete proposal.

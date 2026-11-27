@@ -1,0 +1,57 @@
+/* Uses the console's shared Direction B theme, served before these rules. */
+* { box-sizing: border-box; }
+body.vnext-app.vnext-center { margin: 0; min-height: 100dvh; background: var(--b-bg); color: var(--b-text); font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+button, input { font: inherit; }
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+button, summary { cursor: pointer; }
+button { min-height: 46px; border-radius: 10px; padding: 10px 16px; border: 1px solid var(--b-hairline); transition: background 140ms, opacity 140ms; }
+button:disabled { opacity: .5; cursor: wait; }
+a { color: var(--b-accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--b-accent); outline-offset: 4px; }
+[hidden] { display: none !important; }
+.access-header { max-width: 1120px; margin: 0 auto; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--b-text); font-size: 19px; font-weight: 650; letter-spacing: -.4px; }
+.brand:hover { text-decoration: none; }
+.brand svg { width: 30px; height: 32px; fill: none; stroke: var(--b-accent); stroke-width: 1.65; stroke-linejoin: round; stroke-linecap: round; }
+.language { min-height: 40px; padding: 6px 12px; background: transparent; color: var(--b-text-2); font-size: 13px; }
+.language:hover, .secondary:hover { background: var(--b-surface-hover); }
+.access-main { width: min(100% - 40px, 460px); margin: clamp(22px, 7vh, 76px) auto 30px; }
+.access-card { background: var(--b-surface); border: 1px solid var(--b-hairline); border-radius: var(--b-radius); padding: 36px; }
+.access-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; color: var(--b-accent); background: var(--b-surface-2); border: 1px solid var(--b-hairline); margin-bottom: 24px; }
+.access-icon svg { width: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.eyebrow { font-size: 10px; letter-spacing: 1.8px; font-weight: 600; color: var(--b-text-3); margin: 0 0 9px; }
+h1 { font-size: 30px; line-height: 1.25; font-weight: 600; letter-spacing: -.8px; margin: 0 0 14px; }
+.intro { margin: 0 0 28px; color: var(--b-text-2); }
+.primary { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; color: white; background: var(--b-accent-fill); border-color: transparent; font-weight: 600; }
+.primary:hover { filter: brightness(1.08); }
+.quiet { font-size: 12px; color: var(--b-text-3); }
+.privacy { text-align: center; margin: 12px 0 26px; }
+summary { color: var(--b-text-2); padding: 15px 0; min-height: 46px; font-size: 13px; }
+summary::marker { color: var(--b-text-3); }
+.pair-panel { border-top: 1px solid var(--b-hairline); }
+.detail-body { padding-bottom: 10px; font-size: 13px; color: var(--b-text-2); }
+.detail-body p { margin: 0 0 14px; }
+label { display: block; color: var(--b-text); font-size: 12px; font-weight: 600; margin-bottom: 7px; }
+input { width: 100%; min-width: 0; min-height: 46px; border-radius: 9px; border: 1px solid var(--b-hairline); padding: 10px 12px; background: var(--b-bg); color: var(--b-text); }
+#pair-note { margin-top: 8px; }
+.secondary { width: 100%; background: var(--b-surface-2); color: var(--b-text); }
+.console-link { display: block; margin-top: 16px; font-size: 12px; text-align: center; }
+.status { margin: 16px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--b-surface-2); border: 1px solid var(--b-hairline); font-size: 13px; overflow-wrap: anywhere; }
+.status:empty { display: none; }
+.status[data-tone=error] { color: var(--b-danger); }
+.status[data-tone=success] { color: var(--b-ok); }
+.local-help { font-size: 14px; color: var(--b-text-2); }
+.recovery { padding: 10px 20px; margin-top: 12px; }
+.recovery summary { text-align: center; }
+.recovery[open] summary { text-align: left; }
+.danger { color: var(--b-danger); background: transparent; width: 100%; }
+footer { margin-top: 22px; font-size: 11px; text-align: center; color: var(--b-text-3); }
+noscript { display: block; padding: 20px; text-align: center; }
+@media (max-width: 480px) {
+  .access-header { padding: 18px 20px; }
+  .access-main { margin-top: 22px; width: calc(100% - 32px); }
+  .access-card { padding: 28px 24px; }
+  h1 { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

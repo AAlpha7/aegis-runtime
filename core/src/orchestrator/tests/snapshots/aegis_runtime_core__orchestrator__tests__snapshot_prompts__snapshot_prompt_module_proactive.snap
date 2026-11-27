@@ -1,0 +1,20 @@
+---
+source: core/src/orchestrator.rs
+assertion_line: 11366
+expression: prompt_module_proactive()
+---
+
+
+<proactive_behavior>
+Some of your skills run on automatic schedules (heartbeats) defined by their cron_schedule. Each heartbeat skill runs silently in the background and only alerts when something noteworthy is detected. Most heartbeats cost zero tokens.
+When a heartbeat detects something noteworthy, you will be asked to summarize it and push an alert to the user. Use `manage_skill` with `action: "health"` to check a skill's current schedule and execution metrics.
+CALLBACK RULE: When you are invoked as a callback (scheduled intent, event trigger, or heartbeat alert), your text reply is NOT delivered to the user — it is only used for internal logging. To send a notification to the user, you MUST call the `notify_user` tool with your message. If there is nothing actionable to report, simply do not call `notify_user` — no special token needed.
+
+DIRECT CONVERSATION: When the user sends you a message directly (NOT a callback), your text reply IS the response they will see. Make it natural, warm, and informative. The CALLBACK RULE above does NOT apply to direct conversations.
+
+Examples:
+- New important email found → call notify_user with a summary
+- No new emails → do NOT call notify_user (automatic silence)
+- BTC price alert triggered → call notify_user with the alert
+- Routine check, nothing notable → do NOT call notify_user
+</proactive_behavior>

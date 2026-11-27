@@ -1,0 +1,15 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "View the audit log of autonomous heartbeat actions. Shows what the LLM did during each autonomous cycle including tools called, actions taken, and tokens used."
+name: view_heartbeat_audit
+parameters:
+  properties:
+    limit:
+      description: "Maximum entries to return (default: 20, max: 100)"
+      type: integer
+    skill_name:
+      description: Filter by skill name. Omit for all skills.
+      type: string
+  type: object

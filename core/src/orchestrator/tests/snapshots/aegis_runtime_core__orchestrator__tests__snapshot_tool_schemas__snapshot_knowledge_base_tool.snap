@@ -1,0 +1,136 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "CEO knowledge base. extract after conversations with facts/decisions. query/search/update/dashboard for lookup. keep/archive/restore for review. merge/delete require preview_* then preview_token + confirm=true. Tasks go to manage_tasks, not a KB category."
+name: knowledge_base
+parameters:
+  properties:
+    action:
+      description: extract=store; query/search/update/dashboard=lookup; keep/archive/restore=review; preview_* then merge/delete (preview_token+confirm); lint dismiss/resolve
+      enum:
+        - extract
+        - query
+        - search
+        - update
+        - dashboard
+        - keep_entry
+        - archive_entry
+        - restore_entry
+        - preview_merge_entries
+        - merge_entries
+        - preview_delete_entry
+        - delete_entry
+        - dismiss_lint_finding
+        - resolve_lint_finding
+      type: string
+    body:
+      description: "For update: new body"
+      type: string
+    category:
+      description: "For query: filter by category"
+      type: string
+    confirm:
+      description: "Must be true for merge/delete, only after the owner confirmed the preview_token."
+      type: boolean
+    due_date:
+      description: "For update: new due date (null to clear)"
+      type: string
+    entries:
+      description: "For extract: array of entries to store"
+      items:
+        properties:
+          body:
+            description: Structured details
+            type: string
+          category:
+            description: waiting_for/decision/insight/metric/reference. Tasks use manage_tasks.
+            enum:
+              - decision
+              - insight
+              - waiting_for
+              - metric
+              - reference
+            type: string
+          due_date:
+            description: ISO date for action_item deadlines
+            type: string
+          priority:
+            enum:
+              - urgent
+              - high
+              - normal
+              - low
+            type: string
+          source_summary:
+            description: Brief summary of the conversation context this was extracted from
+            type: string
+          tags:
+            description: Tags for cross-referencing
+            items:
+              type: string
+            type: array
+          title:
+            description: One-line title (concise)
+            type: string
+          waiting_on:
+            description: "Who/what we're waiting for (waiting_for category)"
+            type: string
+        required:
+          - category
+          - title
+          - body
+        type: object
+      type: array
+    entry_id:
+      description: Entry ID for update/keep/archive/restore/preview_delete/delete
+      type: integer
+    limit:
+      description: "Max results to return (default 20, max 50)"
+      type: integer
+    lint_finding_id:
+      description: "For dismiss_lint_finding/resolve_lint_finding: ID from kb_hygiene.pending_lint_findings.recent"
+      type: integer
+    merged_body:
+      description: "For merge_entries: optional replacement body for the surviving target entry"
+      type: string
+    merged_title:
+      description: "For merge_entries: optional replacement title for the surviving target entry"
+      type: string
+    preview_token:
+      description: Required for merge/delete. Copy from the matching preview_* result after owner confirmation.
+      type: string
+    priority:
+      description: "For query/update: filter by or set priority"
+      type: string
+    query:
+      description: "For search: text to search in titles, bodies, tags"
+      type: string
+    reason:
+      description: "For merge/delete review: user-visible reason for the cleanup action"
+      type: string
+    source_entry_ids:
+      description: Source KB IDs archived/superseded by merge
+      items:
+        type: integer
+      type: array
+    status:
+      description: "For query/update: filter by or set status (active/done/archived/superseded)"
+      type: string
+    tags:
+      description: "For update: new tags"
+      items:
+        type: string
+      type: array
+    target_entry_id:
+      description: Surviving KB entry ID for preview_merge/merge
+      type: integer
+    title:
+      description: "For update: new title"
+      type: string
+    waiting_on:
+      description: "For update: new waiting_on value"
+      type: string
+  required:
+    - action
+  type: object

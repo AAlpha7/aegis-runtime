@@ -1,0 +1,67 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Manage user's long-term goals with hierarchical decomposition and progress tracking.\n\nACTIONS:\n- create: New goal (requires title). Use parent_goal_id for sub-goals.\n- update: Change title/description/progress_pct/target_date\n- list: Show goals (default: active only; use status_filter for others)\n- complete/pause/resume/abandon: Change goal status\n- add_milestone: Add a milestone checkpoint to a goal\n- complete_milestone: Mark a milestone as done (auto-updates progress)\n- get: Get full details of a single goal\n\nWhen user discusses plans, ambitions, or projects — create goals proactively.\nWhen milestones are done or progress is made — update proactively.\nNever create/update goals or progress from snippets/previews/truncated/no-text sources unless the full source or user confirmation is available.\nSource 'inferred' for goals detected from conversation; 'explicit' when user says directly."
+name: manage_goals
+parameters:
+  properties:
+    action:
+      description: Goal management action
+      enum:
+        - create
+        - update
+        - list
+        - complete
+        - pause
+        - resume
+        - abandon
+        - add_milestone
+        - complete_milestone
+        - get
+      type: string
+    description:
+      description: Goal description with context
+      type: string
+    goal_id:
+      description: Goal ID (required for update/complete/pause/resume/abandon/add_milestone/complete_milestone/get)
+      type: integer
+    milestone_index:
+      description: 0-based milestone index (for complete_milestone)
+      type: integer
+    milestone_title:
+      description: Milestone title (for add_milestone)
+      type: string
+    parent_goal_id:
+      description: Parent goal ID for sub-goals
+      type: integer
+    progress_pct:
+      description: Progress as 0.0-1.0 (for update)
+      type: number
+    source:
+      description: "Goal source: explicit (user said) or inferred (detected from conversation). Default: explicit"
+      enum:
+        - explicit
+        - inferred
+      type: string
+    source_summary:
+      description: Optional evidence summary. Unconfirmed preview/truncated/no-text sources require the full source or user confirmation before asserting progress or decisions.
+      type: string
+    status_filter:
+      description: "Status filter for list (default: active; 'all' shows every status)"
+      enum:
+        - active
+        - paused
+        - completed
+        - abandoned
+        - all
+      type: string
+    target_date:
+      description: Target completion date (ISO 8601)
+      type: string
+    title:
+      description: Goal title (required for create)
+      type: string
+  required:
+    - action
+  type: object

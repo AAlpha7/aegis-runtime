@@ -1,0 +1,5 @@
+---
+source: core/src/telegram.rs
+expression: markdown_to_telegram_html(md)
+---
+<a href="https://example.com">click here</a>

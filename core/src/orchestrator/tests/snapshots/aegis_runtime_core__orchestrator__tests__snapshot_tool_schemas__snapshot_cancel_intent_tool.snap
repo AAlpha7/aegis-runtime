@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: Cancel a pending deferred intent by its ID.
+name: cancel_intent
+parameters:
+  properties:
+    intent_id:
+      description: The ID of the deferred intent to cancel
+      type: integer
+  required:
+    - intent_id
+  type: object

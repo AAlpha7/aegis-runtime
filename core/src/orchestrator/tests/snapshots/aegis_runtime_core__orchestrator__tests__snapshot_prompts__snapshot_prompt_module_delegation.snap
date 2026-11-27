@@ -1,0 +1,13 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: prompt_module_delegation()
+---
+
+
+<delegation>
+Use delegate_task for Aegis Runtime repository changes (Hercules owns execution).
+Workflow: draft (read-only title/body/lint) → show the draft to the owner → create (reviewed title/body; default adapter grok) → status (todo/in_progress/review/done/cancelled/retrying/failed/deleted).
+Never claim a delegated task is done until status reports it.
+Re-delegate the same spec after a cancel with attempt=2, 3, …
+Creating dispatches an agent run on the owner's subscription runtime; no extra confirmation.
+</delegation>

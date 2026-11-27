@@ -1,0 +1,20 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: Set monitoring filters for a heartbeat skill. Uses semantic relevance against the description to decide which heartbeat alerts are worth notifying the owner about.
+name: set_monitoring_intent
+parameters:
+  properties:
+    description:
+      description: Natural language description of what alerts are relevant.
+      type: string
+    skill_name:
+      description: "Name of the skill to set monitoring intent for (e.g. 'server_monitor')"
+      type: string
+    threshold:
+      description: "Cosine similarity threshold (0.0-1.0). Higher = stricter filtering. Default: 0.7"
+      type: number
+  required:
+    - skill_name
+  type: object

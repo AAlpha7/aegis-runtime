@@ -1,0 +1,6 @@
+---
+source: core/src/orchestrator.rs
+expression: "serde_json::json!({\"kind\": kind, \"hint\": hint})"
+---
+hint: Transient network error — retry may succeed
+kind: network

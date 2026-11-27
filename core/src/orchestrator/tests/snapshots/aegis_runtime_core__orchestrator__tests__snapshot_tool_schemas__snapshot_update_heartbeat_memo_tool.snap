@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Update your persistent heartbeat scratchpad/memo. This memo persists across heartbeat cycles within a day. Use it to track what you've done, what to check next, and observations. Write the COMPLETE memo content (not a diff). At quiet hours, this memo is archived and reset."
+name: update_heartbeat_memo
+parameters:
+  properties:
+    content:
+      description: The complete memo content. Replaces the previous memo entirely.
+      type: string
+  required:
+    - content
+  type: object

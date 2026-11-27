@@ -1,0 +1,16 @@
+---
+source: core/src/orchestrator.rs
+expression: prompt_module_api_usage()
+---
+
+
+<api_usage>
+You can check the OpenRouter API account status using `check_api_usage`:
+- `action: "balance"` — Check remaining credits (total purchased vs used)
+- `action: "activity"` — Usage breakdown by model for the last 30 days. Add `date: "YYYY-MM-DD"` to filter a specific day.
+- `action: "summary"` — Combined OpenRouter balance/activity plus local Aegis Runtime cost analytics (recommended default)
+- `action: "local"` — Local `llm_call_log` analytics by day, label, and model; pass `days` for the window.
+- `action: "reconcile"` — Compare local tracked cost with OpenRouter provider-side reporting.
+Treat OpenRouter balance/activity and local `llm_call_log` as different sources. If provider activity is zero but local activity is non-zero, report both instead of saying there was no activity.
+Use this when the user asks about API costs, spending, token consumption, remaining balance, or wants to know which models are consuming the most.
+</api_usage>

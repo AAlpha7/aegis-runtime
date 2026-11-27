@@ -1,0 +1,11 @@
+[
+  "webapp/src/vnext/Avatar.tsx",
+  "webapp/src/vnext/EmbedderDegradedBanner.tsx",
+  "webapp/src/vnext/LlmDegradedBanner.tsx",
+  "webapp/src/vnext/UserTimezoneContext.tsx",
+  "webapp/src/vnext/VNextButton.tsx",
+  "webapp/src/vnext/VNextChip.tsx",
+  "webapp/src/vnext/VNextSegmented.tsx",
+  "webapp/src/vnext/__settingsRenderTestEntry.tsx",
+  "webapp/src/vnext/icons.tsx"
+]

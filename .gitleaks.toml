@@ -1,0 +1,16 @@
+# gitleaks config for aegis-runtime: the default ruleset plus one repo rule.
+# Reviewed false positives are pinned by fingerprint in .gitleaksignore.
+
+[extend]
+useDefault = true
+
+# The default telegram rule needs a nearby keyword, so a bot token pasted into
+# prose or a code block can slip past it (this happened in a sibling repo).
+# Shape-only rule catches it anywhere.
+[[rules]]
+id = "telegram-bot-token-shape"
+description = "Telegram bot token (bot_id:secret)"
+regex = '''[0-9]{8,12}:[A-Za-z0-9_-]{35}'''
+tags = ["telegram", "token"]
+[rules.allowlist]
+regexes = ['''123456789:ABCdefGHIjklmNOPqrstUVWxyz''']

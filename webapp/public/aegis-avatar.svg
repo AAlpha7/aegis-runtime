@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Aegis avatar</title>
+  <desc id="desc">A calm geometric portrait mark for Aegis.</desc>
+  <defs>
+    <radialGradient id="aura" cx="50%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="#fff2c9"/>
+      <stop offset="48%" stop-color="#d9b36b"/>
+      <stop offset="100%" stop-color="#102034"/>
+    </radialGradient>
+    <linearGradient id="face" x1="54" y1="42" x2="202" y2="218" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fff7df"/>
+      <stop offset="52%" stop-color="#e8bd75"/>
+      <stop offset="100%" stop-color="#805b2e"/>
+    </linearGradient>
+    <linearGradient id="veil" x1="44" y1="34" x2="214" y2="234" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#223b55"/>
+      <stop offset="100%" stop-color="#07111f"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="64" fill="#07111f"/>
+  <circle cx="128" cy="116" r="102" fill="url(#aura)" opacity=".34"/>
+  <path d="M128 27c49 0 89 34 89 92 0 65-43 104-89 114-46-10-89-49-89-114 0-58 40-92 89-92Z" fill="url(#veil)"/>
+  <path d="M128 46c35 0 63 27 63 70 0 48-29 79-63 88-34-9-63-40-63-88 0-43 28-70 63-70Z" fill="url(#face)"/>
+  <path d="M91 116c12-18 24-27 37-27s25 9 37 27c-12 19-24 28-37 28s-25-9-37-28Z" fill="#11243a" opacity=".9"/>
+  <circle cx="128" cy="116" r="18" fill="#f6d48c"/>
+  <circle cx="128" cy="116" r="8" fill="#102034"/>
+  <path d="M83 178c17 20 32 31 45 31s28-11 45-31c-16 8-31 12-45 12s-29-4-45-12Z" fill="#101d2e" opacity=".72"/>
+  <path d="M128 32v31M128 198v28M48 122h28M180 122h28" stroke="#f6d48c" stroke-width="6" stroke-linecap="round" opacity=".85"/>
+</svg>

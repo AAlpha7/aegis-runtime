@@ -1,0 +1,2316 @@
+/*
+ * Console surfaces (Work / Status / Settings) — Direction B: "Calm / Editorial",
+ * adaptive light + dark. Replaces the prior bold "Aurora Glass" treatment.
+ *
+ * Same philosophy as chat-home B (clarity · deference · depth): recede chrome,
+ * content leads, minimal elevation (subtle hairline + faint surface, not heavy
+ * glass blur), ONE restrained accent + warmth reserved for "needs you", tone via
+ * a quiet left-rule rather than a wash, micro-motion only.
+ *
+ * Scope: every selector stays under :is(.vnext-app-work, .vnext-app-status,
+ * .vnext-app-settings) so it never leaks into Home/legacy surfaces (enforced by
+ * tests/vnextDesignScope.test.mjs). Severity + interactive cues preserved.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §5 (Work/Status/Settings, B)
+ */
+
+/* Adaptive --b-* theme tokens + legacy --aegis-* remap live in design/theme.css
+   (single source, shared with chat-home.css). Here we only APPLY the page
+   background/text to the console view roots. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) {
+  background: var(--b-bg);
+  color: var(--b-text);
+}
+
+/* ---- Shared card primitives: subtle elevation, no heavy glass ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-panel,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-mini-panel,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-detail,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-hero {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+/* ---- Brand rail + header chrome: recede ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-brand-rail {
+  border: 0;
+  border-right: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header h1 {
+  color: var(--b-text);
+  letter-spacing: -0.02em;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header .vnext-kicker {
+  color: var(--b-text-3);
+  letter-spacing: 0.16em;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-subtitle { color: var(--b-text-2); }
+
+/* ---- Lane headers ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-lane-head h2,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-lane-head strong { letter-spacing: -0.01em; color: var(--b-text); }
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-lane-count { color: var(--b-text-3); font-variant-numeric: tabular-nums; }
+
+/* ---- Selected-item detail hero: a quiet card with a faint accent edge ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-detail-hero {
+  border: 1px solid var(--b-hairline);
+  border-radius: 16px;
+  background: var(--b-surface-2);
+  box-shadow: var(--b-shadow-sm);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-detail-hero h2 {
+  color: var(--b-text); font-size: clamp(20px, 2.4vw, 26px); letter-spacing: -0.02em;
+}
+
+/* ---- Item rows: quiet list rows; active = calm accent left-rule ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-row {
+  border: 1px solid var(--b-hairline);
+  border-radius: 12px;
+  background: var(--b-surface);
+  box-shadow: none;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+@media (hover: hover) {
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-row:hover {
+    background: var(--b-surface-hover);
+    border-color: color-mix(in srgb, var(--b-accent) 35%, transparent);
+    transform: none;
+  }
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-row.active {
+  border-color: var(--b-hairline);
+  border-left: 2px solid var(--b-accent);
+  background: var(--b-surface-2);
+  box-shadow: none;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-title { color: var(--b-text); }
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-summary { color: var(--b-text-2); }
+
+/* ---- Kind badges: quiet tone (text + faint tint), no loud fill ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-kind {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  color: var(--b-text-2);
+  font-weight: 700;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-kind.warn {
+  border-color: color-mix(in srgb, var(--b-decide) 40%, transparent);
+  background: color-mix(in srgb, var(--b-decide) 12%, transparent);
+  color: var(--b-decide);
+}
+
+/* ---- Secondary action buttons: calm accent-tinted (not loud) ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-secondary,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-quiet-button,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-action-row button.vnext-secondary,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-action-row a.vnext-secondary {
+  border: 1px solid color-mix(in srgb, var(--b-accent) 38%, transparent);
+  background: color-mix(in srgb, var(--b-accent) 12%, transparent);
+  color: var(--b-accent);
+  box-shadow: none;
+  transition: background 140ms ease, border-color 140ms ease;
+  /* Unify size/weight app-wide: calm 40px tap floor / 13px / 600. */
+  min-height: 40px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+}
+@media (hover: hover) {
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-secondary:hover,
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-quiet-button:hover {
+    background: color-mix(in srgb, var(--b-accent) 20%, transparent);
+    border-color: color-mix(in srgb, var(--b-accent) 55%, transparent);
+    transform: none;
+  }
+}
+
+/* ---- App-header action buttons (status / settings / snapshot): calm outlined
+   pills, ONE shape + size. Replaces the
+   loud accent-filled .vnext-secondary base at mixed sizes (system inherited 40px,
+   snapshot 34px) — owner 2026-06-18 "顶栏按钮也要统一(全局)". Scoped to the console
+   views (work/status/settings); legacy surfaces keep their own header per the
+   console-scope containment test. The extra ancestor (.vnext-header-actions)
+   wins over the `:is(...) .vnext-secondary` rule above. ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-system,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-snapshot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  /* Icon-only round buttons (owner 2026-06-19: pure-icon, less plain). The label
+     span stays for a11y but is hidden; aria-label + title on the button carry
+     the name. */
+  width: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 999px;
+  background: var(--b-surface);
+  color: var(--b-text-2);
+  padding: 0;
+  box-shadow: none;
+}
+@media (hover: hover) {
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-system:hover:not(:disabled),
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-snapshot:hover:not(:disabled) {
+    background: var(--b-surface-hover);
+    border-color: color-mix(in srgb, var(--b-accent) 35%, transparent);
+    color: var(--b-accent);
+  }
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-system span,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-snapshot span {
+  display: none;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-system svg,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-header-actions .vnext-header-snapshot svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* ---- Scan / search field: clean, accent focus ring ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-scan-search input {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  color: var(--b-text);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-scan-search input:focus {
+  border-color: color-mix(in srgb, var(--b-accent) 60%, transparent);
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+  outline: none;
+}
+
+/* ---- Status metric cells: see the 2026-09-16 Status pass at the end of this
+   file (three plain cells under a hairline; the number is ink, amber only
+   when 需关注 > 0). The metric NUMBER must stay readable — a base mobile rule
+   paints OK values pale dark-theme green (~1.33:1 on light). ---- */
+:is(.vnext-app-status) .vnext-status-metric strong,
+:is(.vnext-app-status) .vnext-status-metric.ok strong { color: var(--b-text); }
+@media (hover: hover) {
+  :is(.vnext-app-status) .vnext-status-metric.actionable:hover { background: var(--b-surface-hover); transform: none; box-shadow: none; }
+}
+:is(.vnext-app-status) .vnext-status-metric.actionable:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+
+/* ---- Status + Settings cards: unified quiet surface ---- */
+:is(.vnext-app-status, .vnext-app-settings) :is(
+  .vnext-status-card, .vnext-system-event-card,
+  .vnext-settings-card, .vnext-settings-owner-card, .vnext-cost-saving-card,
+  .vnext-web-push-card, .vnext-grok-card, .vnext-avatar-settings-card,
+  .vnext-avatar-auto-card, .vnext-settings-summary-card, .vnext-settings-support-card,
+  .vnext-settings-connection-row, .vnext-settings-toggle-line
+) {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:is(.vnext-app-status, .vnext-app-settings) :is(.vnext-status-hero, .vnext-settings-hero) {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface-2);
+  box-shadow: var(--b-shadow-sm);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:is(.vnext-app-settings) .vnext-settings-section {
+  border: 1px solid var(--b-hairline);
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:is(.vnext-app-settings) .vnext-settings-you,
+:is(.vnext-app-settings) .vnext-web-push-card {
+  border: 0;
+  background: transparent;
+}
+:is(.vnext-app-settings) .vnext-settings-connection-chip {
+  border-color: var(--b-hairline);
+  color: var(--b-text-2);
+}
+/* Build-version stamp at the bottom of Settings — quiet, monospaced, selectable
+   (so a deploy is verifiable at a glance). */
+:is(.vnext-app-settings) .vnext-settings-version {
+  margin: 6px 0 2px;
+  text-align: center;
+  color: var(--b-text-3);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  user-select: text;
+  -webkit-user-select: text;
+}
+/* Status "attention" card: quiet surface with a warm left-rule (it's a decide cue). */
+:is(.vnext-app-status) .vnext-status-attention-card {
+  border: 1px solid var(--b-hairline);
+  border-left: 2px solid var(--b-decide);
+  background: var(--b-surface);
+  box-shadow: none;
+}
+/* Small chip buttons (settings avatar/actions) -> calm adaptive. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-chip-button {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  color: var(--b-text-2);
+  box-shadow: none;
+}
+
+/* ---- Severity preserved (calm: a tone left-rule, not a wash) ---- */
+:is(.vnext-app-status, .vnext-app-settings) :is(.vnext-status-card, .vnext-settings-card, .vnext-settings-summary-card).warn {
+  border-color: var(--b-hairline);
+  border-left: 2px solid var(--b-decide);
+  background: var(--b-surface);
+}
+:is(.vnext-app-status) .vnext-system-event-card.warning,
+:is(.vnext-app-status) .vnext-system-event-card.notice {
+  border-color: var(--b-hairline);
+  border-left: 2px solid var(--b-accent);
+  background: var(--b-surface);
+}
+:is(.vnext-app-status) .vnext-system-event-card.critical {
+  border-color: var(--b-hairline);
+  border-left: 2px solid var(--b-danger);
+  background: var(--b-surface);
+}
+
+/* ---- Interactive hover/focus preserved over the calm surface ---- */
+:is(.vnext-app-status) .vnext-status-metric.actionable:hover,
+:is(.vnext-app-settings) .vnext-settings-summary-card:hover {
+  background: var(--b-surface-hover);
+  border-color: color-mix(in srgb, var(--b-accent) 35%, transparent);
+}
+:is(.vnext-app-status) .vnext-status-metric.actionable:focus-visible,
+:is(.vnext-app-settings) .vnext-settings-summary-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+
+/* ---- Work view controls + detail sub-elements: calm adaptive (were dark/bold) ---- */
+.vnext-app-work .vnext-work-scan { background: transparent; border-color: var(--b-hairline); box-shadow: none; }
+.vnext-app-work .vnext-work-scan-search { background: var(--b-surface); border: 1px solid var(--b-hairline); box-shadow: none; }
+/* `.vnext-work-scan-group` (scope/sort) migrated to VNextSegmented and
+   `.vnext-work-scan-clear` to VNextButton in SP1.5 — the L3 control surfaces
+   (controls.css / button.css) own their look; do NOT re-tint the segments here
+   (a scoped accent rule would clobber the obsidian-selected segment). Only the
+   quiet result-count text stays. */
+.vnext-app-work .vnext-work-scan-count { color: var(--b-text-3); }
+.vnext-app-work .vnext-work-brief.is-secondary {
+  background: transparent;
+  border: 1px solid var(--b-hairline);
+  box-shadow: none;
+}
+.vnext-app-work .vnext-work-lane-strip { background: transparent; box-shadow: none; }
+.vnext-app-work .vnext-work-lane-strip button {
+  background: var(--b-surface); border: 1px solid var(--b-hairline); color: var(--b-text-2); box-shadow: none;
+}
+.vnext-app-work .vnext-work-lane-strip button strong { color: var(--b-text); }
+.vnext-app-work .vnext-work-lane-strip button.active {
+  background: color-mix(in srgb, var(--b-accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--b-accent) 40%, transparent);
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-item-ai-entry,
+.vnext-app-work .vnext-item-primary-step {
+  background: var(--b-surface);
+  border: 1px solid var(--b-hairline);
+  box-shadow: none;
+}
+.vnext-app-work .vnext-item-ai-entry::before,
+.vnext-app-work .vnext-item-primary-step::before { content: none; }
+
+/* ---- Keyboard focus: explicit visible ring on console interactive controls ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-row:focus-visible,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-secondary:focus-visible,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-quiet-button:focus-visible,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-lane-strip button:focus-visible,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-brief-action:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+
+/* ============================================================================
+ * Information-presentation UX #5 / #6 / #7 (Direction B)
+ * ==========================================================================*/
+
+/* ---- #5 Work-lane prioritization legibility -------------------------------
+ * The lanes already carry their id as a class (.now / .decide / …). Give the
+ * eye an instant read of priority via the same quiet left-rule tone language
+ * used everywhere else: amber edge = a lane that needs YOU, accent edge = work
+ * to do now, no edge = quiet/later. The count inherits the lane's tone so
+ * "1 item" in the decide lane reads as a call, not a stat. */
+.vnext-app-work .vnext-work-lane.decide .vnext-lane-count {
+  color: var(--b-decide);
+  font-weight: 600;
+}
+/* Collapsed/quiet lanes recede — the head reads as a quiet, reopenable row. */
+.vnext-app-work .vnext-work-lane.is-collapsed .vnext-lane-head h2 { color: var(--b-text-2); }
+
+/* ---- #6 Progressive-disclosure rhythm -------------------------------------
+ * The base `.vnext-disclosure` paints EVERY summary count gold + a gold +/−
+ * puck, so calm sections shout as loudly as ones that need you. Claim it for
+ * Direction B: a calm, consistent summary (label in text, count NEUTRAL by
+ * default), a quiet neutral expander, and an explicit `.warn` opt-in that
+ * restores warmth only where a section genuinely needs attention. This is what
+ * lets the page read loud-top / calm-bottom. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary {
+  color: var(--b-text);
+  background: var(--btn-sec-surface, var(--b-surface-2));
+  box-shadow: 0 0 0 1px var(--btn-sec-line, var(--b-hairline)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary > span,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary .vnext-disclosure-copy > strong {
+  color: var(--b-text);
+  font-weight: 700;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary .vnext-disclosure-hint {
+  color: var(--b-text-3);
+  font-weight: 500;
+}
+/* Genuine attention keeps the warm cue (opt-in via .warn on the <details>). */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure.warn > .vnext-disclosure-summary .vnext-disclosure-hint {
+  color: var(--b-decide);
+  font-weight: 700;
+}
+/* The chevron is a bare glyph (styles.css draws it with two borders in
+   currentColor) — no puck fill, no hairline box around it. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary::after {
+  border-color: currentColor;
+  background: transparent;
+  color: var(--b-text-3);
+}
+@media (hover: hover) {
+  :is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary:hover::after {
+    background: transparent;
+    border-color: currentColor;
+    color: var(--b-text);
+  }
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-disclosure > .vnext-disclosure-summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+  border-radius: 13px;
+}
+
+/* ---- #7 Status at-a-glance ------------------------------------------------
+ * With attention surfaced loudly above (hero count + amber attention cards)
+ * and the disclosures below now calm (#6), the page reads in one sweep. A few
+ * finishing touches: the attention heading sits closer to its cards, and the
+ * quiet "Working quietly" operation pills carry a hair of tone so ready vs
+ * quiet is legible without shouting. */
+:is(.vnext-app-status) .vnext-status-section-heading { margin-bottom: 10px; }
+:is(.vnext-app-status) .vnext-status-operation-pill {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  color: var(--b-text-2);
+}
+:is(.vnext-app-status) .vnext-status-operation-pill.ready {
+  border-color: color-mix(in srgb, var(--b-accent) 30%, transparent);
+}
+:is(.vnext-app-status) .vnext-status-operation-pill strong { color: var(--b-text); }
+:is(.vnext-app-status) .vnext-status-operation-pill em { color: var(--b-text-3); font-style: normal; }
+
+/* ---- Micro-motion only ---- */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-lane,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-detail-hero {
+  animation: ds-reveal-up 300ms var(--ds-ease-out) both;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-item-row {
+  animation: ds-reveal-up 220ms var(--ds-ease-out) both;
+}
+
+/* ---- Work-card fact labels (owner IMG_3937 → 2026-09-16): the base
+   styles.css rules carry dark-era literals (#b6ddff / #a9f0c8) that vanish on
+   the light page. They are now plain label/value rows on adaptive tokens —
+   muted 12px label, 14px ink value, hairline between rows, NO tinted tiles. ---- */
+.vnext-app-work .vnext-work-intent-row em {
+  color: var(--b-text-3);
+}
+.vnext-app-work .vnext-work-intent-row span {
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  background: transparent;
+}
+.vnext-app-work .vnext-nearby-inline-facts span {
+  background: transparent;
+}
+.vnext-app-work .vnext-item-receipt-actions > span {
+  color: var(--b-text-3);
+}
+
+/* Success receipts: same dark-era pale-green literal class as the chat
+   receipts (owner 2026-07-02 consistency pass). The status OK metric no longer
+   paints its digits green — big numbers are ink; only 需关注 > 0 is amber
+   (owner 2026-09-16 pass 2). */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-action-receipt svg,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-action-receipt em,
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-work-action-receipt span {
+  color: var(--b-ok);
+}
+
+
+/* ============================================================================
+ * Owner 2026-09-16 — Work view console pass (phone first, desktop follows).
+ *
+ * Complaint: "UI还是混乱 … 顶部渐变阴影浪费空间；按钮/文本背景色很刺眼；点工作项应该
+ * 上边界不动向下展开；项展开边界模糊". Structure: a lane is a SECTION with a
+ * plain heading row (not a card); each item is ONE card; an expanded item is
+ * the SAME card grown in place (2px accent left rule marks selection); facts
+ * are a plain label/value list; the action stack is one filled primary, then
+ * outlined 44px buttons, then disclosure rows with a right-hand chevron.
+ * Theme-neutral: colours come from theme.css tokens (light = calm blue system,
+ * dark = navy/gold), so the dark theme gets the same structural fixes.
+ * ==========================================================================*/
+.vnext-app-work {
+  --work-card-pad: 14px;
+}
+.vnext-app-work .vnext-kicker { color: var(--b-text-3); }
+.vnext-app-work .vnext-stack { gap: 16px; }
+
+/* Calm: no per-row entrance motion (rows re-render into the inline lanes on
+   select; an entrance slide there reads as the list "moving"). */
+.vnext-app-work .vnext-work-lane,
+.vnext-app-work .vnext-item-row,
+.vnext-app-work .vnext-detail-hero {
+  animation: none;
+}
+
+/* ---- Lane = section with a plain heading row ---- */
+.vnext-app-work .vnext-panel.vnext-work-lane {
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-work-lane > .vnext-lane-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 2px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vnext-app-work .vnext-work-lane > .vnext-lane-head > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  min-width: 0;
+}
+.vnext-app-work .vnext-work-lane > .vnext-lane-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-work-lane > .vnext-lane-head p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--b-text-3);
+}
+.vnext-app-work .vnext-work-lane > .vnext-lane-head span,
+.vnext-app-work .vnext-work-lane > .vnext-lane-head .vnext-lane-count {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text-3);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.vnext-app-work .vnext-work-lane.decide > .vnext-lane-head .vnext-lane-count {
+  color: var(--b-decide);
+  font-weight: 600;
+}
+
+/* ---- Item = one card ---- */
+.vnext-app-work .vnext-item-row {
+  gap: 6px;
+  padding: 12px var(--work-card-pad);
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: none;
+  scroll-margin-top: calc(var(--console-header-h, 52px) + var(--safe-top, 0px) + 8px);
+}
+.vnext-app-work .vnext-item-row.compact {
+  min-height: 0;
+}
+.vnext-app-work .vnext-item-row.active {
+  border-color: var(--b-hairline);
+  border-left: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  box-shadow: inset 2px 0 0 var(--b-accent);
+}
+.vnext-app-work .vnext-item-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-item-summary {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+}
+.vnext-app-work .vnext-item-timing {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-weight: 500;
+}
+.vnext-app-work .vnext-item-meta {
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-weight: 500;
+}
+/* High priority: amber TEXT with a 4px dot — the one semantic colour on a row. */
+.vnext-app-work .vnext-item-meta.is-priority {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--b-decide);
+  font-weight: 600;
+}
+.vnext-app-work .vnext-item-meta.is-priority::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+/* State chips (跟踪中 / 要拍板 …): neutral grey chip, ink text; warn = amber text. */
+.vnext-app-work .vnext-item-kind,
+.vnext-app-work .vnext-focus-chip {
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--b-chip-bg);
+  color: var(--b-chip-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-work .vnext-item-kind.warn,
+.vnext-app-work .vnext-focus-chip.warn {
+  border: 0;
+  background: color-mix(in srgb, var(--b-decide) 12%, transparent);
+  color: var(--b-decide);
+}
+
+/* ---- Expanded item = the same card grown in place (phone inline lanes) ---- */
+.vnext-app-work .vnext-work-mobile-inline-item {
+  gap: 0;
+}
+.vnext-app-work .vnext-work-mobile-inline-item.active {
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: inset 2px 0 0 var(--b-accent);
+  overflow: hidden;
+}
+.vnext-app-work .vnext-work-mobile-inline-item.active > .vnext-item-row {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-bottom: 6px;
+}
+.vnext-app-work .vnext-work-inline-selected.vnext-detail {
+  gap: 12px;
+  padding: 0 var(--work-card-pad) var(--work-card-pad);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Expand downward: the detail takes its full height at commit (so the row
+   above and the scroll position are final immediately) and is REVEALED
+   top-down with a 160ms ease-out wipe — no layout animation that the
+   browser's scroll anchoring could chase. Reduced motion → instant. */
+.vnext-app-work .vnext-work-expand {
+  display: grid;
+  animation: vnext-work-expand 160ms ease-out;
+}
+@keyframes vnext-work-expand {
+  from { opacity: 0; clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vnext-app-work .vnext-work-expand { animation: none; }
+}
+
+/* Detail hero: no card inside the card. Summary 14px, meta 12px. */
+.vnext-app-work .vnext-detail .vnext-detail-hero {
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-detail .vnext-detail-hero > p {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+}
+.vnext-app-work .vnext-detail .vnext-detail-hero h2 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+/* Desktop two-pane: the detail pane is itself the card. */
+.vnext-app-work .vnext-detail-desktop.vnext-detail {
+  gap: 12px;
+  padding: var(--work-card-pad);
+  border-radius: var(--b-radius);
+}
+
+/* Facts: plain label (12px muted) / value (14px ink) rows. */
+.vnext-app-work .vnext-work-intent-row,
+.vnext-app-work .vnext-nearby-inline-facts,
+.vnext-app-work .vnext-detail.is-follow-up .vnext-work-intent-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin-top: 2px;
+}
+.vnext-app-work .vnext-work-intent-row span,
+.vnext-app-work .vnext-nearby-inline-facts span,
+.vnext-app-work .vnext-detail.is-follow-up .vnext-work-intent-row span {
+  display: grid;
+  gap: 2px;
+  padding: 8px 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-work-intent-row em,
+.vnext-app-work .vnext-nearby-inline-facts em {
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-work .vnext-work-intent-row strong,
+.vnext-app-work .vnext-nearby-inline-facts strong,
+.vnext-app-work .vnext-work-inline-selected .vnext-work-intent-row strong {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  color: var(--b-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.vnext-app-work .vnext-work-trust-receipt em {
+  margin-top: 0;
+  opacity: 1;
+  font-size: 12px;
+}
+
+/* ---- Sections inside the expanded card: hairline separators, no boxes ---- */
+.vnext-app-work .vnext-detail > .vnext-mini-panel,
+.vnext-app-work .vnext-work-inline-selected.vnext-detail > .vnext-mini-panel {
+  gap: 8px;
+  margin: 0;
+  padding: 12px 0 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-detail > details.vnext-mini-panel,
+.vnext-app-work .vnext-work-inline-selected.vnext-detail > details.vnext-mini-panel {
+  padding-top: 0;
+}
+.vnext-app-work .vnext-detail > details.vnext-mini-panel[open] {
+  padding-bottom: 4px;
+}
+.vnext-app-work .vnext-detail > .vnext-mini-panel + .vnext-mini-panel,
+.vnext-app-work .vnext-work-inline-selected.vnext-detail > .vnext-mini-panel + .vnext-mini-panel {
+  margin-top: 0;
+}
+.vnext-app-work .vnext-detail > .vnext-mini-panel.vnext-action-panel {
+  gap: 8px;
+}
+
+/* ---- Action stack: one filled primary, outlined 44px buttons, disclosure rows ---- */
+.vnext-app-work .vnext-detail .vnext-action-dock-grid,
+.vnext-app-work .vnext-detail .vnext-action-primary-row-stacked,
+.vnext-app-work .vnext-detail .vnext-action-row,
+.vnext-app-work .vnext-detail .vnext-followup-strip,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-action-row,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-followup-strip {
+  gap: 8px;
+}
+.vnext-app-work .vnext-detail .vnext-btn,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-btn,
+.vnext-app-work .vnext-detail .vnext-followup-strip button,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-followup-strip button {
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.vnext-app-work .vnext-detail .vnext-btn.vnext-btn-secondary,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-btn.vnext-btn-secondary,
+.vnext-app-work .vnext-detail .vnext-btn.vnext-btn-destructive,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-btn.vnext-btn-destructive {
+  box-shadow: 0 0 0 1px var(--btn-sec-line);
+}
+/* 打开详情 primary step: the filled primary, same 44px / radius as the buttons. */
+.vnext-app-work .vnext-item-primary-step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--btn-obsidian);
+  color: var(--btn-gold-text);
+  box-shadow: 0 0 0 1px var(--btn-gold-line);
+}
+.vnext-app-work .vnext-item-primary-step strong,
+.vnext-app-work .vnext-item-primary-step svg {
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+.vnext-app-work .vnext-item-primary-step svg { width: 16px; height: 16px; }
+.vnext-app-work .vnext-item-primary-step:hover,
+.vnext-app-work .vnext-item-primary-step:focus-visible {
+  border-color: transparent;
+  box-shadow: 0 0 0 1px var(--btn-gold-line);
+}
+.vnext-app-work .vnext-item-primary-step:focus-visible {
+  outline: 2px solid var(--btn-gold-ghost);
+  outline-offset: 2px;
+}
+/* 询问安琪: an outlined secondary with accent text + sparkle (not a grey slab). */
+.vnext-app-work .vnext-btn.vnext-work-ask-compact {
+  align-self: stretch;
+  width: 100%;
+  min-height: 44px;
+  height: 44px;
+  justify-content: center;
+  border: 0;
+  border-radius: 12px;
+  color: var(--b-accent);
+  background: var(--btn-sec-surface);
+  box-shadow: 0 0 0 1px var(--btn-sec-line);
+  font-size: 14px;
+  font-weight: 600;
+}
+.vnext-app-work .vnext-btn.vnext-work-ask-compact:hover:not(:disabled) {
+  background: var(--btn-ghost-wash);
+}
+/* The secondary-actions group (label + row) is not a box. */
+.vnext-app-work .vnext-item-receipt-actions {
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vnext-app-work .vnext-item-receipt-actions > span {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+/* 更多操作 is a disclosure ROW: label left, chevron right, no box around it. */
+.vnext-app-work .vnext-work-more-actions,
+.vnext-app-work .vnext-detail .vnext-work-more-actions,
+.vnext-app-work .vnext-nearby-inline-detail .vnext-work-more-actions {
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vnext-app-work .vnext-work-more-actions[open] > .vnext-disclosure-summary {
+  margin-bottom: 0;
+}
+.vnext-app-work .vnext-detail details.vnext-disclosure > .vnext-disclosure-summary,
+.vnext-app-work .vnext-nearby-inline-detail details.vnext-disclosure > .vnext-disclosure-summary,
+.vnext-app-work .vnext-work-more-actions.vnext-disclosure > .vnext-disclosure-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+}
+.vnext-app-work .vnext-detail details.vnext-disclosure > .vnext-disclosure-summary::after,
+.vnext-app-work .vnext-nearby-inline-detail details.vnext-disclosure > .vnext-disclosure-summary::after {
+  order: 99;
+  grid-column: auto;
+  grid-row: auto;
+  width: 8px;
+  height: 8px;
+  margin: 0 8px 0 0;
+  border: 0;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text-3);
+  justify-self: end;
+  transform: rotate(-45deg);
+}
+.vnext-app-work .vnext-detail details.vnext-disclosure[open] > .vnext-disclosure-summary::after,
+.vnext-app-work .vnext-nearby-inline-detail details.vnext-disclosure[open] > .vnext-disclosure-summary::after {
+  transform: rotate(45deg);
+}
+.vnext-app-work .vnext-detail details.vnext-disclosure > .vnext-disclosure-summary:focus-visible {
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+/* The legacy authority/source/supporting summaries were 2–3 column grids with
+   a left chevron; in the work card they are the same flat row. */
+.vnext-app-work .vnext-detail .vnext-authority-panel-collapsed > summary,
+.vnext-app-work .vnext-detail .vnext-source-panel-collapsed > summary,
+.vnext-app-work .vnext-detail .vnext-supporting-panel > summary,
+.vnext-app-work .vnext-work-inline-selected .vnext-authority-panel-collapsed > summary {
+  display: flex;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.vnext-app-work .vnext-detail .vnext-authority-panel-collapsed > summary span,
+.vnext-app-work .vnext-detail .vnext-authority-panel-collapsed > summary strong,
+.vnext-app-work .vnext-detail .vnext-authority-panel-collapsed > summary em,
+.vnext-app-work .vnext-detail .vnext-source-panel-collapsed > summary span,
+.vnext-app-work .vnext-detail .vnext-source-panel-collapsed > summary strong,
+.vnext-app-work .vnext-detail .vnext-source-panel-collapsed > summary em,
+.vnext-app-work .vnext-detail .vnext-supporting-panel > summary span,
+.vnext-app-work .vnext-detail .vnext-supporting-panel > summary strong {
+  grid-column: auto;
+  grid-row: auto;
+  margin-left: 0;
+}
+.vnext-app-work .vnext-detail .vnext-disclosure-copy > strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-detail .vnext-disclosure-copy > em,
+.vnext-app-work .vnext-detail .vnext-disclosure-hint {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--b-text-3);
+}
+
+/* ---- Nearby item (更多工作 list): same one-card rule when expanded ---- */
+.vnext-app-work .vnext-nearby-work-item {
+  gap: 0;
+}
+.vnext-app-work .vnext-nearby-work-item.is-expanded {
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: inset 2px 0 0 var(--b-accent);
+  overflow: hidden;
+}
+.vnext-app-work .vnext-nearby-work-item.is-expanded > .vnext-item-row {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-bottom: 6px;
+}
+.vnext-app-work .vnext-nearby-inline-detail {
+  gap: 10px;
+  margin: 0;
+  padding: 0 var(--work-card-pad) var(--work-card-pad);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-nearby-inline-detail .vnext-item-receipt-actions {
+  padding-top: 10px;
+  border-top: 1px solid var(--b-hairline);
+}
+.vnext-app-work .vnext-quiet-nearby-note {
+  padding: 8px 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text-3);
+  font-size: 12px;
+}
+
+/* ---- 查找 (scan) card: ONE card, summary row with a right chevron ---- */
+.vnext-app-work .vnext-work-scan,
+.vnext-app-work .vnext-work-scan.is-active {
+  gap: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-work-scan-chrome {
+  /* The scan section is a wrapping flex row; the card is its only child and
+     must span it (desktop showed a 225px card above a full-width brief). */
+  flex: 1 1 100%;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+}
+.vnext-app-work .vnext-work-scan-chrome.vnext-disclosure > .vnext-disclosure-summary {
+  min-height: 52px;
+  padding: 10px var(--work-card-pad);
+  border-radius: var(--b-radius);
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-work-scan-chrome[open] > .vnext-disclosure-summary {
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius) var(--b-radius) 0 0;
+}
+.vnext-app-work .vnext-work-scan-chrome-summary strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-work-scan-chrome-summary em {
+  opacity: 1;
+  font-size: 12px;
+  color: var(--b-text-3);
+}
+.vnext-app-work .vnext-work-scan-chrome-body {
+  padding: 12px var(--work-card-pad) var(--work-card-pad);
+}
+.vnext-app-work .vnext-work-scan-search {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.vnext-app-work .vnext-work-scan-search input {
+  border-radius: 10px;
+}
+.vnext-app-work .vnext-work-scan-filters {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vnext-app-work .vnext-work-scan-filters.vnext-disclosure > .vnext-disclosure-summary {
+  min-height: 44px;
+  padding: 0 2px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ---- Queue brief (更多工作): a quiet card, not a tinted gradient slab ---- */
+.vnext-app-work .vnext-work-brief,
+.vnext-app-work .vnext-work-brief.is-secondary {
+  gap: 10px;
+  padding: 0;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: none;
+}
+.vnext-app-work .vnext-work-brief > .vnext-disclosure-summary {
+  min-height: 52px;
+  padding: 10px var(--work-card-pad);
+  border-radius: var(--b-radius);
+  background: transparent;
+  box-shadow: none;
+  align-items: center;
+}
+.vnext-app-work .vnext-work-brief[open] > .vnext-disclosure-summary {
+  border-bottom: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius) var(--b-radius) 0 0;
+}
+.vnext-app-work .vnext-work-brief h2,
+.vnext-app-work .vnext-work-brief.is-secondary h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-work-brief > .vnext-disclosure-summary .vnext-kicker {
+  display: none;
+}
+.vnext-app-work .vnext-work-brief > .vnext-disclosure-summary .vnext-disclosure-hint {
+  font-size: 12px;
+  color: var(--b-text-3);
+}
+.vnext-app-work .vnext-work-brief > :not(summary) {
+  margin: 0 var(--work-card-pad);
+}
+.vnext-app-work .vnext-work-brief > :not(summary):last-child {
+  margin-bottom: var(--work-card-pad);
+}
+.vnext-app-work .vnext-work-brief-action {
+  border: 1px solid var(--b-hairline);
+  border-radius: 12px;
+  background: var(--b-surface);
+  color: var(--b-text);
+  box-shadow: none;
+}
+.vnext-app-work .vnext-work-brief-action span { color: var(--b-text-3); }
+.vnext-app-work .vnext-work-brief-action strong { color: var(--b-text); }
+.vnext-app-work .vnext-work-lane-strip button {
+  border-radius: 10px;
+}
+.vnext-app-work .vnext-work-lane-strip button.active {
+  background: color-mix(in srgb, var(--b-accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--b-accent) 35%, transparent);
+  color: var(--b-accent);
+}
+.vnext-app-work .vnext-work-lane-strip button.active strong { color: var(--b-accent); }
+.vnext-app-work .vnext-work-desktop-nearby {
+  padding: var(--work-card-pad);
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+}
+.vnext-app-work .vnext-work-desktop-nearby h2 {
+  font-size: 15px;
+  font-weight: 600;
+}
+.vnext-app-work .vnext-empty-work {
+  border-radius: var(--b-radius);
+}
+
+/* ---- Phone: stable stack order so selecting never re-shuffles the page.
+   Before a tap the desktop lane sections are the list; after it the inline
+   lanes (row + detail in place) replace them at the SAME position. The queue
+   brief sits below the lanes in both states so the tapped row stays put. ---- */
+@media (max-width: 820px) {
+  .vnext-app-work .vnext-stack { gap: 12px; }
+  .vnext-app-work .vnext-stack > .vnext-action-message { order: -5; }
+  .vnext-app-work .vnext-stack > .vnext-work-scan { order: -4; }
+  .vnext-app-work .vnext-stack > .vnext-work-mobile-inline-lanes,
+  .vnext-app-work .vnext-stack > .vnext-work-lane { order: -3; }
+  .vnext-app-work .vnext-stack > .vnext-work-brief { order: 1; }
+  .vnext-app-work .vnext-work-mobile-inline-lanes { gap: 12px; }
+}
+
+
+/* ============================================================================
+ * Owner 2026-09-16 — Status view console pass (pass 2, after the Work view).
+ *
+ * Same complaint, same grammar as the Work pass: the hero is ONE white card
+ * (kicker, 17/600 heading, one muted line, three plain metric cells under a
+ * hairline — label 12 muted, number 20 ink, amber ONLY when 需关注 > 0, never
+ * green digits, no tinted tiles, no orange chevron puck); "健康" is the
+ * neutral chip; the three disclosures are rows of ONE card with right
+ * chevrons (no card-in-card). Tokens only, so dark gets the same structure.
+ * ==========================================================================*/
+.vnext-app-status .vnext-stack { gap: 12px; }
+.vnext-app-status .vnext-kicker { color: var(--b-text-3); }
+
+/* ---- Hero card ---- */
+.vnext-app-status .vnext-hero.vnext-status-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: none;
+}
+.vnext-app-status .vnext-status-hero > div:first-child { display: block; min-width: 0; }
+.vnext-app-status .vnext-status-hero .vnext-kicker {
+  margin: 0 0 2px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--b-text-3);
+}
+.vnext-app-status .vnext-status-hero h2 {
+  margin: 0 0 4px;
+  max-width: none;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--b-text);
+}
+/* The description and the trust line read as ONE muted line. */
+.vnext-app-status .vnext-status-hero > div > p:not(.vnext-kicker),
+.vnext-app-status .vnext-status-hero .vnext-status-trust-line {
+  display: inline;
+  margin: 0;
+  max-width: none;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+  opacity: 1;
+}
+.vnext-app-status .vnext-status-hero > div > p:not(.vnext-kicker) + p::before { content: " "; }
+/* LocaleContext stamps <html lang>; Chinese full stops need no space. */
+.vnext-app-status .vnext-status-hero > div > p:not(.vnext-kicker) + p:lang(zh)::before { content: ""; }
+
+/* ---- Metric cells: one row, hairline-separated, left-aligned ---- */
+.vnext-app-status .vnext-status-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  min-width: 0;
+  align-content: start;
+  padding-top: 12px;
+  border-top: 1px solid var(--b-hairline);
+}
+.vnext-app-status .vnext-status-hero .vnext-status-metric,
+.vnext-app-status .vnext-hero button.vnext-status-metric,
+.vnext-app-status .vnext-status-hero .vnext-status-metric.ok,
+.vnext-app-status .vnext-status-hero .vnext-status-metric.warn {
+  position: relative;
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 2px;
+  min-height: 0;
+  min-width: 0;
+  padding: 2px 12px;
+  border: 0;
+  border-left: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text-3);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  cursor: default;
+  transition: none;
+}
+.vnext-app-status .vnext-status-metrics > :first-child { padding-left: 0; border-left: 0; }
+.vnext-app-status .vnext-status-metrics > :last-child { padding-right: 0; }
+.vnext-app-status .vnext-status-metric.actionable { cursor: pointer; }
+.vnext-app-status .vnext-status-metric span { min-width: 0; white-space: nowrap; }
+.vnext-app-status .vnext-status-metric strong,
+.vnext-app-status .vnext-status-metric.ok strong,
+.vnext-app-status .vnext-hero button.vnext-status-metric strong {
+  color: var(--b-text);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.vnext-app-status .vnext-status-metric.warn strong,
+.vnext-app-status .vnext-hero button.vnext-status-metric.warn strong { color: var(--b-decide); }
+/* The ">" affordance keeps its markup (the metric is a button) but draws as a
+   plain right chevron — no puck, no orange disc. */
+.vnext-app-status .vnext-status-metric em,
+.vnext-app-status .vnext-hero button.vnext-status-metric em {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  display: block;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0;
+  padding: 0;
+  border: 0;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text-3);
+  font-size: 0;
+  line-height: 0;
+  transform: rotate(-45deg);
+}
+.vnext-app-status .vnext-status-metrics > :last-child.actionable { padding-right: 20px; }
+@media (hover: hover) {
+  .vnext-app-status .vnext-status-metric.actionable:hover { background: transparent; }
+  .vnext-app-status .vnext-status-metric.actionable:hover strong { color: var(--b-accent); }
+  .vnext-app-status .vnext-status-metric.warn.actionable:hover strong { color: var(--b-decide); }
+}
+.vnext-app-status .vnext-status-metric.actionable:focus-visible { border-radius: 8px; }
+
+/* ---- Calm card + chips ---- */
+.vnext-app-status .vnext-panel.vnext-status-calm {
+  gap: 6px;
+  padding: 14px;
+  border-radius: var(--b-radius);
+}
+.vnext-app-status .vnext-focus-chip {
+  justify-self: start;
+  margin: 0 0 4px;
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--b-chip-bg);
+  color: var(--b-chip-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-status .vnext-focus-chip.warn {
+  border: 0;
+  background: color-mix(in srgb, var(--b-decide) 12%, transparent);
+  color: var(--b-decide);
+}
+.vnext-app-status .vnext-status-calm h2 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-calm p {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+}
+
+/* ---- Attention section: plain heading row + white cards, amber chip ---- */
+.vnext-app-status .vnext-status-attention { gap: 8px; }
+.vnext-app-status .vnext-status-section-heading {
+  margin: 0;
+  padding: 8px 2px 0;
+  gap: 2px;
+}
+.vnext-app-status .vnext-status-section-heading .vnext-kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--b-decide);
+}
+.vnext-app-status .vnext-status-section-heading h2 {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-attention-card {
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: none;
+}
+.vnext-app-status .vnext-status-attention-card p {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-next-step,
+.vnext-app-status .vnext-btn.vnext-status-next-step {
+  width: 100%;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--btn-sec-surface);
+  color: var(--btn-sec-text) !important;
+  box-shadow: 0 0 0 1px var(--btn-sec-line);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+.vnext-app-status .vnext-btn.vnext-status-next-step:hover:not(:disabled) {
+  filter: none;
+  background: var(--b-surface-hover);
+  border-color: transparent;
+}
+
+/* ---- Disclosures: rows of ONE card, right chevrons ---- */
+.vnext-app-status .vnext-status-disclosures {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+}
+.vnext-app-status .vnext-status-disclosures > details.vnext-panel.vnext-disclosure,
+.vnext-app-status .vnext-status-disclosures > details.vnext-disclosure {
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  animation: none;
+}
+.vnext-app-status .vnext-status-disclosures > details + details { border-top: 1px solid var(--b-hairline); }
+.vnext-app-status .vnext-status-disclosures > details[open] { padding-bottom: 14px; }
+.vnext-app-status .vnext-status-disclosures > details > .vnext-disclosure-summary {
+  min-height: 56px;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-disclosures > :first-child > .vnext-disclosure-summary { border-radius: var(--b-radius) var(--b-radius) 0 0; }
+.vnext-app-status .vnext-status-disclosures > :last-child:not([open]) > .vnext-disclosure-summary { border-radius: 0 0 var(--b-radius) var(--b-radius); }
+.vnext-app-status .vnext-status-disclosures > details[open] > .vnext-disclosure-summary { border-bottom: 1px solid var(--b-hairline); }
+.vnext-app-status .vnext-status-disclosures > details > .vnext-disclosure-summary .vnext-disclosure-copy > strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-disclosures > details > .vnext-disclosure-summary .vnext-disclosure-hint {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--b-text-3);
+}
+.vnext-app-status .vnext-status-disclosures > details.warn > .vnext-disclosure-summary .vnext-disclosure-hint {
+  color: var(--b-decide);
+  font-weight: 600;
+}
+.vnext-app-status .vnext-status-disclosures > details > .vnext-disclosure-summary:focus-visible {
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+@media (hover: hover) {
+  .vnext-app-status .vnext-status-disclosures > details > .vnext-disclosure-summary:hover {
+    filter: none;
+    background: var(--b-surface-hover);
+  }
+}
+.vnext-app-status .vnext-status-disclosures > details > :not(summary) { margin: 0 14px; }
+.vnext-app-status .vnext-status-disclosures > details > p.vnext-muted {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+}
+
+/* Connection rows inside the 连接 disclosure: label | status, reason below. */
+.vnext-app-status .vnext-status-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 12px;
+  row-gap: 2px;
+  padding: 10px 0;
+  border-top: 1px solid var(--b-hairline);
+}
+.vnext-app-status .vnext-status-row:first-of-type { padding-top: 0; border-top: 0; }
+.vnext-app-status .vnext-status-row span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-row strong {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--b-text-2);
+  text-align: right;
+  white-space: nowrap;
+}
+.vnext-app-status .vnext-status-row.warn strong { color: var(--b-decide); font-weight: 600; }
+.vnext-app-status .vnext-status-row em,
+.vnext-app-status .vnext-status-row .vnext-next-step {
+  grid-column: 1 / -1;
+  display: block;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--b-text-3);
+}
+
+/* Quiet-operations pills = neutral chips; detail cards = plain rows. */
+.vnext-app-status .vnext-status-operation-pills { gap: 6px; }
+.vnext-app-status .vnext-status-operation-pill,
+.vnext-app-status .vnext-status-operation-pill.ready {
+  min-height: 32px;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--b-chip-bg);
+  color: var(--b-chip-text);
+}
+.vnext-app-status .vnext-status-operation-pill strong { font-size: 12px; font-weight: 600; color: var(--b-chip-text); }
+.vnext-app-status .vnext-status-operation-pill em {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--b-text-3);
+}
+.vnext-app-status .vnext-status-grid { grid-template-columns: 1fr; gap: 0; }
+.vnext-app-status .vnext-status-card,
+.vnext-app-status .vnext-status-card.warn {
+  gap: 4px;
+  min-height: 0;
+  padding: 10px 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-status .vnext-status-card span {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--b-text);
+}
+.vnext-app-status .vnext-status-card strong {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--b-chip-bg);
+  color: var(--b-chip-text);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+}
+.vnext-app-status .vnext-status-card.warn strong {
+  background: color-mix(in srgb, var(--b-decide) 12%, transparent);
+  color: var(--b-decide);
+}
+.vnext-app-status .vnext-status-card p { font-size: 13px; line-height: 1.45; color: var(--b-text-2); }
+.vnext-app-status .vnext-status-card em { font-size: 12px; font-weight: 500; color: var(--b-text-3); }
+
+/* System events = plain rows; the severity dot carries the tone. */
+.vnext-app-status .vnext-system-event-list { gap: 0; }
+.vnext-app-status .vnext-system-event-card,
+.vnext-app-status .vnext-system-event-card.notice,
+.vnext-app-status .vnext-system-event-card.warning,
+.vnext-app-status .vnext-system-event-card.critical {
+  gap: 6px;
+  padding: 10px 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-status .vnext-system-event-list > :first-child { padding-top: 0; border-top: 0; }
+.vnext-app-status .vnext-system-event-dot { box-shadow: none; background: var(--b-text-3); }
+.vnext-app-status .vnext-system-event-dot.notice,
+.vnext-app-status .vnext-system-event-dot.warning { background: var(--b-decide); box-shadow: none; }
+.vnext-app-status .vnext-system-event-dot.critical { background: var(--b-danger); box-shadow: none; }
+.vnext-app-status .vnext-system-event-card strong { font-size: 14px; font-weight: 600; color: var(--b-text); }
+.vnext-app-status .vnext-system-event-card em { font-size: 12px; color: var(--b-text-3); }
+.vnext-app-status .vnext-system-event-card p { font-size: 13px; line-height: 1.45; color: var(--b-text-2); }
+.vnext-app-status .vnext-system-event-details { border-top: 1px solid var(--b-hairline); }
+.vnext-app-status .vnext-system-event-details.vnext-disclosure > .vnext-disclosure-summary {
+  min-height: 40px;
+  padding: 6px 2px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+.vnext-app-status .vnext-system-event-details li {
+  border-radius: 8px;
+  background: var(--b-surface-2);
+  color: var(--b-text-2);
+}
+
+/* Nightly verdict: one muted 12px line under the card. */
+.vnext-app-status .vnext-status-nightly {
+  margin: 0;
+  padding: 0 2px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--b-text-3);
+}
+
+/* ============================================================================
+ * Owner 2026-09-16 — Settings view console pass (pass 2).
+ *
+ * Structure: a section = a plain 15/600 heading row + ONE white card
+ * (.vnext-settings-section-body) whose rows are separated by hairlines. No
+ * nested cards, no gold left rule on attention rows, neutral chips, the
+ * destructive action is red TEXT on the row's trailing edge. The 高级 /
+ * 开发者 tiers are a single card row with a right chevron; when open, their
+ * sections follow below in the same grammar (never a card inside a card).
+ * ==========================================================================*/
+.vnext-app-settings .vnext-stack { gap: 16px; }
+.vnext-app-settings .vnext-settings-tier { gap: 16px; }
+.vnext-app-settings .vnext-settings-section {
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-settings .vnext-settings-section > h2 {
+  margin: 0;
+  padding: 4px 2px 0;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--b-text);
+}
+.vnext-app-settings .vnext-settings-section-body {
+  display: grid;
+  gap: 0;
+  min-width: 0;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+}
+.vnext-app-settings .vnext-settings-section-body > * {
+  margin: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-settings .vnext-settings-section-body > :first-child { border-top: 0; }
+.vnext-app-settings .vnext-settings-section-body > .vnext-muted,
+.vnext-app-settings .vnext-settings-section-body > p {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+}
+/* Notes inside a card are plain text, not a box in a box. */
+.vnext-app-settings .vnext-settings-section-body .vnext-settings-inline-note {
+  padding: 10px 14px;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text-2);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.vnext-app-settings .vnext-settings-section-body :not(.vnext-settings-section-body) > .vnext-settings-inline-note,
+.vnext-app-settings .vnext-settings-section-body .vnext-settings-style-hint .vnext-settings-inline-note {
+  padding: 0;
+  border-top: 0;
+}
+
+/* ---- 你: one row — label above name, Log out as red TEXT trailing ---- */
+.vnext-app-settings .vnext-settings-you { padding: 0; border: 0; background: transparent; }
+.vnext-app-settings .vnext-settings-owner-card {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 8px 10px 14px;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+}
+.vnext-app-settings .vnext-settings-owner-card span {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--b-text-3);
+}
+.vnext-app-settings .vnext-settings-owner-card strong {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--b-text);
+}
+.vnext-app-settings .vnext-settings-owner-card .vnext-btn.vnext-btn-destructive {
+  padding: 0 8px;
+  background: transparent;
+  color: var(--b-danger);
+  box-shadow: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.vnext-app-settings .vnext-settings-owner-card .vnext-btn.vnext-btn-destructive:hover:not(:disabled) {
+  filter: none;
+  background: color-mix(in srgb, var(--b-danger) 8%, transparent);
+}
+
+/* ---- 语言: caption + segmented control in one row ---- */
+.vnext-app-settings .vnext-settings-section-body > .vnext-segmented-field { gap: 8px; }
+.vnext-app-settings .vnext-segmented-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--b-text-2);
+}
+
+/* ---- 通知: the push sentence with its actions; the Telegram line is the
+   row's status line (12px muted, amber when the rail is down). ---- */
+.vnext-app-settings .vnext-settings-section-body > .vnext-web-push-card,
+.vnext-app-settings .vnext-web-push-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 12px;
+}
+.vnext-app-settings .vnext-web-push-card p {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--b-text);
+}
+.vnext-app-settings .vnext-web-push-card .vnext-action-row { justify-content: flex-end; gap: 6px; }
+.vnext-app-settings .vnext-web-push-card .vnext-settings-inline-note { grid-column: 1 / -1; padding: 0; border-top: 0; }
+.vnext-app-settings .vnext-settings-section-body > .vnext-settings-telegram-note {
+  padding-top: 0;
+  border-top: 0;
+  margin-top: -4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--b-text-3);
+}
+.vnext-app-settings .vnext-settings-section-body > .vnext-settings-telegram-note.warn {
+  color: var(--b-decide);
+  font-weight: 600;
+}
+
+/* ---- 连接: name | chip | action per row; message below; no left rule ---- */
+.vnext-app-settings .vnext-settings-connection-row.vnext-settings-card,
+.vnext-app-settings .vnext-settings-connection-row.vnext-settings-card.warn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 4px 10px;
+  min-height: 52px;
+  padding: 8px 14px;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-settings .vnext-settings-connection-list > :first-child { border-top: 0; }
+.vnext-app-settings .vnext-settings-connection-row .vnext-settings-connection-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-settings .vnext-settings-connection-row .vnext-settings-connection-chip {
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--b-chip-bg);
+  color: var(--b-chip-text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.vnext-app-settings .vnext-settings-connection-row.warn .vnext-settings-connection-chip {
+  background: color-mix(in srgb, var(--b-decide) 12%, transparent);
+  color: var(--b-decide);
+}
+/* The action sits on the trailing edge on phones too (styles.css spans it
+   across the row below 820px). */
+.vnext-app-settings .vnext-settings-connection-action {
+  grid-column: auto;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.vnext-app-settings .vnext-settings-connection-action .vnext-btn { border-radius: 10px; }
+.vnext-app-settings .vnext-model-recommendation.vnext-btn { height: auto; padding: 10px 18px; }
+.vnext-app-settings .vnext-model-recommendation .vnext-btn-label { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+.vnext-app-settings .vnext-settings-connection-message {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--b-text-3);
+}
+.vnext-app-settings .vnext-settings-connection-pending {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--b-text-2);
+}
+
+/* ---- Toggle rows, avatar cells, security rows ---- */
+.vnext-app-settings .vnext-settings-toggle-line { gap: 12px; }
+.vnext-app-settings .vnext-settings-toggle-line strong { font-size: 14px; font-weight: 600; color: var(--b-text); }
+.vnext-app-settings .vnext-settings-toggle-line p { font-size: 12px; color: var(--b-text-3); }
+.vnext-app-settings .vnext-settings-section-body .vnext-avatar-settings-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-settings .vnext-settings-section-body .vnext-avatar-settings-card strong { font-size: 13px; font-weight: 600; color: var(--b-text); }
+.vnext-app-settings .vnext-settings-grid.compact { gap: 0; }
+.vnext-app-settings .vnext-settings-section-body > .vnext-settings-card,
+.vnext-app-settings .vnext-settings-section-body > .vnext-settings-card.warn {
+  gap: 4px;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-settings .vnext-settings-section-body > .vnext-settings-card:first-child { border-top: 0; }
+.vnext-app-settings .vnext-settings-card span {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--b-text);
+}
+.vnext-app-settings .vnext-settings-card > div > strong {
+  padding: 2px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--b-chip-bg);
+  color: var(--b-chip-text);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+}
+.vnext-app-settings .vnext-settings-card.warn > div > strong {
+  background: color-mix(in srgb, var(--b-decide) 12%, transparent);
+  color: var(--b-decide);
+}
+.vnext-app-settings .vnext-settings-card p { font-size: 13px; line-height: 1.45; color: var(--b-text-2); }
+.vnext-app-settings .vnext-settings-card em { font-size: 12px; font-weight: 500; color: var(--b-text-3); }
+
+/* ---- Support / developer rows: no blue-tinted gradient card ---- */
+.vnext-app-settings .vnext-settings-support-priority {
+  border: 0;
+  background: transparent;
+}
+.vnext-app-settings .vnext-settings-section-body > .vnext-settings-support-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: center;
+}
+.vnext-app-settings .vnext-settings-support-card strong { font-size: 14px; font-weight: 600; color: var(--b-text); }
+.vnext-app-settings .vnext-settings-support-card p { font-size: 13px; color: var(--b-text-2); }
+.vnext-app-settings .vnext-settings-support-card em { color: var(--b-text-2); font-weight: 500; }
+
+/* ---- 高级 / 开发者 tiers: one card row, chevron right; open = sections below ---- */
+.vnext-app-settings details.vnext-settings-tier.vnext-disclosure {
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-settings details.vnext-settings-tier.vnext-disclosure > .vnext-disclosure-summary {
+  min-height: 56px;
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--b-hairline);
+  border-radius: var(--b-radius);
+  background: var(--b-surface);
+  box-shadow: none;
+  color: var(--b-text);
+}
+.vnext-app-settings details.vnext-settings-tier.vnext-disclosure[open] > .vnext-disclosure-summary { margin-bottom: 0; }
+.vnext-app-settings .vnext-settings-tier > .vnext-disclosure-summary .vnext-disclosure-copy > strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-settings .vnext-settings-tier > .vnext-disclosure-summary .vnext-disclosure-hint {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--b-text-3);
+}
+.vnext-app-settings details.vnext-settings-tier.vnext-disclosure > .vnext-disclosure-summary:focus-visible {
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+@media (hover: hover) {
+  .vnext-app-settings details.vnext-settings-tier.vnext-disclosure > .vnext-disclosure-summary:hover {
+    filter: none;
+    background: var(--b-surface-hover);
+  }
+}
+.vnext-app-settings .vnext-settings-tier.advanced > .vnext-settings-tier.developer { margin-top: 0; }
+
+/* ============================================================================
+ * Owner 2026-09-16 — Work view, desktop two-pane pass.
+ *
+ * Complaint (2000px dark screenshot): the right pane could not scroll (a
+ * sticky card taller than the viewport), the bar was narrower than the panes
+ * and overlapped the detail's corner, and the dark theme shouted (navy + gold
+ * primary, gold borders/bubbles, dotted disclosures, blue numbered circles).
+ * Structure: `.vnext-work-layout` takes the column's remaining height and its
+ * two children scroll independently — the list pane on the ground, the
+ * detail pane as ONE card that scrolls inside itself and resets to the top on
+ * every new selection (WorkView). List cards carry one meta line
+ * (kind · timing). The retired "接下来" preview above the lanes is hidden here:
+ * it duplicated the lanes and re-flowed the list on every selection.
+ * ==========================================================================*/
+@media (min-width: 821px) {
+  .vnext-app-work .vnext-work-layout {
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-columns: minmax(320px, 5fr) minmax(480px, 7fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 0 24px;
+    min-height: 0;
+    padding: 0 var(--console-gutter, 24px);
+  }
+  .vnext-app-work .vnext-work-layout > * {
+    min-height: 0;
+  }
+  .vnext-app-work .vnext-work-layout > .vnext-stack {
+    align-content: start;
+    gap: 16px;
+    padding: 16px 0 40px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .vnext-app-work .vnext-work-layout > .vnext-detail-desktop.vnext-detail {
+    position: static;
+    top: auto;
+    align-self: start;
+    max-height: calc(100% - 40px);
+    margin: 16px 0 24px;
+    padding: 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .vnext-app-work .vnext-work-desktop-nearby {
+    display: none;
+  }
+  /* List cards: title + one-line cue + one meta line; tighter padding so more
+     items fit; the selected card keeps the 2px accent left rule. */
+  .vnext-app-work .vnext-work-lane > .vnext-item-row {
+    gap: 4px;
+    padding: 10px 14px;
+  }
+  .vnext-app-work .vnext-work-lane > .vnext-item-row .vnext-item-summary {
+    -webkit-line-clamp: 1;
+  }
+}
+
+/* ---- Card meta: ONE line, "任务 · 跟踪到 9月17日 20:09" (kind · timing),
+   12px muted; wraps only when it genuinely cannot fit. ---- */
+.vnext-app-work .vnext-item-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+.vnext-app-work .vnext-item-foot > .vnext-item-meta,
+.vnext-app-work .vnext-item-foot > .vnext-item-timing {
+  max-width: 100%;
+}
+.vnext-app-work .vnext-item-foot > .vnext-item-meta + .vnext-item-timing::before {
+  content: "·";
+  margin-right: 6px;
+  color: var(--b-text-3);
+}
+
+/* ---- Assistant thread inside the item card: plain. Owner turn = accent-
+   tinted surface with no coloured border; assistant answer = surface with a
+   hairline; labels muted; "收起" is a text button on the heading row; the
+   composer is a hairline field with an accent-filled send. ---- */
+.vnext-app-work .vnext-inline-assistant {
+  gap: 10px;
+  padding: 12px 0 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+}
+.vnext-app-work .vnext-inline-assistant.is-working {
+  animation: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-mini-heading-row h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-inline-assistant .vnext-quiet-button {
+  min-height: 40px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--b-accent);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+}
+@media (hover: hover) {
+  .vnext-app-work .vnext-inline-assistant .vnext-quiet-button:hover {
+    background: color-mix(in srgb, var(--b-accent) 8%, transparent);
+    border-color: transparent;
+  }
+}
+.vnext-app-work .vnext-inline-assistant-thread,
+.vnext-app-work .vnext-inline-assistant-result {
+  gap: 8px;
+  padding-top: 0;
+  border-top: 0;
+}
+.vnext-app-work .vnext-inline-turn {
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 12px;
+  background: var(--b-surface);
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-inline-turn.owner,
+.vnext-app-work .vnext-inline-turn.queued {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--b-accent) 10%, transparent);
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-inline-turn.queued {
+  border: 1px dashed var(--b-hairline);
+  background: transparent;
+  color: var(--b-text-2);
+}
+.vnext-app-work .vnext-inline-turn.aegis {
+  border-color: var(--b-hairline);
+  background: var(--b-surface);
+}
+.vnext-app-work .vnext-inline-turn.working {
+  border-color: var(--b-hairline);
+  background: var(--b-surface-2);
+  color: var(--b-text-2);
+  animation: none;
+}
+.vnext-app-work .vnext-inline-turn p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.vnext-app-work .vnext-inline-turn-label {
+  color: var(--b-text-3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-work .vnext-inline-turn h3 > span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-inline-turn-time {
+  color: var(--b-text-3);
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 1;
+}
+.vnext-app-work .vnext-inline-suggestions button {
+  border: 1px solid var(--b-hairline);
+  border-radius: 999px;
+  background: var(--b-surface);
+  color: var(--b-text);
+  font-size: 13px;
+  font-weight: 500;
+}
+.vnext-app-work .vnext-inline-suggestions button:hover,
+.vnext-app-work .vnext-inline-suggestions button:focus-visible {
+  border-color: color-mix(in srgb, var(--b-accent) 45%, transparent);
+  color: var(--b-accent);
+}
+.vnext-app-work .vnext-inline-assistant-form textarea {
+  border-radius: 12px;
+}
+.vnext-app-work .vnext-inline-assistant-form textarea:focus {
+  border-color: color-mix(in srgb, var(--b-accent) 60%, transparent);
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+.vnext-app-work .vnext-inline-assistant-form button {
+  border-radius: 12px;
+  background: var(--b-accent-fill, var(--b-accent));
+  color: #ffffff;
+}
+
+/* ---- Answer sections inside a turn (来源 / 依据 / 下一步): plain rows with a
+   hairline between them — no tinted card, no tone dot on the left, one right
+   chevron (styles.css), a ring only for keyboard focus. Lists are plain:
+   bullets are a 5px muted dot, numbered steps are muted numerals — no blue
+   circles, no card per item. ---- */
+.vnext-app-work .vnext-inline-assistant .vnext-answer-stack {
+  gap: 0;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card,
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card.is-collapsible {
+  gap: 6px;
+  padding: 8px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card:first-child {
+  padding-top: 0;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card + .vnext-answer-card {
+  margin-top: 8px;
+  border-top: 1px solid var(--b-hairline);
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card header::before,
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card summary::before {
+  content: none;
+  display: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card header span,
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card summary span {
+  color: var(--b-text-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card.vnext-disclosure > .vnext-disclosure-summary {
+  min-height: 40px;
+  padding: 0 2px;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card.vnext-disclosure > .vnext-disclosure-summary::after {
+  margin-right: 4px;
+  color: var(--b-text-3);
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-card.vnext-disclosure > .vnext-disclosure-summary:focus-visible {
+  box-shadow: 0 0 0 2px var(--b-bg), 0 0 0 4px color-mix(in srgb, var(--b-accent) 75%, transparent);
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-more.vnext-disclosure > .vnext-disclosure-summary {
+  min-height: 40px;
+  padding: 0 2px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--b-accent);
+  font-size: 13px;
+  font-weight: 600;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-answer-more summary::before {
+  display: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-text ul,
+.vnext-app-work .vnext-inline-assistant .vnext-rich-text ol {
+  gap: 4px;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-text li {
+  padding: 2px 0 2px 24px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-text li::before {
+  top: 10px;
+  left: 8px;
+  width: 5px;
+  height: 5px;
+  background: var(--b-text-3);
+  box-shadow: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-text ol li::before {
+  top: 2px;
+  left: 0;
+  width: 18px;
+  height: auto;
+  place-items: start;
+  background: transparent;
+  color: var(--b-text-3);
+  font-size: 13px;
+  font-weight: 600;
+  content: counter(aegis-rich-ol) ".";
+}
+
+/* ---- Turn head: label + time on ONE row (the 40px time target overlaps the
+   bubble padding), the text below — not three stacked rows. ---- */
+.vnext-app-work .vnext-inline-turn.owner,
+.vnext-app-work .vnext-inline-turn.queued,
+.vnext-app-work .vnext-inline-turn.working {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 4px;
+}
+.vnext-app-work .vnext-inline-turn.owner > p,
+.vnext-app-work .vnext-inline-turn.queued > p,
+.vnext-app-work .vnext-inline-turn.working > p {
+  grid-column: 1 / -1;
+}
+.vnext-app-work .vnext-inline-turn .vnext-inline-turn-time {
+  justify-self: start;
+  min-height: 40px;
+  margin: -10px 0;
+  padding: 0 4px;
+}
+
+/* ---- Retry / follow-up buttons inside the thread were falling back to the
+   base blue gradient: outlined 40px buttons with accent text. ---- */
+.vnext-app-work .vnext-inline-assistant .vnext-action-row button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 10px;
+  background: var(--b-surface);
+  color: var(--b-accent);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+}
+@media (hover: hover) {
+  .vnext-app-work .vnext-inline-assistant .vnext-action-row button:hover:not(:disabled) {
+    background: var(--b-surface-hover);
+    border-color: color-mix(in srgb, var(--b-accent) 45%, transparent);
+  }
+}
+
+/* ---- Callouts inside a turn (警告 / 重要): a quiet surface with a 2px left
+   rule (amber only when important), plain 12px title, and a TEXT dismiss —
+   not an accent-tinted gradient box with a ringed pill. ---- */
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout,
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout.important,
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout.important.is-dismissed {
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 10px;
+  background: var(--b-surface-2);
+  box-shadow: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout.important {
+  border-left: 2px solid var(--b-decide);
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout strong {
+  color: var(--b-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout button,
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout button:hover,
+.vnext-app-work .vnext-inline-assistant .vnext-rich-callout button:focus-visible {
+  min-height: 40px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--b-accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+@media (hover: hover) {
+  .vnext-app-work .vnext-inline-assistant .vnext-rich-callout button:hover {
+    background: color-mix(in srgb, var(--b-accent) 8%, transparent);
+  }
+}
+
+/* ---- 权限与依据 body: the allowed / visible / locked facts and the 为何 /
+   记录 lines are plain label/value rows on hairlines — no accent-tinted tile,
+   no gold or blue left rules (the same grammar as the card's facts). ---- */
+.vnext-app-work .vnext-detail .vnext-trust-summary {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin-top: 4px;
+}
+.vnext-app-work .vnext-detail .vnext-trust-summary > span,
+.vnext-app-work .vnext-detail .vnext-trust-summary > span:nth-child(1),
+.vnext-app-work .vnext-detail .vnext-trust-summary > span:nth-child(3) {
+  gap: 2px;
+  padding: 8px 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  border-radius: 0;
+  background: transparent;
+  color: var(--b-text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.vnext-app-work .vnext-detail .vnext-trust-summary > span > strong,
+.vnext-app-work .vnext-detail .vnext-trust-summary > span:nth-child(1) > strong {
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.vnext-app-work .vnext-detail .vnext-receipt-line,
+.vnext-app-work .vnext-detail .vnext-receipt-line:last-of-type {
+  margin: 0;
+  padding: 8px 0 0;
+  border: 0;
+  border-top: 1px solid var(--b-hairline);
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--b-text);
+}
+.vnext-app-work .vnext-detail .vnext-receipt-line strong {
+  color: var(--b-text-3);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}

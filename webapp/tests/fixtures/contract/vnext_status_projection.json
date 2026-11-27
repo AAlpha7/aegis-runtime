@@ -1,0 +1,53 @@
+{
+  "advanced_diagnostics_available": false,
+  "embedder_degraded": {
+    "backup_model": "text-embedding-backup",
+    "primary_model": "text-embedding-primary",
+    "since": "2026-07-08T00:00:00Z"
+  },
+  "generated_at": "2026-07-08T00:00:00Z",
+  "llm_degraded": {
+    "provider": "codex_oauth",
+    "reason": "usage limit reached",
+    "since": "2026-07-08T00:00:00Z"
+  },
+  "schema_version": 1,
+  "sections": [
+    {
+      "health": "quiet",
+      "label": "Background Review",
+      "owner_message": "No current open loop needs a background status update."
+    },
+    {
+      "health": "quiet",
+      "label": "Recommendations",
+      "owner_message": "No owner decision is waiting right now."
+    },
+    {
+      "health": "ready",
+      "label": "Learning",
+      "owner_message": "Aegis may use remembered preferences as context, but corrections stay reviewable."
+    },
+    {
+      "health": "ready",
+      "label": "Standing Instructions",
+      "owner_message": "Recurring responsibilities should cite the instruction that surfaced them."
+    },
+    {
+      "health": "quiet",
+      "label": "Follow-ups",
+      "owner_message": "No waiting loop needs attention right now."
+    },
+    {
+      "health": "ready",
+      "label": "Receipts",
+      "owner_message": "Aegis still needs receipts before claiming external work is done."
+    },
+    {
+      "health": "ready",
+      "label": "System Health",
+      "owner_message": "Connected sources are ready or intentionally quiet."
+    }
+  ],
+  "system_events": []
+}

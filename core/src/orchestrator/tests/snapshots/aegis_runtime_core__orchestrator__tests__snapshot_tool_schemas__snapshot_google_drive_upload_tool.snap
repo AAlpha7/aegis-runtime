@@ -1,0 +1,28 @@
+---
+source: core/src/orchestrator.rs
+assertion_line: 14415
+expression: tool_to_json(&tool)
+---
+description: "Upload a NEW text file to Google Drive. Creates/uploads only; this tool does NOT delete files. Use it to save reports, notes, CSV/JSON exports, or other generated text artifacts to Drive. Requires Google OAuth2 with drive.file scope. Prefer explicit filenames and MIME types. If the user asks to overwrite or delete an existing file, explain that deletion is not supported by this tool."
+name: google_drive_upload
+parameters:
+  properties:
+    account:
+      description: "Google account ID to use (e.g. primary, work). Omit for the default account."
+      type: string
+    content_text:
+      description: UTF-8 text content to upload as the file body
+      type: string
+    filename:
+      description: "Filename to create in Google Drive, e.g. report.md or notes.txt"
+      type: string
+    folder_id:
+      description: Optional Drive folder ID to upload into. Omit for My Drive root.
+      type: string
+    mime_type:
+      description: "Optional MIME type, default text/plain; common values: text/plain, text/markdown, text/csv, application/json"
+      type: string
+  required:
+    - filename
+    - content_text
+  type: object

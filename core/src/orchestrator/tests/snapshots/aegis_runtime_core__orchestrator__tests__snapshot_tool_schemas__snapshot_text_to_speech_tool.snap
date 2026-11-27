@@ -1,0 +1,17 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Convert text to speech audio and send as a voice message to the user. ONLY use this when the user EXPLICITLY asks for voice/audio output (e.g. '读给我听', '用语音回复', 'read it aloud', 'send as voice'). Do NOT use for normal text replies."
+name: text_to_speech
+parameters:
+  properties:
+    language:
+      description: "BCP-47 language code (e.g. 'zh', 'en', 'ja') or 'auto' for detection. Default: 'auto'."
+      type: string
+    text:
+      description: The text to convert to speech. Max 15000 characters.
+      type: string
+  required:
+    - text
+  type: object

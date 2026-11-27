@@ -1,0 +1,9 @@
+---
+source: core/src/sandbox_host_fns.rs
+expression: display
+---
+- FuelExhausted
+- MemoryExceeded
+- Timeout
+- "Panic: unreachable executed"
+- "InstantiationFailed: missing import: host_fetch"

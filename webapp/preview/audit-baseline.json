@@ -1,0 +1,290 @@
+[
+  {
+    "view": "home",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button, BUTTON.vnext-chat-quote-button"
+  },
+  {
+    "view": "empty",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot"
+  },
+  {
+    "view": "degraded",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button, BUTTON.vnext-chat-quote-button, BUTTON."
+  },
+  {
+    "view": "degraded-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button, BUTTON.vnext-chat-quote-button, BUTTON."
+  },
+  {
+    "view": "chat-progress-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button"
+  },
+  {
+    "view": "chat-approval-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button"
+  },
+  {
+    "view": "chat-attachment-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON."
+  },
+  {
+    "view": "work",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-decide",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-detail",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-attachment-preview-toggle, A.vnext-attachment-download"
+  },
+  {
+    "view": "work-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-en",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-detail-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-attachment-preview-toggle, A.vnext-attachment-download"
+  },
+  {
+    "view": "work-detail-en",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-attachment-preview-toggle, A.vnext-attachment-download"
+  },
+  {
+    "view": "work-decide-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-decide-zh",
+    "scheme": "light",
+    "kind": "mixed-lang",
+    "detail": "Review unread Primary mail for the mail triage automation || Reading or classifying email content needs owner permission || Read or classify mail content for this paused automation"
+  },
+  {
+    "view": "status",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "status-zh",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "status-en",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "richtext",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON."
+  },
+  {
+    "view": "assistant",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON."
+  },
+  {
+    "view": "button-system",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "controls-system",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "header-menu-system",
+    "scheme": "light",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "home",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button, BUTTON.vnext-chat-quote-button"
+  },
+  {
+    "view": "empty",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot"
+  },
+  {
+    "view": "degraded",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button, BUTTON.vnext-chat-quote-button, BUTTON."
+  },
+  {
+    "view": "degraded-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button, BUTTON.vnext-chat-quote-button, BUTTON."
+  },
+  {
+    "view": "chat-progress-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button"
+  },
+  {
+    "view": "chat-approval-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON.vnext-chat-quote-button"
+  },
+  {
+    "view": "chat-attachment-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-chat-snapshot, BUTTON."
+  },
+  {
+    "view": "work",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-decide",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-detail",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-attachment-preview-toggle, A.vnext-attachment-download"
+  },
+  {
+    "view": "work-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-en",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-detail-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-attachment-preview-toggle, A.vnext-attachment-download"
+  },
+  {
+    "view": "work-detail-en",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-attachment-preview-toggle, A.vnext-attachment-download"
+  },
+  {
+    "view": "work-decide-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "work-decide-zh",
+    "scheme": "dark",
+    "kind": "mixed-lang",
+    "detail": "Review unread Primary mail for the mail triage automation || Reading or classifying email content needs owner permission || Read or classify mail content for this paused automation"
+  },
+  {
+    "view": "status",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "status-zh",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "status-en",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "richtext",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON."
+  },
+  {
+    "view": "assistant",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON."
+  },
+  {
+    "view": "button-system",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "controls-system",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  },
+  {
+    "view": "header-menu-system",
+    "scheme": "dark",
+    "kind": "touch-target",
+    "detail": "BUTTON.vnext-secondary, BUTTON.vnext-secondary, BUTTON.vnext-secondary"
+  }
+]

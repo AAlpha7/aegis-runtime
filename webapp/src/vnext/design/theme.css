@@ -1,0 +1,242 @@
+/*
+ * Direction B — adaptive theme tokens (single source of truth).
+ *
+ * Consolidates the --b-* tokens that were duplicated in surfaces/chat-home.css
+ * and surfaces/console.css. Scoped to the B view-root classes — chat-home,
+ * Work, Status, Settings — so the tokens + the legacy --aegis-* remap
+ * live in exactly one place and adapt via prefers-color-scheme.
+ *
+ * Imported before the per-surface files (see index.css) so they consume it.
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §3 (Direction B)
+ */
+
+.vnext-app-chat-home,
+.vnext-app-work,
+.vnext-app-status,
+.vnext-app-settings,
+.vnext-app.vnext-center {
+  /* ---- Dark (default) ---- */
+  --b-bg: #0d1017;
+  --b-surface: rgba(255, 255, 255, 0.025);
+  --b-surface-2: rgba(255, 255, 255, 0.04);
+  --b-surface-hover: rgba(255, 255, 255, 0.055);
+  --b-hairline: rgba(255, 255, 255, 0.09);
+  --b-text: #eef2f8;
+  --b-text-2: #aab6c8;
+  --b-text-3: #7f8da3;
+  /* ONE accent for the whole app (owner 2026-09-16 desktop pass: dark adopts
+     the same single-accent rule as light). --b-accent is the TEXT / outline
+     value (7.4:1 on --b-bg); --b-accent-fill is the filled primary with white
+     text. Amber / green / red stay reserved for small semantics. */
+  --b-accent: #6ea0ff;
+  --b-accent-fill: #3b7bff;
+  --b-decide: #e6ab63;      /* warmth reserved ONLY for "needs you" */
+  --b-ok: #6bd3a0;
+  --b-danger: #f08a8a;
+  --b-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --b-shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.2);
+  --b-accent-hover: #8ab3ff;
+
+  /* ---- Owner 2026-09-16 console pass. Chrome is now OPAQUE bars (the frosted,
+     blurred, shadowed sticky header let scrolled content bleed through and read
+     as a "渐变阴影" that wastes space). --b-bar is the one opaque chrome surface
+     (sticky header, bottom nav); --b-chip-* is the neutral state chip; --b-radius
+     the single card radius; --console-header-h the bar height rows use for
+     scroll-margin so an expanded row is never hidden under the bar. ---- */
+  --b-bar: #0f131b;
+  --b-bar-line: rgba(255, 255, 255, 0.10);
+  --b-chip-bg: rgba(255, 255, 255, 0.08);
+  --b-chip-text: #c9d2e0;
+  --b-radius: 14px;
+  --console-header-h: 52px;
+  /* Header overflow menu: an opaque neutral sheet with ink text in BOTH
+     themes (menu.css consumes only these); the trigger is a quiet hairline
+     control whose active state is the accent. */
+  --menu-surface: #171c26;
+  --menu-text: var(--b-text);
+  --menu-line: rgba(255, 255, 255, 0.12);
+  --menu-hover: rgba(255, 255, 255, 0.06);
+  --menu-radius: 8px;
+  --menu-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 12px 32px rgba(0, 0, 0, 0.5);
+  --menu-trigger-surface: rgba(255, 255, 255, 0.05);
+  --menu-trigger-text: var(--b-text-2);
+  --menu-trigger-line: rgba(255, 255, 255, 0.12);
+  --menu-trigger-active: var(--b-accent);
+
+  /* ---- Frosted material (one recipe for every glass surface: chat topbar,
+     iOS safe-top mask, bottom nav). color-mix reads --b-bg so both themes
+     adapt automatically. Owner 2026-07-02: "透明度高一点" — bars dropped from
+     72% to 60% fill; the nav keeps a stronger 80% (it sits over arbitrary
+     scrolled content and its labels must stay readable) but now blurs like
+     the rest via the same prefixed token recipe. ---- */
+  --frost-fill: color-mix(in srgb, var(--b-bg) 60%, transparent);
+  --frost-fill-strong: color-mix(in srgb, var(--b-bg) 80%, transparent);
+  --frost-blur: blur(18px) saturate(140%);
+
+  /* Legacy token remap so sub-elements (textarea, menus, timestamps) follow the
+     theme. Scoped to B surfaces only. */
+  --aegis-ink: var(--b-text);
+  --aegis-muted: var(--b-text-2);
+  --aegis-subtle: var(--b-text-3);
+  --aegis-line: var(--b-hairline);
+  --aegis-accent-soft: var(--b-accent);
+  /* Legacy gold/blue in un-migrated components (rich text, answer cards, source
+     panels, warnings) → adaptive tokens instead of dark-only fixed colors.
+     --aegis-gold keeps its warm/attention semantic via --b-decide (it also backs
+     .vnext-warning, which MUST stay amber, not neutral); --aegis-blue → the calm
+     --b-accent. Both adapt light/dark and meet AA. Purely-decorative gold (links,
+     bullets) is sent to --b-accent explicitly in rich-text.css where wanted. */
+  --aegis-gold: var(--b-decide);
+  --aegis-blue: var(--b-accent);
+
+  /* ---- VNextButton (SP1) material tokens. Owner 2026-09-16 desktop pass:
+     the "obsidian + champagne" (navy + gold) button identity is retired in
+     BOTH themes — the dark console was 刺眼 with three hues at once. The token
+     NAMES stay (button.css / controls.css / menu.css / console.css consume
+     them); their values are now one system: primary = accent fill + white
+     text, secondary = matte surface + hairline, ghost = accent text,
+     destructive = outlined red TEXT (never a garnet pill), no elevation, no
+     inner highlight. Gold survives only in the brand avatar. ---- */
+  --btn-champagne-fill: var(--b-accent-fill);
+  --btn-gold-line: transparent;
+  --btn-gold-text: #ffffff;   /* text ON the accent fill */
+  --btn-gold-ghost: var(--b-accent);  /* accent text on the PAGE (ghost/focus ring) */
+  --btn-ink-on-gold: #ffffff;
+  --btn-obsidian: var(--b-accent-fill);
+  --btn-obsidian-press: #2f6df6;
+  --btn-garnet: transparent;
+  --btn-garnet-line: rgba(255,255,255,0.14);
+  --btn-garnet-text: var(--b-danger);
+  --btn-sec-surface: rgba(255,255,255,0.05);
+  --btn-sec-text: var(--b-text);
+  --btn-sec-line: rgba(255,255,255,0.14);
+  --btn-elevation: none;
+  --btn-inner-highlight: none;
+  --btn-ghost-wash: rgba(110,160,255,0.10);
+
+  /* ---- VNextSegmented + VNextChip (SP1.5) — selection-control surfaces.
+     The SELECTED state reuses --btn-obsidian + --btn-gold-* (same as the
+     primary button); these tokens only cover the TRACK + UNSELECTED/quiet
+     surfaces that action buttons don't have. Dark defaults; light overrides
+     below. Spec: …button-design-system-design.md (SP1.5). ---- */
+  --seg-track: rgba(255,255,255,0.045);
+  --seg-track-line: rgba(255,255,255,0.07);
+  --seg-text: var(--b-text-2);
+  --seg-text-strong: var(--b-text);
+  --seg-hover: rgba(255,255,255,0.06);
+  --chip-surface: rgba(255,255,255,0.045);
+  --chip-surface-hover: rgba(255,255,255,0.08);
+  --chip-line: rgba(255,255,255,0.10);
+  --chip-text: var(--b-text-2);
+  --chip-text-strong: var(--b-text);
+}
+
+@media (prefers-color-scheme: light) {
+  .vnext-app-chat-home,
+  .vnext-app-work,
+  .vnext-app-status,
+  .vnext-app-settings,
+  .vnext-app.vnext-center {
+    /* Owner 2026-09-16: the light console is a calm, native-feeling light
+       system — cool grey ground, WHITE surfaces with one hairline, ONE blue
+       accent, semantic colour only on small elements. No gold, no navy, no
+       lavender tiles, no gradients, no blur. */
+    --b-bg: #f3f4f6;
+    --b-surface: #ffffff;
+    --b-surface-2: #f8f9fb;
+    --b-surface-hover: #f3f5f8;
+    --b-hairline: rgba(20, 30, 50, 0.10);
+    --b-text: #1a2230;
+    --b-text-2: #5c6675;       /* 5.6:1 on white */
+    --b-text-3: #6b7482;       /* 4.7:1 on white (AA for 12px labels) */
+    --b-accent: #2f6df6;       /* 4.6:1 on white */
+    --b-accent-fill: #2f6df6;
+    --b-accent-hover: #275fd6;
+    --b-decide: #b45309;       /* amber text only (high priority, needs-you) */
+    --b-ok: #1f7a3a;
+    --b-danger: #b3261e;
+    --b-shadow: none;
+    --b-shadow-sm: none;
+    --b-bar: #ffffff;
+    --b-bar-line: rgba(20, 30, 50, 0.10);
+    --b-chip-bg: #eef0f3;
+    --b-chip-text: #1a2230;
+    --menu-surface: #ffffff;
+    --menu-text: #1a2230;
+    --menu-line: rgba(20, 30, 50, 0.10);
+    --menu-hover: #f3f5f8;
+    --menu-radius: 8px;
+    --menu-shadow: 0 0 0 1px rgba(20, 30, 50, 0.10), 0 8px 24px rgba(20, 30, 50, 0.12);
+    --menu-trigger-surface: #ffffff;
+    --menu-trigger-text: #1a2230;
+    --menu-trigger-line: rgba(20, 30, 50, 0.10);
+    --menu-trigger-active: #2f6df6;
+
+    /* ---- Legacy warning tokens, light overrides (2026-07-10 UI audit). The
+       styles.css literals (#f6c76b / #ffdda0) are dark-era: pale gold reads
+       1.46:1 on the light page (".vnext-focus-chip.warn", status warn rows).
+       Deepen to AA amber-brown — same hue family as --b-decide so "needs you"
+       warmth is preserved. Dark scheme keeps the styles.css values untouched.
+       --aegis-warning #8a5a12 = 5.46:1 on --b-bg, 4.63:1 on its own 12% wash;
+       --aegis-warning-strong #7a4f0e = 6.57:1. The -rgb triplet drives the
+       border/background washes, which follow the deepened hue. ---- */
+    --aegis-warning: #8a5a12;
+    --aegis-warning-strong: #7a4f0e;
+    --aegis-warning-rgb: 138, 90, 18;
+
+    /* Owner 2026-09-16: the primary is a plain accent-filled button with
+       white text, the destructive is a white outlined button with red TEXT
+       (never a dark-red pill), ghost text is the accent, and nothing casts a
+       drop shadow. Same rule as the dark block above; only the surfaces differ. */
+    --btn-champagne-fill: var(--b-accent-fill);
+    --btn-gold-line: transparent;
+    --btn-gold-text: #ffffff;
+    --btn-gold-ghost: #2f6df6;
+    --btn-ink-on-gold: #ffffff;
+    --btn-obsidian: var(--b-accent-fill);
+    --btn-obsidian-press: #275fd6;
+    --btn-garnet: #ffffff;
+    --btn-garnet-line: rgba(20,30,50,0.10);
+    --btn-garnet-text: #b3261e;
+    --btn-sec-surface: #ffffff;
+    --btn-sec-text: #1a2230;
+    --btn-sec-line: rgba(20,30,50,0.10);
+    --btn-elevation: none;
+    --btn-inner-highlight: none;
+    --btn-ghost-wash: rgba(47,109,246,0.08);
+
+    /* ---- SP1.5 selection-control surfaces, light overrides: the selected
+       segment/chip reuses the accent-filled primary above. ---- */
+    --seg-track: #eef0f3;
+    --seg-track-line: rgba(20,30,50,0.06);
+    --seg-hover: #e6e9ee;
+    --chip-surface: #eef0f3;
+    --chip-surface-hover: #e6e9ee;
+    --chip-line: rgba(20,30,50,0.08);
+  }
+}
+
+/* ---- Higher-contrast preference: strengthen hairlines + secondary text so
+   the calm low-chroma surfaces still separate clearly. ---- */
+@media (prefers-contrast: more) {
+  .vnext-app-chat-home,
+  .vnext-app-work,
+  .vnext-app-status,
+  .vnext-app-settings,
+  .vnext-app.vnext-center {
+    --b-hairline: rgba(255, 255, 255, 0.22);
+    --b-text-2: #c4cedd;
+    --b-text-3: #9aa7bc;
+  }
+}
+@media (prefers-contrast: more) and (prefers-color-scheme: light) {
+  .vnext-app-chat-home,
+  .vnext-app-work,
+  .vnext-app-status,
+  .vnext-app-settings,
+  .vnext-app.vnext-center {
+    --b-hairline: rgba(18, 28, 46, 0.28);
+    --b-text-2: #34425a;
+    --b-text-3: #45546c;
+  }
+}

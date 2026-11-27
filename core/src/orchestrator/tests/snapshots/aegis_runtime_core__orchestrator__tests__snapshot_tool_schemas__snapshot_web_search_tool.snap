@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Delegate a search task to a real-time search model (Grok with web + X/Twitter access). You are directly instructing another AI model — write a clear prompt telling it exactly what information you need and in what format. The search model will search the internet and X/Twitter in real-time and respond according to your instructions. Use this for current events, recent news, social media posts, real-time data, or anything beyond your training data cutoff. MUST use for: product pricing, subscription plans, API tiers, feature availability, version numbers, release dates, company announcements, and any verifiable factual claims about third-party services."
+name: web_search
+parameters:
+  properties:
+    search_prompt:
+      description: "A prompt sent directly to a search model (Grok) that has real-time internet access including X/Twitter. Write a clear instruction for what you need. Examples:\n- For summaries: 'Search for latest news about X and summarize the key points'\n- For verbatim quotes: 'Find Elon Musk latest tweet on X. Return the EXACT original text verbatim, do not paraphrase or summarize'\n- For data: 'What is the current Bitcoin price in USD?'\nThe search model will search the web and X/Twitter, then respond according to your instructions."
+      type: string
+  required:
+    - search_prompt
+  type: object

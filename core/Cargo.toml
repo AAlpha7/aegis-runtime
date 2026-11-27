@@ -1,0 +1,140 @@
+[package]
+name = "aegis-runtime-core"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98"
+description = "Aegis Runtime host service: personal AI assistant with Ed25519-signed intents, Wasm-sandboxed skills, layered memory and a web console"
+repository = "https://github.com/AAlpha7/aegis-runtime"
+readme = "../README.md"
+
+[lints]
+workspace = true
+
+[features]
+default = []
+experimental-realtime-voice = []
+
+[lib]
+name = "aegis_runtime_core"
+path = "src/lib.rs"
+
+[[bin]]
+name = "aegis_runtime_core"
+path = "src/main.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+# HTTP control panel
+axum = { version = "0.8", features = ["multipart"] }
+# Wasm sandbox
+wasmtime = { version = "48", features = ["component-model"] }
+wasmtime-wasi = "48"
+# WAT text format for minimal test modules
+wat = "1"
+# Cryptography / AIP identity
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+rand = "0.9"
+# OS-level CSPRNG for cryptographic key generation (avoids rand_core version conflict)
+getrandom = "0.3"
+hex = "0.4"
+# BLAKE3 hash for envelope event_hash (§2 Q2.2)
+blake3 = "1.5"
+# RFC 8785 JSON Canonicalization Scheme for deterministic envelope hashing
+serde_jcs = "0.2"
+# Local storage
+rusqlite = { version = "0.42", features = ["bundled-sqlcipher-vendored-openssl", "functions", "backup"] }
+rpassword = "7.5"
+# DOM semantic snapshot
+scraper = "0.26"
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Environment variables
+dotenvy = "0.15"
+# LLM (OpenRouter-compatible via custom base_url)
+async-openai = { version = "0.34", features = ["chat-completion", "audio"] }
+backoff = { version = "0.4", features = ["tokio"] }
+# Telegram bot
+teloxide = { version = "0.17", features = ["macros"] }
+# HTTP client for host-side fetch proxy
+reqwest = { version = "0.13", features = ["json", "blocking", "form"] }
+# Bounded thread pool for host_fetch (replaces raw std::thread::spawn)
+rayon = "1"
+# Cron heartbeat scheduler
+tokio-cron-scheduler = "0.15"
+# Cron expression parsing (semantic validation of schedules)
+croner = "3"
+# URL parsing (domain whitelist validation)
+url = "2"
+# System metrics (server_monitor)
+libc = "0.2"
+# Error handling
+anyhow = "1"
+thiserror = "2"
+regex = "1"
+# Structured logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+# Host zone lookup for the user_timezone default (already in the lock via chrono)
+iana-time-zone = "0.1"
+futures = "0.3"
+async-stream = "0.3"
+# Non-poisoning locks (parking_lot::Mutex / RwLock)
+parking_lot = "0.12"
+# Credential encryption (AES-256-GCM + HKDF key derivation)
+aes-gcm = "0.10"
+hkdf = "0.13"
+sha2 = "0.11"
+# HMAC for OAuth2 CSRF state signing
+hmac = "0.13"
+# Constant-time comparison (admin token validation)
+subtle = "2"
+# URL form encoding (Telegram WebApp initData parsing)
+form_urlencoded = "1"
+urlencoding = "2"
+# Token counting (accurate context window management)
+tiktoken-rs = "0.9"
+# Filesystem watcher for skill hot-reload
+notify = "8"
+pulldown-cmark = "0.13"
+unicode-width = "0.2.2"
+# Static file serving for WebApp frontend
+tower-http = { version = "0.6", features = ["fs"] }
+# MCP (Model Context Protocol) client + server
+rmcp = { version = "1.3", features = ["client", "server", "transport-child-process", "transport-io", "transport-async-rw"] }
+# JSON Schema generation (required by rmcp server tools)
+schemars = "1"
+# HNSW approximate nearest neighbor index (pure Rust, O(log N) vector search)
+hnsw_rs = "0.3"
+anndists = "0.1"
+# Subcall primitive — UUIDs for SubcallId
+uuid = { version = "1", features = ["v4", "v7", "serde"] }
+# Secure memory wiping — W8 ZeroizeHook
+zeroize = { version = "1", features = ["zeroize_derive"] }
+# JWT verification (web-console Google login)
+jsonwebtoken = "9"
+# Cached singletons and base64 decoding
+once_cell = "1"
+base64 = "0.22"
+# Standards-compliant browser Web Push delivery (RFC8188 payload encryption + VAPID)
+web-push = "0.11"
+webauthn-rs = { version = "0.5.5", features = ["danger-allow-state-serialisation"] }
+
+# Linux AT-SPI (Secure Computer Use) — session bus + org.a11y.Bus probe.
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus = { version = "5", default-features = true, features = ["blocking-api"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+tower = { version = "0.5", features = ["util"] }
+tempfile = "3"
+proptest = "1.4"
+insta = { version = "1", features = ["yaml"] }
+rand_core = { version = "0.6.4", features = ["getrandom"] }
+
+[build-dependencies]
+blake3 = "1.5"

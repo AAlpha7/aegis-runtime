@@ -1,0 +1,27 @@
+[package]
+name = "aegis-executor"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98"
+description = "Aegis Executor: privilege-separated command service for Aegis Runtime (whitelisted read-only diagnostics, Ed25519-signed mutating commands)"
+repository = "https://github.com/AAlpha7/aegis-runtime"
+readme = "../README.md"
+
+[lints]
+workspace = true
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+hex = "0.4"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"
+rand = "0.9"
+getrandom = "0.3"

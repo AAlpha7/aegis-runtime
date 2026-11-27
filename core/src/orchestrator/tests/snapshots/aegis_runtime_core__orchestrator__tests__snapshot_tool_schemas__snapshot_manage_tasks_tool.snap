@@ -1,0 +1,114 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Unified task manager: add, update, complete, reopen, delete, list, schedule. Recurring needs interval_seconds + group_key. Windowed recurring is ONE task with recur_weekdays + window + timezone — never one task per slot. context_text must be self-contained. Prefer this over schedule_intent."
+name: manage_tasks
+parameters:
+  properties:
+    action:
+      description: "add=create task; update=modify fields; complete=mark done; reopen=undo a complete/archive (back to active, e.g. the owner tapped Done by mistake); delete=archive; list=query; schedule=add/modify trigger"
+      enum:
+        - add
+        - update
+        - complete
+        - reopen
+        - delete
+        - list
+        - schedule
+      type: string
+    body:
+      description: Task details
+      type: string
+    clear_fields:
+      description: "For update: fields to CLEAR (set to empty): due_date, trigger_at_unix, trigger_type, event_key, context_text, interval_seconds, group_key, max_fires. Use this for \"把截止日期去掉\" instead of sending null."
+      items:
+        type: string
+      type: array
+    context_text:
+      description: Self-contained callback prompt or notify text. Callback has no conversation access.
+      type: string
+    delay_seconds:
+      description: Relative delay for scheduling (alternative to trigger_at)
+      type: integer
+    due_date:
+      description: ISO date (YYYY-MM-DD)
+      type: string
+    event_key:
+      description: Event key for event triggers
+      type: string
+    execution_mode:
+      description: notify=send text (free); llm_callback=full LLM turn with tools
+      enum:
+        - notify
+        - llm_callback
+      type: string
+    group_key:
+      description: Semantic dedup key for recurring tasks; upserts the existing key.
+      type: string
+    interval_seconds:
+      description: Recurring interval in seconds (min 30s). Requires group_key.
+      type: integer
+    limit:
+      description: "For list: max results (default 30, max 50)"
+      type: integer
+    max_fires:
+      description: Max fire count for recurring tasks
+      type: integer
+    pin:
+      description: Pin notification message in chat
+      type: boolean
+    priority:
+      enum:
+        - urgent
+        - high
+        - normal
+        - low
+      type: string
+    recur_timezone:
+      description: IANA timezone for the window/weekdays. Invalid names are rejected; default UTC.
+      type: string
+    recur_weekdays:
+      description: ISO weekdays 1=Mon..7=Sun for windowed recurrence. Requires interval_seconds.
+      items:
+        maximum: 7
+        minimum: 1
+        type: integer
+      type: array
+    recur_window_end:
+      description: "Local 'HH:MM' window end. Requires recur_window_start + interval_seconds."
+      type: string
+    recur_window_start:
+      description: "Local 'HH:MM' window start. Requires recur_window_end + interval_seconds."
+      type: string
+    source_summary:
+      description: Optional evidence summary. Do not assert conclusions from truncated/preview sources.
+      type: string
+    status:
+      description: "For list: filter by status — active (default), done, archived, fired, cancelled, or all (no filter). complete/reopen/delete act on task_id directly; do not list first when the owner named the id."
+      type: string
+    tags:
+      items:
+        type: string
+      type: array
+    task_id:
+      description: Required for update/complete/reopen/delete. update does not change status.
+      type: integer
+    timezone:
+      description: IANA timezone for trigger_at interpretation
+      type: string
+    title:
+      description: Task title (required for add)
+      type: string
+    trigger_at:
+      description: "When to trigger: ISO datetime, date+time, or time-only (with timezone)"
+      type: string
+    trigger_type:
+      description: time=delay/clock; event=system event
+      enum:
+        - time
+        - event
+      type: string
+  required:
+    - action
+  type: object

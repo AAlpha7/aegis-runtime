@@ -1,0 +1,27 @@
+{
+  "skill_name": "test_no_net",
+  "max_memory_mb": 2,
+  "allowed_domains": [],
+  "allowed_fs_paths": [],
+  "cron_schedule": null,
+  "description": "Test-only skill with no network access. Accepts a text payload and echoes it back. Used in wasm integration tests.",
+  "payload_schema": {
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "Text to echo back"
+      },
+      "priority": {
+        "type": "string",
+        "description": "Optional priority level"
+      }
+    },
+    "required": ["text"],
+    "type": "object"
+  },
+  "skill_pattern": "no_network",
+  "language": "rust",
+  "is_read_only": true,
+  "supports_multi_account": false,
+  "timeout_secs": 30
+}

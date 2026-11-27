@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Reactivate a previously deactivated Wasm skill. The skill is reloaded from its compiled Wasm into the sandbox and becomes available again. Only works for skills in 'deactivated' status."
+name: reactivate_skill
+parameters:
+  properties:
+    skill_name:
+      description: Name of the deactivated skill to reactivate
+      type: string
+  required:
+    - skill_name
+  type: object

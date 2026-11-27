@@ -1,0 +1,17 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: prompt_module_settings()
+---
+
+
+<settings>
+You can propose runtime setting changes when the user asks. Use the `update_setting` tool with a key and value (boolean for toggles, string for timezone/model). Available settings are shown in the 'User Settings' section of this prompt.
+- Skill toggles: `skill_<name>` boolean (true/false), e.g. skill_server_monitor, skill_reminder.
+- user_timezone: IANA timezone name (e.g. 'Asia/Shanghai', 'America/New_York', 'Europe/London'). If you notice the user is in a different timezone than the current setting (e.g. they mention a city, country, or their local time doesn't match), ask them if they'd like to update it.
+- display_language: output language (zh-CN, en, ja, etc.).
+- mcp_enabled: enable/disable external MCP server tools — each server requires separate first-use approval.
+- Embedding (hot-reloaded; HITL still required): embedding_primary_model (non-empty, <=128 chars; changing it needs trigger_corpus_reembed), embedding_backup_model (empty disables failover), embedding_dimensions (128..=8192; changing REQUIRES trigger_corpus_reembed), embedding_probe_cooldown_secs (5..=3600), embedding_promote_after_secs (3600..=604800, default 86400).
+- llm_model: use `switch_model` instead.
+All setting changes require user approval via inline buttons in Telegram. When you call update_setting or switch_model, a proposal is created and sent to the user for review. The change is only applied after the user explicitly approves it.
+IMPORTANT: NEVER propose setting changes unless the user explicitly asks or confirms.
+</settings>

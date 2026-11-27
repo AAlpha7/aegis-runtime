@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Search for tools marked [DEFERRED] in your tool list. Returns their full schemas so you can call them. Use exact tool name for best results."
+name: search_tools
+parameters:
+  properties:
+    query:
+      description: Tool name (exact match) or description of what you need (fuzzy match). Returns full schemas of up to 5 matching tools.
+      type: string
+  required:
+    - query
+  type: object

@@ -1,0 +1,122 @@
+target
+target/
+.shared-target/
+.cargo-target-*/
+dist/
+compiled_skills/*.wasm
+.env
+.env.*
+.envrc
+.envrc.claude
+*.key
+*.db
+*.db-shm
+*.db-wal
+.DS_Store
+.claude/last-review.json
+.claude/settings.local.json
+
+# Test reports — baseline is tracked, per-run artifacts are not
+test-reports/junit.xml
+test-reports/raw_*.jsonl
+test-reports/latest.json
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+__pycache__/
+*.py[cod]
+node_modules/
+webapp/node_modules
+webapp/dist/
+
+# Claude Agent Team (auto-generated)
+.claude/team/plan.json
+.claude/team/plan-*-done.json
+.claude/team/signals/
+.claude/team/logs/
+.claude/team/specs/
+.claude/team/results/
+.claude/team/sessions/
+.claude/team/research/
+.claude/team/lessons.json
+.claude/team/lessons-learned.md
+.claude/team/run.py
+.claude/worktrees/
+
+# Multi-CC coordination — per-session runtime state (Plan §4.1)
+# .claude/sessions/ holds per-session scratchpads (consent flags, plan,
+# last-review.json). Always runtime-only.
+.claude/sessions/
+.claude/scheduled_tasks.lock
+# .claude/active-plan.md is the Plan Manifest (CLAUDE.md "Delete when done").
+# Symlinked to per-session sessions/<sid>/plan.md once SessionStart hook ships.
+.claude/active-plan.md
+
+# Multi-CC coordination — runtime state under .claude/coordination/
+# Nothing under .claude/ is tracked: the whole directory is ignored at the end
+# of this file (decisions/, DEPLOY_RULES.md and TEAM_NORMS.md are author-local
+# too). The runtime-only entries stay listed explicitly. Some worktree wiring uses
+# symlinks to canonical runtime paths, so keep both `path` and `path/` forms
+# ignored where the target may appear as either a symlink or a real directory.
+.claude/coordination/active.jsonl
+.claude/coordination/heartbeat
+.claude/coordination/heartbeat/
+.claude/coordination/active-work
+.claude/coordination/active-work/
+.claude/coordination/broadcasts
+.claude/coordination/broadcasts/
+.claude/coordination/inbox
+.claude/coordination/inbox/
+.claude/coordination/queries
+.claude/coordination/queries/
+.claude/coordination/ceo-inbox
+.claude/coordination/ceo-inbox/
+.claude/coordination/wake
+.claude/coordination/wake/
+.claude/coordination/merge-queue.jsonl
+.claude/coordination/deploy-log.jsonl
+.claude/coordination/archive
+.claude/coordination/archive/
+.claude/coordination/dashboard.html
+.claude/coordination/dashboard.json
+.claude/coordination/.last-sweep
+.claude/coordination/audit/
+
+# Local Codex/Claude workspace artifacts
+.codex
+.codex/
+.worktrees/
+deploy.out
+temp_watch_task/
+
+# Mutation-testing output (cargo-mutants runs; per-run artifacts never tracked)
+mutants.out/
+mutants.out.old/
+
+# Credential-bearing files (audited 2026-09-14: `.env` and `.env.*` were covered
+# but the `*.env` suffix form was not — and scripts/deploy.sh itself creates
+# shared/executor.env, which holds AEGIS_EXECUTOR_TOKEN).
+*.env
+!.env.example
+*.pem
+id_ed25519*
+id_rsa*
+credentials.json
+auth.json
+service-account*.json
+
+# Machine-specific build tuning; see .cargo/config.toml.example
+.cargo/config.toml
+
+# Author-local Claude Code config: hooks, commands, coordination notes, agent memory.
+# Personal working material, not part of the product; see CONTRIBUTING.md.
+.claude/
+
+# Skill-file evolution proposals. Live SKILL.md changes only after approve.
+skill-opt-proposals/
+.aegis-access.json
+.aegis-access.lock
+.aegis-access-*

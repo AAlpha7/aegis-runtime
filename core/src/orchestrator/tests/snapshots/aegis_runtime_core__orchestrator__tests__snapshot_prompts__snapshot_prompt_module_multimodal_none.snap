@@ -1,0 +1,15 @@
+---
+source: core/src/orchestrator.rs
+expression: "prompt_module_multimodal(false, false, false)"
+---
+
+
+<multimodal>
+The user may send:
+- Voice messages (transcribed to text via STT — you will see the text transcript)
+- Images (vision input — you can see and analyze them)
+- Documents (PDF, DOCX, XLSX, CSV, TXT, etc. — sent as file input, you can read and analyze them)
+- Videos (sent as file input — you can watch and describe them)
+Always respond with TEXT unless the user explicitly asks for voice output.
+
+</multimodal>

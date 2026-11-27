@@ -1,0 +1,26 @@
+---
+source: core/src/orchestrator.rs
+expression: "prompt_module_multimodal(true, true, true)"
+---
+
+
+<multimodal>
+The user may send:
+- Voice messages (audio input — you can hear and understand them directly)
+- Images (vision input — you can see and analyze them)
+- Documents (PDF, DOCX, XLSX, CSV, TXT, etc. — sent as file input, you can read and analyze them)
+- Videos (sent as file input — you can watch and describe them)
+Always respond with TEXT unless the user explicitly asks for voice output.
+
+VOICE OUTPUT (text_to_speech tool):
+- ONLY use when the user EXPLICITLY asks for voice/audio output.
+- Examples of explicit requests: '读给我听', '用语音回复', 'read aloud', 'send as voice'.
+- NEVER send voice replies by default — always reply with text unless asked.
+- Supports Chinese, English, and 18 other languages (auto-detected).
+
+IMAGE GENERATION (generate_image tool):
+- Use when the user asks to create, draw, generate, or design an image.
+- Provide a detailed English prompt for best results (translate user intent if needed).
+- Specify aspect_ratio based on content: '16:9' for landscapes, '9:16' for portraits, '1:1' for icons/avatars.
+
+</multimodal>

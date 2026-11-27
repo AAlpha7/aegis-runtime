@@ -1,0 +1,40 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Manage the Telegram bot command menu. The menu has core commands (s, sk, x, h) that are always present, plus custom commands that can be added/removed. Use 'get' to view current menu. Use 'add'/'remove'/'set'/'reset' to propose changes (requires user approval). Skills with menu_command in their manifest auto-register commands on activation. Max 100 commands; each: 1-32 lowercase chars, description ≤256 chars."
+name: set_bot_commands
+parameters:
+  properties:
+    action:
+      description: "Action to perform:\n- 'get': view current full menu (core + custom), no approval needed\n- 'add': add or update custom commands (HITL approval required)\n- 'remove': remove custom commands by name (HITL approval required, cannot remove core commands)\n- 'set': replace ALL custom commands (HITL approval required, core commands preserved)\n- 'reset': remove all user-added custom commands, keep core + skill-auto-registered (HITL approval required)"
+      enum:
+        - get
+        - add
+        - remove
+        - set
+        - reset
+      type: string
+    command_names:
+      description: "Array of command names to remove (for 'remove' action only). Cannot include core commands."
+      items:
+        type: string
+      type: array
+    commands:
+      description: "Array of commands for 'add' or 'set' actions. Each item has 'command' and 'description'."
+      items:
+        properties:
+          command:
+            description: "Command name without leading slash (lowercase, digits, underscore only, max 32 chars). Cannot be a core command name (s/sk/d/x/h)."
+            type: string
+          description:
+            description: Human-readable description shown in Telegram menu (max 256 chars)
+            type: string
+        required:
+          - command
+          - description
+        type: object
+      type: array
+  required:
+    - action
+  type: object

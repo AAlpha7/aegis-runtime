@@ -1,0 +1,95 @@
+/*
+ * VNextButton — the single shared action-button surface (SP1).
+ *
+ * L3 "obsidian + champagne" luxury language. Fully tokenized (--btn-*, defined
+ * adaptively in design/theme.css); NO hardcoded affordance hex here. Unlike the
+ * per-view surface files (console), these classes are intentionally
+ * GLOBAL — VNextButton renders inside every view-root — so they are not scoped
+ * to a .vnext-app-* root and are excluded from the vnext-design-scope guard.
+ *
+ * SPECIFICITY: the legacy styles.css paints any `<button>` inside
+ * .vnext-action-row / .vnext-hero / .vnext-nav / .vnext-center with the old
+ * blue --aegis-primary-gradient at descendant specificity (0,1,1). Those
+ * containers still wrap un-migrated views, so the rule cannot be deleted yet.
+ * To stay authoritative WHEREVER the component renders, every affordance rule
+ * here compounds `.vnext-btn` (≥ 0,2,0), beating the legacy descendant rules
+ * without resorting to !important. This is the component owning its own look.
+ *
+ * Spec: docs/superpowers/specs/2026-06-27-button-design-system-design.md
+ */
+.vnext-btn {
+  font: inherit; font-weight: 650; letter-spacing: .02em;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  border: 0; cursor: pointer; position: relative; white-space: nowrap;
+  text-decoration: none; max-width: 100%;
+  transition: filter .16s, box-shadow .16s, background .16s, opacity .16s;
+}
+.vnext-btn:active { transform: translateY(0.5px); }
+.vnext-btn.vnext-btn-full { width: 100%; }
+.vnext-btn .vnext-btn-ico { display: inline-flex; color: inherit; }
+.vnext-btn .vnext-btn-ico svg { width: 16px; height: 16px; display: block; flex: 0 0 auto; }
+/* Reset typography/color so broad card descendant selectors (e.g.
+   `.vnext-settings-card span`, 0,1,1) can't override the label — `.vnext-btn
+   .vnext-btn-label` is 0,2,0 and inherits the button's own font + variant color. */
+.vnext-btn .vnext-btn-label { min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; color: inherit; font: inherit; letter-spacing: inherit; text-transform: none; }
+/* Doubled `.vnext-btn` → (0,4,0) so the component owns its focus OUTLINE even where
+   legacy container rules (e.g. `.vnext-chat-session button:focus-visible:not(:disabled)`,
+   0,3,1) set `outline:none`. We only assert the outline — each variant keeps its own
+   box-shadow (gold edge / elevation). */
+.vnext-btn.vnext-btn:focus-visible:not(:disabled) {
+  outline: 2px solid var(--btn-gold-ghost); outline-offset: 2px; }
+.vnext-btn:disabled, .vnext-btn[aria-disabled="true"] { opacity: .4; cursor: default; }
+
+/* sizes (compounded so the legacy radius/padding/min-height descendant rules lose) */
+.vnext-btn.vnext-btn-sm   { min-height: 40px; height: 40px; padding: 0 13px; border-radius: 11px; font-size: 12.5px; }
+.vnext-btn.vnext-btn-md   { min-height: 44px; height: 44px; padding: 0 18px; border-radius: 13px; font-size: 13.5px; }
+.vnext-btn.vnext-btn-lg   { min-height: 52px; height: 52px; padding: 0 22px; border-radius: 15px; font-size: 14.5px; }
+.vnext-btn.vnext-btn-icon { min-height: 44px; width: 44px; height: 44px; padding: 0; border-radius: 13px; }
+.vnext-btn.vnext-btn-icononly .vnext-btn-label { display: none; }
+
+/* primary — gold-edge obsidian */
+.vnext-btn.vnext-btn-primary { color: var(--btn-gold-text); background: var(--btn-obsidian);
+  box-shadow: 0 0 0 1px var(--btn-gold-line), var(--btn-inner-highlight), var(--btn-elevation); }
+.vnext-btn.vnext-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 0 0 1px var(--btn-gold-text), var(--btn-inner-highlight), var(--btn-elevation); }
+.vnext-btn.vnext-btn-primary:active:not(:disabled) { background: var(--btn-obsidian-press); }
+
+/* cta — champagne fill (one per screen) */
+.vnext-btn.vnext-btn-cta { color: var(--btn-ink-on-gold); background: var(--btn-champagne-fill);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(120,90,30,0.25),
+    0 10px 24px -12px rgba(180,140,60,0.55); }
+.vnext-btn.vnext-btn-cta:hover:not(:disabled) { filter: brightness(1.05); }
+.vnext-btn.vnext-btn-cta:active:not(:disabled) { filter: brightness(0.95); }
+
+/* secondary — matte surface */
+.vnext-btn.vnext-btn-secondary { color: var(--btn-sec-text); background: var(--btn-sec-surface);
+  box-shadow: 0 0 0 1px var(--btn-sec-line), inset 0 1px 0 rgba(255,255,255,0.05); }
+.vnext-btn.vnext-btn-secondary:hover:not(:disabled) { filter: brightness(1.08); }
+
+/* ghost — gold text on the PAGE (adaptive: light gold in dark theme, deep gold in
+   light theme) so it stays readable; --btn-gold-text is for text ON obsidian. */
+.vnext-btn.vnext-btn-ghost { color: var(--btn-gold-ghost); background: transparent; box-shadow: none; }
+.vnext-btn.vnext-btn-ghost:hover:not(:disabled) { background: var(--btn-ghost-wash); }
+
+/* destructive — garnet */
+.vnext-btn.vnext-btn-destructive { color: var(--btn-garnet-text); background: var(--btn-garnet);
+  box-shadow: 0 0 0 1px var(--btn-garnet-line), inset 0 1px 0 rgba(255,255,255,0.05); }
+.vnext-btn.vnext-btn-destructive:hover:not(:disabled) { filter: brightness(1.1); }
+
+/* icon-only inherits the chosen variant's material; default primary */
+.vnext-btn.vnext-btn-icononly.vnext-btn-secondary { color: var(--btn-sec-text); }
+
+/* loading spinner */
+.vnext-btn .vnext-btn-spinner { width: 15px; height: 15px; border: 2px solid currentColor;
+  border-right-color: transparent; border-radius: 999px; display: inline-block;
+  animation: vnext-btn-spin .7s linear infinite; }
+@keyframes vnext-btn-spin { to { transform: rotate(360deg); } }
+.vnext-btn.vnext-btn-loading { pointer-events: none; }
+
+/* Estimate highlight control — keep ghost-sm look but meet the 40px tap floor. */
+.vnext-btn.vnext-btn-sm.vnext-estimate-toggle {
+  min-height: 40px;
+  height: auto;
+  padding: 0 12px;
+}

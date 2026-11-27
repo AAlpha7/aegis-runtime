@@ -1,0 +1,17 @@
+---
+source: core/src/prompts.rs
+expression: "prompt_block_heartbeat_budget(&cfg, &snap)"
+---
+
+
+<heartbeat_budget>
+[Config — live, user-editable]
+Frequency: 30min · Quiet: 02:00–07:00 · next_tick_note: 10KiB
+Limits: tool_calls/tick 8 · send_message/tick 1
+
+[Current budgets]
+Today: heartbeat 0/38
+This tick: tool calls 0/8 · send_message 0/1
+Last proactive message: —
+Active approval queue: — (pending Step 9) config changes pending
+</heartbeat_budget>

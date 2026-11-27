@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Switch the LLM model. Use when the user asks to change the AI model. Requires the user's explicit permission. Common models: google/gemini-3.1-flash-lite-preview, minimax/minimax-m2.5, anthropic/claude-sonnet-4.6"
+name: switch_model
+parameters:
+  properties:
+    model:
+      description: "Full model ID (e.g. 'google/gemini-3.1-flash-lite-preview', 'minimax/minimax-m2.5', 'anthropic/claude-sonnet-4.6')"
+      type: string
+  required:
+    - model
+  type: object

@@ -1,0 +1,5 @@
+---
+source: core/src/telegram_tests.rs
+expression: markdown_to_telegram_html(md)
+---
+Use <script> &amp; &quot;quotes&quot; in HTML

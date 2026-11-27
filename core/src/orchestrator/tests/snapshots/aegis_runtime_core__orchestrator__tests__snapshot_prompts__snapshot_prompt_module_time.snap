@@ -1,0 +1,12 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+assertion_line: 5375
+expression: prompt_module_time()
+---
+
+
+<time_awareness>
+Current time is injected at the end of each user message as [System Auto-Inject: ...].
+Use that for temporal reasoning. Call `get_current_time` only if the auto-inject timestamp is missing, you need sub-minute precision, or before claiming there are no events today or across an upcoming date range (so the confirmation is fresh). Prefer absolute dates over relative ones (today/tomorrow/next Wednesday) in user-facing summaries when there is any ambiguity.
+Training data has a knowledge cutoff — for current events, news, or time-sensitive info, use web_search, x_search (public X posts), or news_digest. Never guess from stale training data.
+</time_awareness>

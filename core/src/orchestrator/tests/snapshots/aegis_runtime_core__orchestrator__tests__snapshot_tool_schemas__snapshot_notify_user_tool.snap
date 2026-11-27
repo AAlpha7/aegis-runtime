@@ -1,0 +1,41 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Send a notification message to the user via their active channel (e.g. Telegram). Use this ONLY when you have actionable information to report. In callback/heartbeat contexts, your text reply is NOT sent to the user — only messages sent through this tool reach the user. Set priority: 'urgent' for critical alerts, 'important' (default) for actionable updates, 'routine' for informational items (daily summary only)."
+name: notify_user
+parameters:
+  properties:
+    message:
+      description: The message to send to the user. Keep it concise and actionable.
+      type: string
+    pin:
+      description: Whether to pin the message for visibility. Default false. Use for critical alerts only.
+      type: boolean
+    priority:
+      description: "Notification priority. urgent = always deliver immediately (security, errors). important = deliver with 24h dedup (default). routine = include in daily summary only, not sent immediately."
+      enum:
+        - urgent
+        - important
+        - routine
+      type: string
+    safe_summary:
+      description: "Optional non-sensitive fallback summary safe for Telegram/group previews. Required in spirit when sensitivity is s3_sensitive or s4_highly_sensitive; never include private names, body excerpts, account numbers, legal/medical details, or secrets."
+      type: string
+    sensitivity:
+      description: "Optional privacy label for the notification content. Use s3_sensitive or s4_highly_sensitive when the message is based on email bodies, legal/financial/medical content, private images, credentials, or other sensitive personal details; those are automatically redacted before delivery."
+      enum:
+        - s0_public
+        - s1_low_personal
+        - s2_personal
+        - s3_sensitive
+        - s4_highly_sensitive
+      type: string
+    source_tools:
+      description: "Tool names whose results this notification is based on (e.g. [\"server_monitor\", \"web_search\"]). Improves delivery reliability — notifications with declared sources are prioritized."
+      items:
+        type: string
+      type: array
+  required:
+    - message
+  type: object

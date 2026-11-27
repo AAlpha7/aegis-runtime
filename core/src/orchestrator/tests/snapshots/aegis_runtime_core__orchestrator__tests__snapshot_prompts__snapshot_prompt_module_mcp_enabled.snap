@@ -1,0 +1,16 @@
+---
+source: core/src/orchestrator.rs
+expression: "prompt_module_mcp(true, \"github,slack\")"
+---
+
+
+<mcp_servers>
+MCP (Model Context Protocol) external server tools are ENABLED.
+MCP tools are named mcp__{server}__{tool} (e.g. mcp__github__create_issue).
+Use mcp_list_servers to see available servers and their tools.
+
+Approved servers: github,slack
+Tools from approved servers can be called directly.
+Tools from unapproved servers will trigger a user approval request.
+
+</mcp_servers>

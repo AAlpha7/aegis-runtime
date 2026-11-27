@@ -1,0 +1,17 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Update a runtime setting (skill_<name> toggles, user_timezone, display_language, mcp_enabled, embedding_*). HITL approval required. Call only when the owner asks, or when timezone is clearly wrong (ask first). See the settings prompt module for key constraints."
+name: update_setting
+parameters:
+  properties:
+    key:
+      description: "Setting key (e.g. skill_server_monitor, user_timezone, display_language)"
+      type: string
+    value:
+      description: "New value: boolean for toggles, IANA string for user_timezone, number for numeric keys"
+  required:
+    - key
+    - value
+  type: object

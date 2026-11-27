@@ -1,0 +1,146 @@
+/*
+ * Information-presentation #1 — Trust / authority visualization (Direction B).
+ * The `.vnext-authority-panel` already renders the data (Allowed / Visible /
+ * Locked / Why / Receipt) but in a lightly-styled collapsed <details>. This
+ * makes it a clear, scannable trust display: a labeled 3-up of what Aegis can
+ * do / see / can't see, a lock affordance on Locked, and the receipt as a
+ * prominent commitment line. Consumes --b-* (adaptive). Scoped to the surfaces
+ * where it appears.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §info-ux #1
+ */
+
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-authority-panel {
+  border: 1px solid var(--b-hairline);
+  border-radius: 14px;
+  background: var(--b-surface);
+  box-shadow: none;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-authority-panel > summary {
+  cursor: pointer;
+  display: grid;
+  gap: 3px;
+  padding: 2px 0;
+  list-style: none;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-authority-panel > summary::-webkit-details-marker { display: none; }
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-authority-panel > summary > span {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--b-text-3);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-authority-panel > summary > strong { color: var(--b-text); font-size: 14px; font-weight: 600; }
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-authority-panel > summary > em { color: var(--b-text-2); font-style: normal; font-size: 13px; line-height: 1.4; }
+
+/* The Allowed / Visible / Locked 3-up: labeled mini-cards, tone-coded. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary {
+  margin-top: 12px;
+  gap: 8px;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary > span {
+  display: grid;
+  gap: 3px;
+  align-content: start;
+  padding: 10px 11px;
+  border: 1px solid var(--b-hairline);
+  border-radius: 10px;
+  background: var(--b-surface);
+  font-size: 13px;
+  color: var(--b-text);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary > span > strong {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--b-text-3);
+}
+/* Allowed = what Aegis CAN do here -> calm accent. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary > span:nth-child(1) {
+  border-color: color-mix(in srgb, var(--b-accent) 34%, transparent);
+  background: color-mix(in srgb, var(--b-accent) 8%, transparent);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary > span:nth-child(1) > strong { color: var(--b-accent); }
+/* Locked = what stays private -> muted, with a lock glyph. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary > span:nth-child(3) > strong::before {
+  content: "\1F512\00a0"; /* 🔒 */
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-trust-summary > span:nth-child(3) {
+  color: var(--b-text-2);
+}
+
+/* Why / Receipt: clear key→value rows; Receipt is the trust commitment. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-receipt-line {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--b-text-2);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-receipt-line strong {
+  color: var(--b-text-3);
+  font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+}
+/* The receipt promise gets a quiet left-rule so it reads as a commitment. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-receipt-line:last-of-type {
+  padding-left: 10px;
+  border-left: 2px solid color-mix(in srgb, var(--b-accent) 45%, transparent);
+  color: var(--b-text);
+}
+
+/* ============================================================================
+ * Information-presentation UX #4 — receipts / activity as a narrative
+ * ==========================================================================*/
+
+/* The source-detail `.vnext-timeline` is a flat list of "Label · status · at"
+ * lines. Make it read as a short story of what happened: a quiet connector
+ * rail with dot markers, the event label prominent, the "· status · when" meta
+ * receding. The first (most-recent) event is the live tip in accent. */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-timeline {
+  position: relative;
+  gap: 0;
+  margin-top: 10px;
+  padding-left: 18px;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-timeline::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: var(--b-hairline);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-timeline > p {
+  position: relative;
+  margin: 0;
+  padding: 5px 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--b-text-3);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-timeline > p::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 11px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--b-surface);
+  border: 1.5px solid var(--b-text-3);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-timeline > p:first-child::before {
+  background: var(--b-accent);
+  border-color: var(--b-accent);
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-timeline > p strong {
+  color: var(--b-text);
+  font-weight: 600;
+}
+
+/* Attachment metadata reads as quiet key→value rows (calm, not loud cards). */
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-attachment-list span {
+  border: 1px solid var(--b-hairline);
+  background: var(--b-surface);
+  border-radius: 10px;
+}
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-attachment-list strong { color: var(--b-text-3); }
+:is(.vnext-app-work, .vnext-app-status, .vnext-app-settings) .vnext-attachment-list em { color: var(--b-text); font-style: normal; }

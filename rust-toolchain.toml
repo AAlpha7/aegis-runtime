@@ -1,0 +1,11 @@
+# Toolchain pin shared with CI (.github/workflows/ci.yml uses
+# dtolnay/rust-toolchain@1.98.1) and the production host. wasmtime 48 needs
+# rustc >= 1.98, and `pedantic = warn` + `-Dwarnings` means a newer stable can
+# turn clippy red on unchanged code: bump here and in CI together.
+#
+# `targets` makes rustup fetch wasm32-wasip1 with the toolchain, which the
+# skills/* crates and `make test` (via core/build.rs) need.
+[toolchain]
+channel = "1.98.1"
+components = ["clippy", "rustfmt"]
+targets = ["wasm32-wasip1"]

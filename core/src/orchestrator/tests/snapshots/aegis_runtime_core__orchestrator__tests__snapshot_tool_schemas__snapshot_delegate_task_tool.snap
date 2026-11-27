@@ -1,0 +1,55 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: "Delegate a coding task to Hercules. Workflow: draft (read-only) → show the owner → create → status. Never claim done until status reports it. Default adapter is grok. Re-delegate the same spec with attempt=2,3,…"
+name: delegate_task
+parameters:
+  properties:
+    action:
+      description: "draft: turn an intent into a task draft + acceptance lint (read-only). create: create the Hercules task from a reviewed draft. status: read a delegated task (or list all known delegations when task_id is omitted)."
+      enum:
+        - draft
+        - create
+        - status
+      type: string
+    adapter:
+      description: "Coding runtime Hercules should use (for create; default grok, the owner's subscription runtime)"
+      enum:
+        - grok
+        - codex
+        - claude
+        - cursor
+      type: string
+    attempt:
+      description: "Re-delegation counter (for create; default 1). The task id is derived from title/body, so re-delegating the same spec after a cancel needs attempt=2, 3, …"
+      type: integer
+    body:
+      description: "Task body in Hercules format — must contain a '## Definition of Done' section (for create; take it from the draft, edit if needed)"
+      type: string
+    intent:
+      description: Plain-language description of the change wanted (for draft)
+      type: string
+    labels:
+      description: Extra labels (for create). Linkage labels are added automatically.
+      items:
+        type: string
+      type: array
+    priority:
+      description: Priority 0-100 (for create; default from draft)
+      type: integer
+    repo:
+      description: "Hercules repo key, e.g. \"aegis\" (for draft/create; default aegis)"
+      type: string
+    task_id:
+      description: Hercules task id (for status)
+      type: string
+    title:
+      description: Task title (for create; take it from the draft)
+      type: string
+    work_item_id:
+      description: "Aegis Runtime work item this delegation belongs to, if any (for create)"
+      type: integer
+  required:
+    - action
+  type: object

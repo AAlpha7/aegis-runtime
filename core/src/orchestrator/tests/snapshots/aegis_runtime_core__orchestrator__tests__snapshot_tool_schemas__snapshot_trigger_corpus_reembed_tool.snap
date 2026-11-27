@@ -1,0 +1,16 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Re-embed ALL persisted L2 memory vectors with the live primary embedding model. Use when the user has approved the model-change consent alert (or asks you to 'reembed all memory' / '重新计算所有 embedding' / 'rebuild vectors'). The call will (1) set every `l2_experience.embedding` and `l2_ephemeral.embedding` to NULL, (2) re-embed each fact sequentially via the current primary model (~10 req/sec), (3) persist the new vectors, (4) request an HNSW rebuild, (5) update the `embedding_corpus_model` marker. Response fields: status, rows_cleared, rows_reembedded, rows_failed, walltime_sec, model_used. Destructive — requires human approval. Only one reembed may run at a time (second call returns status='already_in_progress')."
+name: trigger_corpus_reembed
+parameters:
+  additionalProperties: false
+  properties:
+    scope:
+      description: "Reembed scope. 'all' (MVP) recomputes every L2 vector in the corpus. 'since_date' is reserved for a future incremental pass and currently returns not_implemented. Default 'all'."
+      enum:
+        - all
+        - since_date
+      type: string
+  type: object

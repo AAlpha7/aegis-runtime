@@ -1,0 +1,27 @@
+---
+source: core/src/orchestrator.rs
+expression: tool_to_json(&tool)
+---
+description: "Query your own memory across all layers. Use this when you need to recall what you know about the user, review past conversations, or search for specific information in your memory. Without a query, lists all stored facts and recent messages. With a query, searches across all memory layers. Supports pagination via offset/limit for large result sets."
+name: recall_memory
+parameters:
+  properties:
+    layer:
+      description: "Memory layer to query. Default: 'all'. L3 full-text search requires a query."
+      enum:
+        - all
+        - l1
+        - l2
+        - l3
+      type: string
+    limit:
+      description: "Max entries per page (default 20, max 50)."
+      type: integer
+    offset:
+      description: Pagination offset (default 0). Use to retrieve more results after truncation.
+      type: integer
+    query:
+      description: "Optional search term. If empty/omitted, returns all L1+L2 entries. If provided, searches across L1 (substring), L2 (substring), and L3 (full-text)."
+      type: string
+  required: []
+  type: object

@@ -1,0 +1,6 @@
+---
+source: core/src/telegram_tests.rs
+expression: markdown_to_telegram_html(md)
+---
+<pre><code class="language-python">def hello():
+    print(&#39;hi&#39;)</code></pre>

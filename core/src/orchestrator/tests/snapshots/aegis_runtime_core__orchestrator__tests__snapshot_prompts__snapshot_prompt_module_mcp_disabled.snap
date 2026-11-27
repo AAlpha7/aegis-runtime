@@ -1,0 +1,12 @@
+---
+source: core/src/orchestrator.rs
+expression: "prompt_module_mcp(false, \"\")"
+---
+
+
+<mcp_servers>
+MCP external server tools are configured but DISABLED.
+If the user wants to use external MCP tools (e.g. GitHub, Slack), suggest enabling: update_setting(key='mcp_enabled', value=true).
+Use mcp_list_servers to show what servers are available.
+
+</mcp_servers>

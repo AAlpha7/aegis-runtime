@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: Deactivate a Wasm skill. The skill is unloaded from the sandbox and stays disabled across restarts; its compiled artifact is preserved so it can be reactivated later. Use this if a skill is broken or no longer needed.
+name: deactivate_skill
+parameters:
+  properties:
+    skill_name:
+      description: Name of the skill to deactivate
+      type: string
+  required:
+    - skill_name
+  type: object

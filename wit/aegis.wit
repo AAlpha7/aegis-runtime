@@ -1,0 +1,152 @@
+/// Aegis Runtime Skill Interface Contract
+///
+/// This WIT file defines the formal interface between the Aegis Runtime host runtime
+/// and dynamically generated Wasm skill modules.
+///
+/// ## Versions
+///
+/// **v1 (aegis-skill)**: Pointer-based I/O. Skills manage linear memory manually
+/// via alloc/host_get_payload/host_write_output. Still supported for backward
+/// compatibility — existing skills continue to work unchanged.
+///
+/// **v2 (aegis-skill-v2 / aegis-probe-v2)**: Component Model. Typed parameters
+/// and return values, no pointer arithmetic, no alloc(). ProbeSignal is a WIT
+/// record — field names are compile-time guaranteed.
+///
+/// Skill patterns determine which host functions are available:
+/// - api_json:      fetch, payload, output
+/// - api_html:      fetch, payload, output
+/// - no_network:    payload, output (NO fetch)
+/// - no_network_stateful: payload, output, state (NO fetch)
+/// - multi_fetch:   fetch, payload, output
+/// - probe_heartbeat: fetch, payload, output (v2: returns probe-signal)
+/// - stateful:      fetch, payload, output, state
+/// - js_quickjs:    (uses QuickJS engine, not this contract directly)
+
+package aegis:skill@0.2.0;
+
+// ════════════════════════════════════════════════════════════════════════
+//  Shared types
+// ════════════════════════════════════════════════════════════════════════
+
+/// Shared type definitions used by both host and guest.
+interface types {
+    /// Probe heartbeat signal — returned by monitoring/heartbeat skills.
+    /// Field names are compile-time guaranteed by WIT binding generation.
+    record probe-signal {
+        /// false = silent success (0 LLM tokens, no Telegram push)
+        /// true  = escalate: invoke LLM callback, push alert to admin
+        require-llm-attention: bool,
+        /// Human-readable event description. Present only when
+        /// require-llm-attention is true.
+        event-payload: option<string>,
+    }
+
+    /// Fetch error codes returned by host fetch.
+    enum fetch-error {
+        /// URL's domain is not in the skill's allowed_domains whitelist.
+        domain-blocked,
+        /// Too many requests to this domain within the execution window.
+        rate-limited,
+        /// DNS, TCP, TLS, or HTTP-level failure.
+        network-error,
+        /// URL string is malformed or not valid UTF-8.
+        invalid-url,
+        /// Response body exceeds the 10 MB size limit.
+        response-too-large,
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  v1 interfaces (backward-compatible, pointer-based)
+// ════════════════════════════════════════════════════════════════════════
+
+/// v1 skill interface — pointer-based I/O via linear memory.
+/// Kept for backward compatibility with existing compiled skills.
+interface skill {
+    /// Main entry point — called by the host to execute the skill.
+    run: func();
+    /// Memory allocator — host writes payload into skill's linear memory.
+    alloc: func(size: s32) -> s32;
+}
+
+/// v1 host functions — pointer-based, imported from "aegis" namespace.
+interface host {
+    // ── Payload access ──
+    host-get-payload-len: func() -> s32;
+    host-get-payload: func(dest-ptr: s32);
+    // ── Output ──
+    host-write-output: func(ptr: s32, len: s32);
+    // ── Network (pattern-gated) ──
+    host-fetch: func(url-ptr: s32, url-len: s32) -> s32;
+    host-get-fetch-response-len: func() -> s32;
+    host-get-fetch-response: func(dest-ptr: s32);
+    // ── Persistent state (pattern-gated) ──
+    host-store-state: func(key-ptr: s32, key-len: s32, val-ptr: s32, val-len: s32);
+    host-load-state: func(key-ptr: s32, key-len: s32) -> s32;
+    host-get-state-response-len: func() -> s32;
+    host-get-state-response: func(dest-ptr: s32);
+    // ── Filesystem (pattern-gated) ──
+    host-read-file: func(path-ptr: s32, path-len: s32) -> s32;
+    host-list-files: func(path-ptr: s32, path-len: s32) -> s32;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  v2 interfaces (Component Model — typed, no pointers)
+// ════════════════════════════════════════════════════════════════════════
+
+/// v2 host functions — clean typed signatures, no pointer arithmetic.
+interface host-v2 {
+    use types.{fetch-error};
+
+    /// HTTP GET fetch. Domain must be in the skill's allowed_domains whitelist.
+    /// Returns the response body as a UTF-8 string on success.
+    fetch: func(url: string) -> result<string, fetch-error>;
+
+    /// Persist a key-value pair scoped to this skill.
+    /// Returns ok on success, err with message on failure.
+    store-state: func(key: string, value: string) -> result<_, string>;
+
+    /// Load a value by key. Returns none if key doesn't exist.
+    load-state: func(key: string) -> option<string>;
+}
+
+/// v2 standard skill interface — JSON string in, JSON string out.
+/// No pointer management, no alloc().
+interface skill-v2 {
+    /// Execute the skill with a JSON payload string.
+    /// Returns a JSON output string.
+    run: func(payload-json: string) -> string;
+}
+
+/// v2 probe/heartbeat skill interface — JSON string in, typed ProbeSignal out.
+/// The return type guarantees correct field names at compile time.
+interface probe-v2 {
+    use types.{probe-signal};
+
+    /// Execute the probe with a JSON payload string.
+    /// Returns a typed ProbeSignal — no JSON field name mismatches possible.
+    run: func(payload-json: string) -> probe-signal;
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  Worlds
+// ════════════════════════════════════════════════════════════════════════
+
+/// v1 world — backward-compatible with all existing compiled skills.
+world aegis-skill {
+    export skill;
+    import host;
+}
+
+/// v2 world for standard skills (api_json, api_html, no_network, etc.)
+world aegis-skill-v2 {
+    import host-v2;
+    export skill-v2;
+}
+
+/// v2 world for probe/heartbeat skills — typed ProbeSignal return.
+world aegis-probe-v2 {
+    import host-v2;
+    export probe-v2;
+}

@@ -1,0 +1,31 @@
+/*
+ * View Transitions (Direction B · ④-JS interaction layer).
+ *
+ * Styles the cross-fade when switching top-level views. The transition is only
+ * ever triggered by `runViewTransition` (design/viewTransition.ts), which no-ops
+ * when the API is unsupported (Safari/older) OR the owner prefers reduced motion
+ * — so this is pure progressive enhancement and the `prefers-reduced-motion`
+ * guard below is belt-and-suspenders.
+ *
+ * The `root` pseudos are document-level (not scoped to a view), which is correct:
+ * the cross-fade is theme-agnostic (opacity only) and should apply to
+ * every view switch.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §④ interaction
+ */
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: b-vt-fade-out 190ms var(--ds-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+  ::view-transition-new(root) {
+    animation: b-vt-fade-in 280ms var(--ds-ease-out, cubic-bezier(0.22, 1, 0.36, 1)) both;
+  }
+}
+
+@keyframes b-vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes b-vt-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

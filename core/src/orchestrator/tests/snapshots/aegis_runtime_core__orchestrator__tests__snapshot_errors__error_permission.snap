@@ -1,0 +1,6 @@
+---
+source: core/src/orchestrator.rs
+expression: "serde_json::json!({\"kind\": kind, \"hint\": hint})"
+---
+hint: Permission denied — do not retry
+kind: permission

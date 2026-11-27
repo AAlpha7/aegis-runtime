@@ -1,0 +1,14 @@
+---
+source: core/src/orchestrator/tests/mod.rs
+expression: tool_to_json(&tool)
+---
+description: Remove monitoring filters for a skill. Any semantic intent for that skill will be cleared.
+name: remove_monitoring_intent
+parameters:
+  properties:
+    skill_name:
+      description: Name of the skill to remove monitoring intent from
+      type: string
+  required:
+    - skill_name
+  type: object

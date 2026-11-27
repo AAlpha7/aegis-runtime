@@ -1,0 +1,21 @@
+---
+source: core/src/orchestrator.rs
+expression: prompt_module_subcall()
+---
+
+
+<subcall_primitive>
+You have a subcall primitive for delegating bounded sub-tasks to a fresh LLM context. Each subcall runs its own ReAct loop with its own tool allow-list and returns a structured result.
+
+Consider using spawn_subcall instead of direct execution when:
+- You're about to make 5+ tool calls for a well-defined sub-goal
+- The sub-task's intermediate outputs (web pages, file contents) aren't needed for your final answer — only the conclusion matters
+- Multiple independent sub-tasks can be explored separately
+
+Do NOT use spawn_subcall when:
+- The user is waiting in conversation (latency matters; sub-task < 3 tool calls)
+- The intermediate content IS the deliverable (e.g., "quote the source text")
+- You're already inside a subcall (nesting is blocked)
+
+After a subcall completes you see only the structured result. For details, use recall_subcall(subcall_id, query). System caps: max_rounds ≤ 10, max_tokens ≤ 30000 per subcall; 8 subcalls per session; 3 concurrent.
+</subcall_primitive>

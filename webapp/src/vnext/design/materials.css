@@ -1,0 +1,122 @@
+/*
+ * Aurora Glass — materials.
+ * The single source of truth for "what glass looks like." Exposed two ways:
+ *   1. CSS custom properties (--glass-*) so existing component rules in
+ *      styles.css can adopt the material without markup changes.
+ *   2. Utility classes (.glass / .glass-raised / .glass-floating) for new
+ *      elements added during surface slices.
+ * Includes an @supports fallback for WebViews without backdrop-filter.
+ *
+ * Spec: docs/2026-05-31-webapp-aurora-glass-redesign-design.md §3
+ */
+
+.vnext-app {
+  /* Glass fill = a faint top-lit vertical wash over a translucent navy. */
+  --glass-fill: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.07) 0%,
+      rgba(255, 255, 255, 0.02) 22%,
+      rgba(255, 255, 255, 0) 60%
+    ),
+    rgba(12, 26, 46, 0.62);
+  --glass-fill-raised: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.03) 26%,
+      rgba(255, 255, 255, 0) 64%
+    ),
+    rgba(16, 32, 54, 0.74);
+  --glass-fill-floating: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.04) 30%,
+      rgba(255, 255, 255, 0) 70%
+    ),
+    rgba(18, 36, 60, 0.86);
+  --glass-blur: blur(var(--ds-blur-md)) saturate(var(--ds-saturate));
+  --glass-blur-strong: blur(var(--ds-blur-lg)) saturate(var(--ds-saturate));
+  /* Hairline: bright at the top edge, fading dark toward the bottom. */
+  --glass-border: 1px solid transparent;
+  --glass-border-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.08) 38%,
+    rgba(0, 0, 0, 0.18)
+  );
+  --glass-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.glass,
+.glass-raised,
+.glass-floating {
+  position: relative;
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  /* Solid hairline by default — border-image squares off rounded corners in
+     several engines (see .glass-hairline for the gradient variant on shapes
+     that can spare an ::after). The inner top-highlight box-shadow supplies the
+     "lit edge" look without the corner artifact. */
+  border: 1px solid var(--ds-hairline);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-elevation-1), var(--glass-inner-highlight);
+}
+
+.glass-raised {
+  background: var(--glass-fill-raised);
+  box-shadow: var(--ds-elevation-2), var(--glass-inner-highlight);
+}
+
+.glass-floating {
+  background: var(--glass-fill-floating);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  box-shadow: var(--ds-elevation-3), var(--glass-inner-highlight);
+}
+
+/*
+ * border-image squares off radius corners in some engines; rounded glass uses a
+ * masked pseudo-border instead. Opt-in via .glass-hairline on rounded surfaces.
+ */
+.glass-hairline {
+  border: 0;
+}
+.glass-hairline::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--glass-border-image);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/*
+ * Fallback for WebViews without backdrop-filter: redefine the glass-fill
+ * VARIABLES to near-solid material. Doing it at the variable level means every
+ * direct consumer (the .glass* utilities AND the per-surface rules in
+ * surfaces/*.css that reference var(--glass-fill*)) gets a legible solid
+ * background — not just the utility classes. Single source of truth.
+ */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .vnext-app {
+    --glass-fill: rgba(14, 28, 48, 0.95);
+    --glass-fill-raised: rgba(18, 34, 56, 0.97);
+    --glass-fill-floating: rgba(20, 38, 62, 0.98);
+  }
+}
+
+/* Utilities */
+.u-tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.u-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ds-navy-900), 0 0 0 4px rgba(var(--ds-blue-rgb), 0.7);
+}
